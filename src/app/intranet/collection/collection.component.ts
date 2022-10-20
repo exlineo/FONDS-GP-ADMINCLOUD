@@ -1,7 +1,6 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { TokenService } from 'src/app/extranet/systeme/services/token.service';
-import { CollectionModel, Collection } from '../systeme/modeles/collection.modele';
-import { SetModel } from '../systeme/modeles/set';
+import { CollectionI, SetI } from '../systeme/modeles/collection.modele';
 import { CollectionService } from '../systeme/services/collection.service';
 import { NoticeService } from '../systeme/services/notice.service';
 import { SetsService } from '../systeme/services/sets.service';
@@ -14,7 +13,7 @@ import { SetsService } from '../systeme/services/sets.service';
 export class CollectionComponent implements OnInit {
 
 	@Input()
-	collection: CollectionModel; // Collection transmise à l'affichage
+	collection: CollectionI; // Collection transmise à l'affichage
 
 	@Input()
 	idCollection: any; // ID de la collection à afficher
@@ -38,7 +37,7 @@ export class CollectionComponent implements OnInit {
 			this.genereNotices(); // Générer les notices à partir du SET
 		}
 		else {
-			this.colServ.collection = new Collection(); // Créer une collection vide
+			this.colServ.collection = <CollectionI>{}; // Créer une collection vide
 		}
 	}
 	/**
@@ -67,8 +66,8 @@ export class CollectionComponent implements OnInit {
 	/**
 	 * Mapper des données reçues pour faire une collection
 	 */
-	mapSet(set: SetModel) {
-		let tmp: Collection = new Collection();
+	mapSet(set: SetI) {
+		let tmp: CollectionI = <CollectionI>{};
 		// Peupler les données dans la nouvelle collection
 		for (let o in set) {
 			if (tmp.hasOwnProperty(o) && o != '_id') {
@@ -80,7 +79,11 @@ export class CollectionComponent implements OnInit {
 		// Récupérer les séries dans le SET
 		set.documents.forEach(s => {
 			// console.log(s);
-			if (s.nemateria.serie && !tmp.series.includes(s.nemateria.serie.serie)) tmp.series.push(s.nemateria.serie.serie);
+      if(s.nemateria.serie){
+        const se = s.nemateria.serie;
+        if(!tmp.series.includes(se)) tmp.series.push(se);
+      }
+			// if (s.nemateria.serie && !tmp.series.includes(s.nemateria.serie.serie)) tmp.series.push(s.nemateria.serie.serie);
 		});
 		// Générer la collection
 		return tmp;

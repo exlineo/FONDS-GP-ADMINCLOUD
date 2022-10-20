@@ -9,7 +9,17 @@ Design : http://quanticalabs.com/Node/Template/#!/home
 #13c7af : bleu vert vif / rgba(19, 199, 175, 1);
 #96a94b : caca d'oie / rgba(150, 169, 75, 1);
 */
-
+:root{
+  /* Variables */
+  --clair:white;
+  --fonce:black;
+  --s:rgba(163, 198, 194, 1);
+  --p:rgba(101, 105, 115, 1);
+  --t:rgba(255, 214, 0, 1);
+  --q:rgba(19, 199, 175, 1);
+  --v:rgba(65, 171, 107, 1);
+  --r:rgba(240, 96, 96, 1);
+}
 
 /*
 ////////////////

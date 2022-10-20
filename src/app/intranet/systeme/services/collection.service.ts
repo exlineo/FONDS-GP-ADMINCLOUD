@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { CollectionModel, Collection } from '../modeles/collection.modele';
+import { CollectionI, NoticeI } from '../modeles/collection.modele';
 
 import { environment } from 'src/environments/environment';
 import { NotificationService } from 'src/app/intranet/systeme/services/notification.service';
-import { SetModel } from '../modeles/set';
-import { NoticeModel } from '../modeles/notice.modele';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../extranet/systeme/services/auth.service';
 
@@ -16,10 +13,10 @@ import { AuthService } from '../../../extranet/systeme/services/auth.service';
 export class CollectionService {
 
 	// dataStorage: string = 'assets/dataStorage/';
-	collections: Array<CollectionModel>; // La liste des collections
-	collection: CollectionModel; // Une collection sélectionnée
+	collections: Array<CollectionI>; // La liste des collections
+	collection: CollectionI; // Une collection sélectionnée
 	series: Array<any>; // Tableau des séries d'une collection donnée
-	notices: Array<NoticeModel>; // Tableau temporaire de notices
+	notices: Array<NoticeI>; // Tableau temporaire de notices
 
 	constructor(private http: HttpClient, public notifServ: NotificationService, private router: Router, private auth: AuthService) {
 		this.getCollections();
@@ -28,7 +25,7 @@ export class CollectionService {
 	 * Récupérer l'ensemble des collections disponibles dans le depôt
 	 */
 	getCollections(): void {
-		this.http.get<Array<CollectionModel>>(environment.SERV + 'collections').subscribe(
+		this.http.get<Array<CollectionI>>(environment.SERV + 'collections').subscribe(
 			data => {
 				this.collections = data;
 				this.notifServ.notif('Collections récupérées');
@@ -38,7 +35,7 @@ export class CollectionService {
 	/**
 	 * Renvoyer une collection du tableau en fonction de son _id
 	 * @param id _id de la notice à récupérer
-	 * @return CollectionModel (une collection)
+	 * @return CollectionI (une collection)
 	 */
 	getCollection(id: number | string) {
 		for (let c of this.collections) {

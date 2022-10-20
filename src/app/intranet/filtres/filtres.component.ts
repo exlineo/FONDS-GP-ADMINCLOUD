@@ -1,13 +1,8 @@
 import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
 import { useAnimation, transition, trigger, style, animate, state } from '@angular/animations';
 
-import { CONST } from '../systeme/const';
 import { FiltreModel, Filtre } from '../systeme/modeles/filtre.modele';
-import { CollectionModel } from '../systeme/modeles/collection.modele';
-import { NoticeModel } from '../systeme/modeles/notice.modele';
-import { CollectionService } from '../systeme/services/collection.service';
 import { FiltresService } from '../systeme/services/filtres.service';
-import { AuthService } from '../../extranet/systeme/services/auth.service';
 import { TokenService } from 'src/app/extranet/systeme/services/token.service';
 
 @Component({

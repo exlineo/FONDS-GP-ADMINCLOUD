@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NoticeModel } from '../modeles/notice.modele';
+import { NoticeCloudI } from '../modeles/Types';
 @Injectable({
   providedIn: 'root'
 })
@@ -82,15 +82,15 @@ export class UtilsService {
 	 * Afficher l'arrière plan d'une notice
 	 * @param n Notice dont il faut gérer l'affichage d'arrière plan
 	 */
-	setNoticeBg(n:NoticeModel){
-		const type = n.metadonnees.dublincore.format;
+	setNoticeBg(adr:string, n:NoticeCloudI){
+		const type = n.dublincore.format;
 		let bg = '';
 		if(type && (type.indexOf('video') != -1 || type.indexOf('audio') != -1)){
-			n.metadonnees.dublincore.coverage ? bg = n.metadonnees.dublincore.coverage : bg = 'assets/img/pictos/picto_media.png';
+			n.dublincore.coverage ? bg = n.dublincore.coverage : bg = 'assets/img/pictos/picto_media.png';
 		}else if(type && type.indexOf('application') != -1){
 			bg = 'assets/img/pictos/picto_docs.png';
 		}else{
-			bg = n.metadonnees.media.url;
+			bg = adr+n.media.url;
 		}
 		return `url("${bg}")`;
 	}

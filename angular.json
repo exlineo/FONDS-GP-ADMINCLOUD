@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "nemateria": {
+    "fonds-gp-admincloud": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "dist/admin",
+            "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "nemateria:build"
+            "browserTarget": "fonds-gp-admincloud:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "nemateria:build:production"
+              "browserTarget": "fonds-gp-admincloud:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "nemateria:build"
+            "browserTarget": "fonds-gp-admincloud:build"
           }
         },
         "test": {
@@ -108,7 +108,7 @@
         }
       }
     },
-    "nemateria-e2e": {
+    "fonds-gp-admincloud-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -117,11 +117,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "nemateria:serve"
+            "devServerTarget": "fonds-gp-admincloud:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "nemateria:serve:production"
+              "devServerTarget": "fonds-gp-admincloud:serve:production"
             }
           }
         },
@@ -137,7 +137,7 @@
       }
     }
   },
-  "defaultProject": "nemateria",
+  "defaultProject": "fonds-gp-admincloud",
   "cli": {
     "analytics": false
   }

@@ -1,7 +1,20 @@
 import { NemaSerieModel } from "./documents-model";
-import { NoticeModel } from "./notice.modele";
+import { DocumentModel } from "./documents-model";
 
-export interface CollectionModel {
+export interface SetI {
+    _id?:string | number;
+    titre:string;
+    alias:string;
+    fonds:string;
+    origine:{dir:string,url:string};
+    description?:string;
+    date?:string | number;
+    createur?:string;
+    gestionnaire?:string;
+    documents:Array<DocumentModel>;
+    prefix:Array<string>;
+}
+export interface CollectionI {
     _id?: any;
     titre: string;
     alias: string;
@@ -16,18 +29,10 @@ export interface CollectionModel {
     series?:Array<NemaSerieModel>;
     selected?:boolean;
 }
-
-export class Collection implements CollectionModel {
-    titre = '';
-    alias = '';
-    description = '';
-    type = '';
-    createur = '';
-    date = Date.now();
-    fonds = '';
-    langue = '';
-    groupe = [];
-    notices = [];
-    series = [];
-    selected = false;
+export interface NoticeI {
+  _id?:any;
+  date?:any;
+  prefix?:string | Array<string>;
+  metadonnees:any;
+  selected?:boolean;
 }

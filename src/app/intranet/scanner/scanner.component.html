@@ -7,7 +7,7 @@
             <p>En cliquant sur un dossier vous pourrez afficher les métadonnées des fichiers qu'il contient pour en vérifier la qualité</p>
         </header>
         <ul>
-            <li *ngFor="let d of scanServ.listeDossiers" (click)="scanOnClick(d)"> {{d}} </li>
+            <li *ngFor="let d of cloud.scanFolders" (click)="scanOnClick(d)"> {{d}} </li>
         </ul>
     </aside>
     <section>

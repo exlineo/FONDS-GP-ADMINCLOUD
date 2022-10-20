@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class FiltreNotices {\n  constructor() {\n    this.libre = '';\n    this.dateDebut = '';\n    this.dateFin = '';\n    this.type = '';\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

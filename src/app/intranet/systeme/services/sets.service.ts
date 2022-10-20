@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { CollectionModel } from '../modeles/collection.modele';
+import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
-import { SetModel } from '../modeles/set';
 import { NotificationService } from 'src/app/intranet/systeme/services/notification.service';
-import { CollectionService } from './collection.service';
 import { AuthService } from '../../../extranet/systeme/services/auth.service';
+import { SetI } from '../modeles/collection.modele';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +12,8 @@ import { AuthService } from '../../../extranet/systeme/services/auth.service';
 export class SetsService {
   // dataStorage: string = 'assets/dataStorage/';
 
-  sets: Array<SetModel>; // La liste des collections
-  set: SetModel; // Un SET sélectionnée
+  sets: Array<SetI>; // La liste des collections
+  set: SetI; // Un SET sélectionnée
   series: Array<any>; // Tableau des séries d'une collection donnée
 
   constructor(private http: HttpClient, private notifServ: NotificationService, private auth: AuthService) {
@@ -27,7 +24,7 @@ export class SetsService {
    * Récupérer l'ensemble des collections disponibles dans le depôt
    */
   getSets(): void {
-    this.http.get<Array<SetModel>>(environment.SERV + 'sets').subscribe(
+    this.http.get<Array<SetI>>(environment.SERV + 'sets').subscribe(
       data => {
         this.sets = data;
       },
@@ -40,7 +37,7 @@ export class SetsService {
   /**
    * Renvoyer une collection du tableau en fonction de son _id
    * @param id _id de la notice à récupérer
-   * @return CollectionModel (une collection)
+   * @return CollectionI (une collection)
    */
   getSet(id: number | string): void {
     for (let s of this.sets) {
@@ -67,7 +64,7 @@ export class SetsService {
   /**
    * Mise à jour d'un SET
    */
-  majSet(s: SetModel) {
+  majSet(s: SetI) {
       this.http.put(environment.SERV + 'sets/' + s._id, s).subscribe(
         retour => {
           this.notifServ.notif("Le SET a été mis à jour");
@@ -81,7 +78,7 @@ export class SetsService {
   /**
    * Ajouter une collection
    */
-  ajouteSet(s: SetModel) {
+  ajouteSet(s: SetI) {
       this.http.post(environment.SERV + 'sets', s).subscribe(
         retour => {
           console.log(retour);

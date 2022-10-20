@@ -55,7 +55,7 @@ import { AdminIntercepteur } from './extranet/systeme/services/admin.intercepteu
 		FiltresService,
 		CollectionService,
 		{ provide: HTTP_INTERCEPTORS, useClass: AdminIntercepteur, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: AuthIntercepteur, multi: true },
+		// { provide: HTTP_INTERCEPTORS, useClass: AuthIntercepteur, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass:SecuriteIntercepteur, multi:true}],
 	bootstrap: [AppComponent]
 })

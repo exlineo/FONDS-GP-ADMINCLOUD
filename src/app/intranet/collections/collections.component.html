@@ -7,8 +7,8 @@
         </header>
         <ul>
 
-            <li *ngFor="let collection of colServ.collections; let i=index" (click)="collectionOnClick(collection._id) ">
-                {{collection.titre}} ({{ collection.fonds }})
+            <li *ngFor="let collection of cloud.collections; let i=index" (click)="collectionOnClick(collection.idcollections) ">
+                {{collection.title}} ({{ collection.funds }})
                 <!-- <mat-icon matTooltip="Afficher les séries" *ngIf="collection.series" (click)="toggleSeries('series_'+collection._id)">keyboard_arrow_down</mat-icon> -->
             </li>
         </ul>
@@ -21,9 +21,9 @@
             </div>
             <h2>Informations sur la collection choisie</h2>
         </header>
-        <article *ngIf="colServ.collection">
+        <article *ngIf="cloud.collection">
             <ul>
-                <div *ngFor="let n of colServ.collection | keyvalue">
+                <div *ngFor="let n of cloud.collection | keyvalue">
                     <li *ngIf="n.key != 'notices'">
                         <strong>{{ n.key }}</strong> : {{ n.value }}
                     </li>
@@ -43,25 +43,25 @@
     <aside>
         <section class="selection ">
             <ul class="notice-liste">
-                <li *ngFor="let n of noticesServ.noticesCollec; let i=index" class="notice">
-                    <div [style.backgroundImage]="utils.setNoticeBg(n)">
-                        <video *ngIf="n.metadonnees['dublincore']['format'] && n.metadonnees['dublincore']['format'].indexOf('video')!=-1" [poster]="n.metadonnees['dublincore']['coverage']">
-                            <source [src]="n.metadonnees['media'].url" [type]="n.metadonnees['dublincore']['format']">
+                <li *ngFor="let n of cloud.notices; let i=index" class="notice">
+                    <div [style.backgroundImage]="utils.setNoticeBg(cloud.config.s3, n)">
+                        <video *ngIf="n.dublincore['format'] && n.dublincore['format'].indexOf('video')!=-1" [poster]="n.dublincore['coverage']">
+                            <source [src]="n.media.url" [type]="n.dublincore['format']">
                         </video>
-                        <audio *ngIf="n.metadonnees['dublincore']['format'] && n.metadonnees['dublincore']['format'].indexOf('audio')!=-1">
-                            <source [src]="n.metadonnees['media'].url" [type]="n.metadonnees['dublincore']['format']">
+                        <audio *ngIf="n.dublincore['format'] && n.dublincore['format'].indexOf('audio')!=-1">
+                            <source [src]="cloud.config.s3.n.media.url" [type]="n.dublincore['format']">
                             </audio>
                         <div (mouseenter)="utils.play($event)" (mouseleave)="utils.pause($event)">
                             <div>
-                                <mat-icon (click)="idNotice = n._id" matTooltip="Voir la fiche de la notice">
+                                <mat-icon (click)="idNotice = n.idnotices" matTooltip="Voir la fiche de la notice">
                                     visibility</mat-icon>
                                 <mat-icon (click)="noticeOnEnlever(n._id)" matTooltip="Enlever cette notice de la collection">remove_circle</mat-icon>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <h3>{{n.metadonnees['dublincore'].title}}</h3>
-                        <p>{{n.metadonnees['dublincore'].description}}</p>
+                        <h3>{{n.dublincore.title}}</h3>
+                        <p>{{n.dublincore.description}}</p>
                     </div>
                 </li>
             </ul>

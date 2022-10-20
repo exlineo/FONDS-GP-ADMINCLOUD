@@ -18,19 +18,25 @@ export class AuthIntercepteur implements HttpInterceptor {
    * @param next La requête clonée
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.entetes = {
+      headers: req.headers
+      .set('Content-Type', 'application/json')
+      .set('Access-Control-Allow-Origin', '*')
+    }
     // Réécriture des entêtes si un token existe
     if (this.tokenServ.token) {
       this.entetes = {
         headers: req.headers
-          .set('Content-Type', 'application/json')
           .set('Authorization', 'Bearer ' + this.tokenServ.token)
       }
     }
-    else {
-      this.entetes = {
-        headers: req.headers.set('Content-Type', 'application/json')
-      }
-    }
+    // else {
+    //   this.entetes = {
+    //     headers: req.headers
+    //     .set('Content-Type', 'application/json')
+    //     .set('Access-Control-Allow-Origin', '*')
+    //   }
+    // }
     const authReq = req.clone(this.entetes);
 
     // Envoyer la nouvelle requête
