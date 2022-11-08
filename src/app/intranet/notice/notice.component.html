@@ -1,27 +1,27 @@
 <section>
     <mat-icon (click)="fermer.emit(false)">close</mat-icon>
     <header>
-        <h1>{{ noticeServ.notice.metadonnees['dublincore'].title }}</h1>
+        <h1>{{ get.notice['dublincore'].title }}</h1>
         <!-- Afficher une image -->
-        <p *ngIf="noticeServ.notice.metadonnees['dublincore'].format && noticeServ.notice.metadonnees['dublincore'].format.indexOf('image') != -1">
-            <img [src]="noticeServ.notice.metadonnees['media'].url">
+        <p *ngIf="get.notice['dublincore'].format && get.notice['dublincore'].format.indexOf('image') != -1">
+            <img [src]="get.notice['media'].url">
         </p>
-        <p *ngIf="noticeServ.notice.metadonnees['dublincore'].format && noticeServ.notice.metadonnees['dublincore'].format.indexOf('video') != -1" class="media">
+        <p *ngIf="get.notice['dublincore'].format && get.notice['dublincore'].format.indexOf('video') != -1" class="media">
             <video controls>
-                <source [src]="noticeServ.notice.metadonnees['media'].url" [type]="noticeServ.notice.metadonnees['dublincore'].format">
+                <source [src]="get.notice['media'].url" [type]="get.notice['dublincore'].format">
             </video>
         </p>
 
-        <p *ngIf="noticeServ.notice.metadonnees['dublincore'].format && noticeServ.notice.metadonnees['dublincore'].format.indexOf('audio') != -1" class="media">
-            <source [src]="noticeServ.notice.metadonnees['media'].url" [type]="noticeServ.notice.metadonnees['dublincore'].format">
+        <p *ngIf="get.notice['dublincore'].format && get.notice['dublincore'].format.indexOf('audio') != -1" class="media">
+            <source [src]="get.notice['media'].url" [type]="get.notice['dublincore'].format">
         </p>
-        <p *ngIf="noticeServ.notice.metadonnees['dublincore'].format && noticeServ.notice.metadonnees['dublincore'].format.indexOf('application') != -1">
-            <iframe [src]="dom.bypassSecurityTrustResourceUrl(noticeServ.notice.metadonnees['media'].url)"></iframe>
+        <p *ngIf="get.notice['dublincore'].format && get.notice['dublincore'].format.indexOf('application') != -1">
+            <iframe [src]="dom.bypassSecurityTrustResourceUrl(get.notice['media'].url)"></iframe>
         </p>
-        <!-- <ul *ngIf="noticeServ.notice.metadonnees['nemateria'].sequences.time_code.length > 0">
-            <li *ngFor="let s of noticeServ.notice.metadonnees['nemateria'].sequences.time_code; let i=index">
-                <p><span>{{ i }}</span><span>{{ noticeServ.notice.metadonnees['nemateria'].sequences.resume_sequence[i] }}</span><span>{{ noticeServ.notice.metadonnees['nemateria'].sequences.duree_sequence[i] }}</span></p>
-                <p>{{ noticeServ.notice.metadonnees['nemateria'].sequences.mots_cles_sequences.toString() }}</p>
+        <!-- <ul *ngIf="get.notice['nemateria'].sequences.time_code.length > 0">
+            <li *ngFor="let s of get.notice['nemateria'].sequences.time_code; let i=index">
+                <p><span>{{ i }}</span><span>{{ get.notice['nemateria'].sequences.resume_sequence[i] }}</span><span>{{ get.notice['nemateria'].sequences.duree_sequence[i] }}</span></p>
+                <p>{{ get.notice['nemateria'].sequences.mots_cles_sequences.toString() }}</p>
             </li>
         </ul> -->
 
@@ -30,7 +30,7 @@
 
         <ul>
             <!-- tri dans le premier niveau de données -->
-            <li *ngFor="let n of noticeServ.notice | keyvalue">
+            <li *ngFor="let n of get.notice | keyvalue">
 
                 <span *ngIf="utils.typeOf(n.value) !== 'object'; else elseBlockN">
                     <strong>{{ n.key }}</strong> : {{ n.value }}

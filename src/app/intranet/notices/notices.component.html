@@ -8,13 +8,13 @@
                 <label for="libre">Filtre libre
                 <input name="libre" placeholder="Filtre libre" [(ngModel)]="filtre.libre"></label>
 
-                <label for="dateDebut">Date de création (début)   
+                <label for="dateDebut">Date de création (début)
                 <input name="dateDebut" type="date" placeholder="A partir de..." [(ngModel)]="filtre.dateDebut"></label>
 
                 <label for="dateFin">Date de création (fin)
                 <input name="dateFin" type="date" placeholder="... jusqu'à" [(ngModel)]="filtre.dateFin"></label>
 
-                <label for="type">Types de fichiers   
+                <label for="type">Types de fichiers
                 <select name="type" [(ngModel)]="filtre.type" placeholder="Type de fichiers">
                         <option value="image">Images</option>
                         <option value="video">Vidéos</option>
@@ -24,15 +24,15 @@
             </form>
         </header>
         <ul class="notice-liste">
-            <li *ngFor="let n of (this.noticesServ.noticesAll | filtreNotices:filtre)" class="notice">
+            <li *ngFor="let n of (get.notices | filtreNotices:filtre)" class="notice">
                 <!-- <a (click)="noticeSelectionnee(notice._id)" matTooltip="Ajouter cette notice à la liste sélectionnée"></a> -->
 
                 <div [style.backgroundImage]="utils.setNoticeBg(n)" [class.choix]="n.selected">
-                    <video *ngIf="n.metadonnees['dublincore']['format'] && n.metadonnees['dublincore']['format'].indexOf('video')!=-1" [poster]="n.metadonnees['dublincore']['coverage']">
-                        <source [src]="n.metadonnees['media'].url" [type]="n.metadonnees['dublincore']['format']">
+                    <video *ngIf="n['dublincore']['format'] && n['dublincore']['format'].indexOf('video')!=-1" [poster]="n['dublincore']['coverage']">
+                        <source [src]="n['media'].url" [type]="n['dublincore']['format']">
                     </video>
-                    <audio *ngIf="n.metadonnees['dublincore']['format'] && n.metadonnees['dublincore']['format'].indexOf('audio')!=-1">
-                        <source [src]="n.metadonnees['media'].url" [type]="n.metadonnees['dublincore']['format']">
+                    <audio *ngIf="n['dublincore']['format'] && n['dublincore']['format'].indexOf('audio')!=-1">
+                        <source [src]="n['media'].url" [type]="n['dublincore']['format']">
                         </audio>
                     <div (mouseenter)="utils.play($event)" (mouseleave)="utils.pause($event)" (click)="fake()">
                         <div>
@@ -46,8 +46,8 @@
 
                 </div>
                 <div>
-                    <h3>{{ n.metadonnees['dublincore'].title }}</h3>
-                    <p>{{ n.metadonnees['dublincore'].description }}</p>
+                    <h3>{{ n['dublincore'].title }}</h3>
+                    <p>{{ n['dublincore'].description }}</p>
                     <div>
                         <mat-icon *ngIf="n.selected">check_circle</mat-icon>
                         <mat-icon *ngIf="!n.selected">check_circle_outline</mat-icon>
@@ -72,7 +72,7 @@
                 <li *ngFor="let n of this.noticeSelection">
                     <mat-chip-list>
                         <mat-chip (removed)="noticeSelectionRemove(n._id)">
-                            {{n.metadonnees['dublincore'].title}}
+                            {{n['dublincore'].title}}
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>
                     </mat-chip-list>
@@ -83,11 +83,11 @@
         <section class="demi">
             <h2>Métadonnées d’une notice sélectionnée</h2>
             <article *ngIf="this.noticeAffiche">
-                <h3>{{ noticeChoisie.metadonnees['dublincore'].title}}</h3>
+                <h3>{{ noticeChoisie['dublincore'].title}}</h3>
                 <ul>
-                    <li>{{ noticeChoisie.metadonnees['dublincore'].description }}</li>
-                    <li>{{ noticeChoisie.metadonnees['media'].file }}</li>
-                    <li>{{ noticeChoisie.metadonnees['media'].url }}</li>
+                    <li>{{ noticeChoisie['dublincore'].description }}</li>
+                    <li>{{ noticeChoisie['media'].file }}</li>
+                    <li>{{ noticeChoisie['media'].url }}</li>
                 </ul>
             </article>
         </section>

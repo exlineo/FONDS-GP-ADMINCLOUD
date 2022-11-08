@@ -22,12 +22,10 @@ import { AuthService } from "./extranet/systeme/services/auth.service";
 import { TokenService } from './extranet/systeme/services/token.service';
 import { NotificationService } from "./extranet/systeme/services/notification.service";
 
-import { AuthIntercepteur } from "./extranet/systeme/services/auth.intercepteur";
 import { SecuriteIntercepteur } from './extranet/systeme/services/securite.intercepteur';
 import { ExtranetComponent } from './extranet/extranet.component';
 import { ActualitesComponent } from './extranet/actualites/actualites.component';
 import { FiltresService } from './intranet/systeme/services/filtres.service';
-import { CollectionService } from './intranet/systeme/services/collection.service';
 import { AdminIntercepteur } from './extranet/systeme/services/admin.intercepteur';
 
 @NgModule({
@@ -53,7 +51,6 @@ import { AdminIntercepteur } from './extranet/systeme/services/admin.intercepteu
 		TokenService,
 		NotificationService,
 		FiltresService,
-		CollectionService,
 		{ provide: HTTP_INTERCEPTORS, useClass: AdminIntercepteur, multi: true },
 		// { provide: HTTP_INTERCEPTORS, useClass: AuthIntercepteur, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass:SecuriteIntercepteur, multi:true}],

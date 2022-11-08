@@ -1,7 +1,7 @@
 <section>
 	<header>
-		<h1>Nemateria</h1>
-		<h2>Actualités</h2>
+		<h1>Fonds de dotation Gérard Perrier</h1>
+		<h2>Gestion des collections et des notices</h2>
 	</header>
 	<article *ngFor="let actu of notifs.notifications; let i=index">
 			<hr>
@@ -18,5 +18,5 @@
 		<a [href]="actu.lien" *ngIf="actu.lien" target="_blank">En savoir plus</a>
 		<hr>
 	</article>
-	
+
 </section>

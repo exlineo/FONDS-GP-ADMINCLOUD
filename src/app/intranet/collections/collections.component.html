@@ -30,11 +30,11 @@
                 </div>
             </ul>
         </article>
-        <article *ngIf="noticesServ.seriesCollec.length > 0">
+        <article *ngIf="cloud.collection.series">
             <!-- <mat-icon matTooltip="Ajouter une série à la collection">playlist_add</mat-icon> -->
             <h3>Séries de la collection</h3>
             <ul>
-                <li *ngFor="let serie of noticesServ.seriesCollec; let i=index">
+                <li *ngFor="let serie of cloud.collection.series; let i=index">
                     {{ serie }}
                 </li>
             </ul>

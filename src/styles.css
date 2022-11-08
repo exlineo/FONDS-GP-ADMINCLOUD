@@ -1,14 +1,3 @@
-/* You can add global styles to this file, and also import other style files
-Design : http://quanticalabs.com/Node/Template/#!/home
-#656973 : base bleu sombre / rgba(101, 105, 115, 1);
-#41ab6b : vert / rgba(65, 171, 107, 1);
-#FFD600 : jaune / rgba(255, 214, 0, 1);
-#f06060 : rouge / rgba(240, 96, 96, 1);
-#a3c6c2 : bleu vert gris / rgba(163, 198, 194, 1);
-#eb974e : orange / rgba(235, 151, 78, 1);
-#13c7af : bleu vert vif / rgba(19, 199, 175, 1);
-#96a94b : caca d'oie / rgba(150, 169, 75, 1);
-*/
 :root{
   /* Variables */
   --clair:white;
@@ -19,6 +8,7 @@ Design : http://quanticalabs.com/Node/Template/#!/home
   --q:rgba(19, 199, 175, 1);
   --v:rgba(65, 171, 107, 1);
   --r:rgba(240, 96, 96, 1);
+  --o:rgba(235, 151, 78, 1);
 }
 
 /*
@@ -327,6 +317,7 @@ button {
     border: 1px solid #CCC;
     margin: 8px;
     transition: border .3s ease;
+    max-width:100%;
 }
 
 button {
@@ -401,6 +392,7 @@ input.ng-invalid, textarea.ng-invalid {
 }
 mat-form-field{
     margin-bottom:10px;
+    box-sizing: border-box;
 }
 /*
 ////////////////
@@ -428,7 +420,6 @@ mat-form-field{
     box-sizing: border-box;
     position: relative;
 }
-
 .notice video,
 .notice audio {
     position: absolute;
@@ -437,8 +428,6 @@ mat-form-field{
     object-fit: cover;
     z-index: 10;
 }
-
-
 /* LES DIV DANS UNE NOTICE */
 
 .notice>div:nth-child(1) {
@@ -451,19 +440,9 @@ mat-form-field{
     display: flex;
     position: relative;
 }
-
 .notice:hover>div:nth-child(1) {
     transform: scale(1.1);
 }
-
-
-/* .notice>div:nth-child(1)>div:nth-child(2) {
-    position: absolute;
-
-
-}
-*/
-
 .notice>div:nth-child(1)>div:nth-child(1),
 .notice>div:nth-child(1)>div:nth-child(2) {
     transition: all .4s ease;
@@ -474,7 +453,6 @@ mat-form-field{
     height: 100%;
     display: flex;
 }
-
 .notice>div:nth-child(1)>div:nth-child(1)>div,
 .notice>div:nth-child(1)>div:nth-child(2)>div {
     margin: auto;
@@ -486,20 +464,16 @@ mat-form-field{
     display: flex;
     flex-flow: row nowrap;
 }
-
 .notice:hover>div:nth-child(1)>div:nth-child(1),
 .notice:hover>div:nth-child(1)>div:nth-child(2) {
     opacity: 1;
 }
-
 .notice div>mat-icon {
     color: #FFF;
 }
-
 .notice>div:nth-child(1) div:nth-child(1) mat-icon:hover {
     color: rgba(255, 255, 255, .7);
 }
-
 .notice>div:nth-child(2) {
     width: 100%;
     margin-top: -80px;
@@ -545,7 +519,6 @@ mat-form-field{
 .flex {
     display: flex;
 }
-
 .flex-container {
     display: flex;
     width: 100%;
@@ -554,19 +527,15 @@ mat-form-field{
     padding-right: calc((100% - 960px)/ 2);
     flex-flow: row wrap;
 }
-
 .choix {
     border: 8px solid rgba(0, 255, 0, .7)
 }
-
 .petit {
     font-size: 10px;
 }
-
 .moyen {
     font-size: 18px;
 }
-
 .grand {
     font-size: 24px;
 }
@@ -585,6 +554,19 @@ mat-icon.grand {
 
 .vert {
     background-color: #41ab6b;
+}
+#loader{
+  position:absolute;
+  background-color: rgba(255,255,255,0.8);
+  width:100vw;
+  height: 100vh;
+  display: none;
+}
+#loader > *{
+  margin:auto;
+}
+.apparait{
+  display: flex;
 }
 /* //// Parent //// */
 
@@ -926,50 +908,41 @@ mat-icon {
     margin: 5px;
     cursor: pointer;
     float: right;
+    font-family: 'Material Icons' !important;
+    font-size: 24px;
 }
-
+.material-icons{
+  font-family: 'Material Icons' !important;
+}
 
 /* CSS D'INTERACTIONS */
 
 .ferme {
     display: none;
 }
-
-
 /* width */
 
 ::-webkit-scrollbar {
     width: 10px;
 }
-
-
 /* Track */
 
  ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
-
-
 /* Handle */
-
  ::-webkit-scrollbar-thumb {
     background: yellow;
 }
-
-
 /* Handle on hover */
-
  ::-webkit-scrollbar-thumb:hover {
     background: yellowgreen;
 }
-
-
 /*
 ////////////////
    RESPONSIVE
 ////////////////
 */
-
 @media only screen and (max-width: 960px) {
     .flex-container {
         padding-left: 0;
@@ -986,5 +959,3 @@ mat-icon {
         margin-right: 0;
     }
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

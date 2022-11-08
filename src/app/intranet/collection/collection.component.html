@@ -4,7 +4,7 @@
         <h3>Informations sur la collection
             <mat-icon (click)="fermer.emit(false)">close</mat-icon>
         </h3>
-        <h2>{{ colServ.collection.titre }}</h2>
+        <h2>{{ get.collection.title }}</h2>
     </header>
 
     <form>
@@ -12,29 +12,29 @@
             <form #f="ngForm">
                 <article>
                     <label for="titre">Titre</label>
-                    <input name="titre" [(ngModel)]="colServ.collection.titre" required>
+                    <input name="titre" [(ngModel)]="get.collection.title" required>
 
                     <label for="alias">Alias</label>
-                    <input name="alias" [(ngModel)]="colServ.collection.alias" required pattern="[a-z0-9-]+">
+                    <input name="alias" [(ngModel)]="get.collection.alias" required pattern="[a-z0-9-]+">
 
                     <label for="description">Description</label>
-                    <textarea mat-input name="description" [(ngModel)]="colServ.collection.description" required>
+                    <textarea mat-input name="description" [(ngModel)]="get.collection.description" required>
                     </textarea>
 
                     <label for="type">Type</label>
-                    <select name="type" [(ngModel)]="colServ.collection.type" required>
+                    <select name="type" [(ngModel)]="get.collection.type" required>
                         <option value="images">Images</option>
                         <option value="multimedia">Multimédia</option>
                     </select>
 
                     <label for="createur">Créateur</label>
-                    <input name="createur" [(ngModel)]="colServ.collection.createur" required>
+                    <input name="createur" [(ngModel)]="get.collection.creator" required>
 
                     <label for="fonds">Fonds</label>
-                    <input name="fonds" [(ngModel)]="colServ.collection.fonds">
+                    <input name="fonds" [(ngModel)]="get.collection.funds">
 
                     <label for="langue">Langue</label>
-                    <input name="langue" [(ngModel)]="colServ.collection.langue">
+                    <input name="langue" [(ngModel)]="get.collection.language">
 
                 </article>
             </form>
@@ -42,7 +42,7 @@
                 <h3>Séries</h3>
                 <mat-icon>add</mat-icon>
                 <ul>
-                    <li *ngFor="let s of colServ.collection.series">
+                    <li *ngFor="let s of get.collection.series">
                         {{ s }}
                     </li>
                 </ul>
@@ -53,11 +53,11 @@
                 </p>
             </article>
         </section>
-        <section *ngIf="colServ.notices">
+        <section *ngIf="get.notices">
             <h3>Notices</h3>
             <!-- <button (click)="genereNotices()">Insérer ces documents comme notices de la collection</button> -->
             <ul>
-                <li *ngFor="let n of colServ.notices">
+                <li *ngFor="let n of get.notices">
                     {{ n.metadonnees['dublincore'].title }}
                     <mat-icon matTooltip="Enlever cette notice">delete</mat-icon>
                 </li>
@@ -66,7 +66,7 @@
         <section *ngIf="!cree">
             <h3>Notices</h3>
             <ul>
-                <li *ngFor="let n of colServ.notices">
+                <li *ngFor="let n of get.notices">
                     {{ n.metadonnees['dublincore'].title }}
                     <mat-icon matTooltip="Enlever cette notice">delete</mat-icon>
                 </li>

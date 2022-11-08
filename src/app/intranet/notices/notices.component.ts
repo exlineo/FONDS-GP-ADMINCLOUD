@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NoticeService } from "../systeme/services/notice.service";
-import { NoticeModel } from "../systeme/modeles/notice.modele";
 import { UtilsService } from '../systeme/library/utils.service';
 import { FiltrePipeModel, FiltreNotices } from '../systeme/modeles/pipes.modele';
 import { FiltreNoticesPipe } from '../systeme/pipes/filtre-notices.pipe';
-import { AuthService } from '../../extranet/systeme/services/auth.service';
 import { TokenService } from 'src/app/extranet/systeme/services/token.service';
+import { CloudGetService } from '../systeme/services/cloud-get.service';
+import { NoticeCloudI } from '../systeme/modeles/Types';
 
 @Component({
 	selector: 'app-notices',
@@ -15,9 +14,9 @@ import { TokenService } from 'src/app/extranet/systeme/services/token.service';
 })
 export class NoticesComponent implements OnInit {
 
-	noticeListe: Array<NoticeModel> = []; // Liste générale des notices à afficher / filter
-	noticeSelection: Array<NoticeModel> = []; // La liste des notices sélectionnées
-	noticeChoisie:NoticeModel; // Notice dont on affiche les informations lorsque sollicitée
+	noticeListe: Array<NoticeCloudI> = []; // Liste générale des notices à afficher / filter
+	noticeSelection: Array<NoticeCloudI> = []; // La liste des notices sélectionnées
+	noticeChoisie:NoticeCloudI; // Notice dont on affiche les informations lorsque sollicitée
 
 	noticeFiltre; // Tableau des notices filtrées (?)
 
@@ -30,17 +29,17 @@ export class NoticesComponent implements OnInit {
 	afficheDetailNotice:boolean = false; // Afficher le composant notice lors du clic sur un oeil (dans une notice)
 	afficheDetailCollec:boolean = false; // Afficher le composant notice lors du clic sur un oeil (dans une notice)
 
-	constructor(public noticesServ: NoticeService, public utils:UtilsService, private noticesPipe:FiltreNoticesPipe, public tokenServ:TokenService) { }
+	constructor(public get:CloudGetService, public utils:UtilsService, private noticesPipe:FiltreNoticesPipe, public tokenServ:TokenService) { }
 
 	ngOnInit() {
 		this.idNotice = -1;
-		this.noticesServ.getNotices();
+		// this.noticesServ.getNotices();
 		this.filtre = new FiltreNotices();
 	}
 	/**
 	 * Afficher le composant avec le détail des infos sur la notice
-	 * 
-	*/ 
+	 *
+	*/
 	noticeOnAffiche(idNotice): void {
 		// $event.preventDefault();
 		this.idNotice = idNotice;
@@ -48,17 +47,17 @@ export class NoticesComponent implements OnInit {
 	}
 	/**
 	 * Choisir une notice et la mettre dans la liste
-	 * 
+	 *
 	*/
 	noticeSelectionnee(idNotice): void {
 		this.idNotice = idNotice;
-		if(!this.noticeSelection.find(n => n._id == idNotice)){
-			this.noticeSelection.push(this.noticesServ.noticesAll.find(n => {
-				if(n._id == idNotice){
-					n.selected = true;
-					return n;
-				}
-				}));
+		if(!this.noticeSelection.find(n => n.idnotices == idNotice)){
+			// this.noticeSelection.push(this.noticesServ.noticesAll.find(n => {
+			// 	if(n._id == idNotice){
+			// 		n.selected = true;
+			// 		return n;
+			// 	}
+			// 	}));
 		}else{
 			this.noticeSelectionRemove(idNotice);
 		}
@@ -68,13 +67,13 @@ export class NoticesComponent implements OnInit {
 	 * @param idNotice id de la notice dnt on veut les infos
 	*/
 	noticeOnInfo(idNotice): void {
-		if(this.noticeChoisie == this.noticesServ.noticesAll.find(n => n._id == idNotice)){
-			this.noticeAffiche = false;
-			this.noticeChoisie = null;
-		}else{
-			this.noticeChoisie = this.noticesServ.noticesAll.find(n => n._id == idNotice);
-			this.noticeAffiche = true;
-		}
+		// if(this.noticeChoisie == this.noticesServ.noticesAll.find(n => n._id == idNotice)){
+		// 	this.noticeAffiche = false;
+		// 	this.noticeChoisie = null;
+		// }else{
+		// 	this.noticeChoisie = this.noticesServ.noticesAll.find(n => n._id == idNotice);
+		// 	this.noticeAffiche = true;
+		// }
 	}
 	// Initialiser les sélections
 	noticeSelectionDump(): void {
@@ -89,7 +88,7 @@ export class NoticesComponent implements OnInit {
 		for (let index = 0; index < this.noticeSelection.length; index++) {
 			let element = this.noticeSelection[index];
 			element.selected = false;
-			if (element._id == idNotice) {
+			if (element.idnotices == idNotice) {
 				this.noticeSelection.splice(index, 1);
 			}
 		}
@@ -99,22 +98,22 @@ export class NoticesComponent implements OnInit {
 	 */
 	noticesToutesChoisies(): void {
 		// this.noticeSelection = this.noticesServ.noticesAll;
-		this.noticeSelection = this.noticesPipe.transform(this.noticesServ.noticesAll, this.filtre);
-		this.noticeSelection.forEach(
-			n => {
-				n.selected = true;
-			}
-		)
+		// this.noticeSelection = this.noticesPipe.transform(this.noticesServ.noticesAll, this.filtre);
+		// this.noticeSelection.forEach(
+		// 	n => {
+		// 		n.selected = true;
+		// 	}
+		// )
 	}
 	/**
 	 * Ne sélectionner aucune notice
 	 */
 	noticesAucuneChoisie(): void {
-		this.noticesServ.noticesAll.forEach(
-			n =>{
-				n.selected = false;
-			}
-		)
+		// this.noticesServ.noticesAll.forEach(
+		// 	n =>{
+		// 		n.selected = false;
+		// 	}
+		// )
 		this.noticeSelection = [];
 	}
 	/**
@@ -136,12 +135,12 @@ export class NoticesComponent implements OnInit {
 		this.afficheDetailCollec = true;
 	}
 	fake(){
-		
+
 	}
 	/**
 	 * Supprimer les notices sélectionnées
 	 */
 	noticesSuppr(){
-		
+
 	}
 }

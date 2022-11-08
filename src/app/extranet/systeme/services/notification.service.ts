@@ -12,10 +12,10 @@ export class NotificationService {
 	constructor(public snackBar: MatSnackBar) {
 		this.notifications = [
 			{
-				titre:'Némateria on the road',
+				titre:'FGP on the road',
 				soustitre:'Le projet avance',
-				description:'Le travaux sont en cours sur plusieurs dimensions : administration des données, traitements des métadonnées avec Bridge, serveur de distribution...',
-				lien:'http://github.com/exlineo'
+				description:"La gestion des collections est prête (reste leur administration un peu amicau), le site doit s'enrichir de contenus et les infrastructures sont prêtes",
+				lien:'http://fonds-gp.org'
 			}
 		]
 	}

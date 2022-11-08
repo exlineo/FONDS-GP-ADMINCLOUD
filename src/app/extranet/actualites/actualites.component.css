@@ -14,7 +14,7 @@ section > * {
 }
 
 section header{
-    
+
     flex-direction:column;
 	margin-top: 20vh;
     margin-bottom: 2rem;
@@ -22,11 +22,13 @@ section header{
     padding-right:8%;
 }
 h1{
-    font-size: 3.5rem;
-}
-h1, h2{
+    font-size: 3rem;
+    font-weight: normal;
     margin:5px 0;
-    font-weight: bold;
+}
+h2{
+    margin:5px 0;
+    font-weight: normal;
 }
 h3{
     margin-top:5px;

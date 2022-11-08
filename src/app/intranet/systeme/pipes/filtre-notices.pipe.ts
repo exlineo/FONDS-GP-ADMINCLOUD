@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { NoticeModel } from '../modeles/notice.modele';
 import { FiltrePipeModel } from '../modeles/pipes.modele';
+import { NoticeCloudI } from '../modeles/Types';
 /**
  * Filtre sur les notices en utilisant un objet de filtre
  * La valeur 'pure' permet de traiter les changements de l'objet filtre en temps réel
@@ -10,14 +10,9 @@ import { FiltrePipeModel } from '../modeles/pipes.modele';
 	pure: false
 })
 export class FiltreNoticesPipe implements PipeTransform {
-	public transform(values: Array<NoticeModel>, filtre:FiltrePipeModel): any[] {
+	public transform(values: Array<NoticeCloudI>, filtre:FiltrePipeModel): any[] {
 		if (!values || !values.length) return [];
 		if (!filtre) return values;
-
-		// return values.filter(n => {
-		// 	if(filtre.libre) n.metadonnees.dublincore.title.indexOf(filtre.libre) != -1;
-			
-		// })
 
 		if (filtre.libre.length > 2) {
 			return values.filter(
@@ -30,7 +25,7 @@ export class FiltreNoticesPipe implements PipeTransform {
 		}else if(filtre.type){
 			return values.filter(
 				v => {
-					if(v.metadonnees.dublincore.format.indexOf(filtre.type) !== -1){
+					if(v.dublincore.format.indexOf(filtre.type) !== -1){
 						return v;
 					};
 			});
@@ -38,15 +33,15 @@ export class FiltreNoticesPipe implements PipeTransform {
 			return values.filter(
 				v => {
 					let debut = Date.parse(filtre.dateDebut);
-					if(v.metadonnees.dublincore.date >= debut){
+					if(v.dublincore.date >= debut){
 						return v;
 					};
 			});
 		}else if(filtre.dateFin){
 			return values.filter(
 				v => {
-					let fin = Date.parse(filtre.dateFin); 
-					if(v.metadonnees.dublincore.date <= fin){
+					let fin = Date.parse(filtre.dateFin);
+					if(v.dublincore.date <= fin){
 						return v;
 					};
 			});

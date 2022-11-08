@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
-import { CollectionI } from '../systeme/modeles/collection.modele';
-import { CollectionService } from '../systeme/services/collection.service';
-import { NoticeService } from '../systeme/services/notice.service';
-import { UtilsService } from '../systeme/library/utils.service';
 import { TokenService } from 'src/app/extranet/systeme/services/token.service';
 import { CollectionCloudI } from '../systeme/modeles/Types';
 import { CloudGetService } from '../systeme/services/cloud-get.service';
@@ -25,7 +20,7 @@ export class CollectionsComponent implements OnInit {
 
 	filtreSerie:string=''; // Filtrer les notices d'une collection en fonction de sa série
 
-	constructor(public colServ: CollectionService, public noticesServ:NoticeService, public utils:UtilsService, public tokenServ:TokenService, public cloud:CloudGetService) { }
+	constructor(public tokenServ:TokenService, public cloud:CloudGetService) { }
 
 	ngOnInit() {}
 	/**
@@ -38,12 +33,7 @@ export class CollectionsComponent implements OnInit {
 		this.idCollection = id;
     this.cloud.collection = this.cloud.collections.filter(c => c.idcollections = id)[0];
     console.log(this.cloud.collection);
-		// Identifier la collection cliquée
-		// this.colServ.getCollection(id);
     this.cloud.getNoticesByCollec(this.cloud.collection.notices);
-		// Récupérer les notices de la collection
-		// this.noticesServ.getNoticesByCollec(this.colServ.collection.notices);
-		// this.noticesServ.getNoticesByCollec(this.colServ.collection._id);
 	}
 	/**
 	 *
