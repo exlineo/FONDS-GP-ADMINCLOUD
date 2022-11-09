@@ -1,0 +1,72 @@
+<section class="screen triple">
+  <!-- <aside class="left-panel" [@openCloseLeftPanel]="leftPanelIsOpen ? 'open' : 'closed' "> -->
+  <aside class="left-panel">
+    <header>
+      <h1>Scanner des SETs de données</h1>
+      <p>Cliquez sur 'Scanner les dossiers' pour établir la liste des SETs disponibles sur votre serveur de données.</p>
+    </header>
+    <button (click)="cloud.getFolders()">Scanner les dossiers</button>
+    <ul>
+      <li *ngFor="let fold of cloud.scannedFolders" (click)="scanFold(fold) ">
+        {{ fold }}
+        <!-- <mat-icon matTooltip="Afficher les séries" *ngIf="collection.series" (click)="toggleSeries('series_'+collection._id)">keyboard_arrow_down</mat-icon> -->
+      </li>
+    </ul>
+  </aside>
+  <section>
+    <header>
+      <div *ngIf="token.statut >= 2">
+        <mat-icon matTooltip="Supprimer le SET" (click)="delete = true">delete</mat-icon>
+        <mat-icon matTooltip="Modifier la collection" (click)="detailsCollec = true">edit</mat-icon>
+      </div>
+      <h2>Informations sur le SET choisi ({{ dir }})</h2>
+      <p>Ces données sont extraites des médias et classées en préfixes. Les préfixes organisent les données en espaces
+        de noms pour leur exploitation et leur moissonnage.</p>
+
+    </header>
+    <article *ngIf="cloud.scannedData">
+      <!-- <div *ngFor="let doc of cloud.scannedData; let i=index"> -->
+        <!-- {{ doc | json }} -->
+          <mat-expansion-panel *ngFor="let doc of cloud.scannedData; let i=index">
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{ i + 1}}</mat-panel-title>
+              <mat-panel-description>{{ doc.idnotices }}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ul *ngIf="doc.dublincore">
+              <li *ngFor="let dc of doc.dublincore | keyvalue">{{ dc.key }} : {{ dc.value }}</li>
+            </ul>
+            <ul *ngIf="doc.nemateria">
+              <li *ngFor="let nema of doc.nemateria | keyvalue">{{ nema.key }} : {{ nema.value }}</li>
+            </ul>
+          </mat-expansion-panel>
+      <!-- </div> -->
+    </article>
+  </section>
+  <aside>
+    <section class="selection ">
+      <!-- <ul class="notice-liste">
+              <li *ngFor="let n of cloud.notices; let i=index" class="notice">
+                  <div [style.backgroundImage]="utils.setNoticeBg(cloud.config.s3, n)">
+                      <video *ngIf="n.dublincore['format'] && n.dublincore['format'].indexOf('video')!=-1" [poster]="n.dublincore['coverage']">
+                          <source [src]="n.media.url" [type]="n.dublincore['format']">
+                      </video>
+                      <audio *ngIf="n.dublincore['format'] && n.dublincore['format'].indexOf('audio')!=-1">
+                          <source [src]="cloud.config.s3.n.media.url" [type]="n.dublincore['format']">
+                          </audio>
+                      <div (mouseenter)="utils.play($event)" (mouseleave)="utils.pause($event)">
+                          <div>
+                              <mat-icon (click)="idNotice = n.idnotices" matTooltip="Voir la fiche de la notice">
+                                  visibility</mat-icon>
+                              <mat-icon (click)="noticeOnEnlever(n._id)" matTooltip="Enlever cette notice de la collection">remove_circle</mat-icon>
+                          </div>
+                      </div>
+                  </div>
+                  <div>
+                      <h3>{{n.dublincore.title}}</h3>
+                      <p>{{n.dublincore.description}}</p>
+                  </div>
+              </li>
+          </ul> -->
+    </section>
+  </aside>
+</section>

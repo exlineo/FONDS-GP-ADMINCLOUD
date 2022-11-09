@@ -10,6 +10,8 @@ import { NoticesComponent } from './notices/notices.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { ParametresComponent } from './partage/parametres/parametres.component';
 import { ProfilComponent } from './partage/profil/profil.component';
+import { ScanComponent } from './scan/scan.component';
+import { CollectionComponent } from './collection/collection.component';
 
 const routes: Routes = [
 	{
@@ -18,8 +20,10 @@ const routes: Routes = [
 			{ path: 'notices', component:NoticesComponent },
 			{ path: 'notice/:id', component:NoticeComponent},
 			{ path: 'collections', component: CollectionsComponent },
+			{ path: 'collection:id', component: CollectionComponent },
+      { path: 'scan', component:ScanComponent},
 			{ path: 'parametres', component:ParametresComponent},
-			{ path:'profil', component:ProfilComponent},
+			{ path: 'profil', component:ProfilComponent},
 			{ path: 'aide', loadChildren: () => import('./aide/aide.module').then(m => m.AideModule)},
 		]
 	},

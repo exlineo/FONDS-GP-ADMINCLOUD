@@ -20,9 +20,9 @@ export interface CollectionCloudI {
 export interface NoticeCloudI {
   idnotices?:any;
   date?:any;
-  prefix?:string | Array<string>;
+  prefix?:Array<string>;
   dublincore:any;
-  nemateria:any;
-  media:any;
+  nemateria?:any;
+  media?:any;
   selected?:boolean;
 }

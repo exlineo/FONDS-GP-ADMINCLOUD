@@ -1,1 +1,0 @@
-{"ast":null,"code":"export class Set {\n  constructor() {\n    this.fonds = 'inconnu';\n    this.prefix = ['oai_dc', 'oai_nema'];\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

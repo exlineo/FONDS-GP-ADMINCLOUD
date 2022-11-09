@@ -1,1 +1,0 @@
-{"ast":null,"code":"export class Filtre {\n  constructor() {\n    this.titre = \"\";\n    this.alias = \"\";\n    this.prefix = ['oai_dc', 'oai_nema'];\n    this.description = \"\";\n    this.createur = \"\";\n    this.date = \"\";\n    this.metadonnees = [];\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

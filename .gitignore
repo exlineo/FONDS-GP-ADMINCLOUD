@@ -5,6 +5,8 @@
 /tmp
 /out-tsc
 /src/intranet/systeme/config.ts
+/.angular
+.angular
 
 # dependencies
 /node_modules

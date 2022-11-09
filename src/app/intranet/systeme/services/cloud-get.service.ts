@@ -19,7 +19,7 @@ export class CloudGetService {
   notices: Array<NoticeCloudI> = [];
   notice: NoticeCloudI = <NoticeCloudI>{};
   // Scanned folders
-  scanFolders: Array<string> = [];
+  scannedFolders: Array<string> = [];
   scannedData: Array<any>;
 
   load: boolean = false; // Afficher un spinner lorsque les données sont en train d'être scannées
@@ -33,7 +33,7 @@ export class CloudGetService {
     this.notices = [];
     this.notice = <NoticeCloudI>{};
     // Scanned folders
-    this.scanFolders = [];
+    this.scannedFolders = [];
     this.scannedData = [];
   }
   /** Récupérer les getters et setters sur le Cloud */
@@ -59,27 +59,55 @@ export class CloudGetService {
   getNoticesByCollec(ids: Array<any>) {
     this.http.post(this.config.notices, ids).subscribe((resp: any) => {
       this.notices = resp.Responses.notices;
-      console.log(resp.Responses, resp.Responses.notices);
+      // console.log(resp.Responses, resp.Responses.notices);
     });
   }
   /** Get list of folders in S3 */
   getFolders() {
     this.http.get(this.config.xmp).subscribe((resp: any) => {
-      this.scanFolders = resp;
+      this.scannedFolders = resp;
     });
   }
   /** Scan a folder and get data */
   scanFolder(dir: string) {
     this.http.post(this.config.xmp, dir).subscribe({
       next: (resp: any) => {
-        this.scannedData = resp;
+        this.setScannedData(dir, resp);
         this.setScannedCollection();
-        console.log('Next', resp);
+        // console.log('Next', resp);
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     }
     );
+  }
+  /** setSetNotices */
+  setScannedData(dir: string, ar: Array<any>) {
+    this.scannedData = [];
+    // console.log(ar);
+    ar.forEach(n => this.scannedData.push(this.setNotice(dir, n)));
+  }
+  /** Generate notice from scanned data */
+  setNotice(dir: string, n: any) {
+    let notice: NoticeCloudI = <NoticeCloudI>{};
+    if (Object.keys(n).length > 0) {
+      // console.log(dir, n);
+      notice.idnotices = this.setIdNotices(dir, n.oai_nema ?? n.oai_nema.id, n.oai_dc ?? n.oai_dc.title);
+      notice.date = n.oai_dc.date;
+      notice.dublincore = n.oai_dc;
+      notice.prefix = ['oai_dc'];
+      if (n.oai_nema) {
+        notice.nemateria = n.oai_nema;
+        notice.prefix.push('oai_nema');
+      }
+      if (n.media) notice.media = n.media;
+    }
+    return notice;
+  }
+  setIdNotices(dir: string, id: string = null, title: string = null) {
+    if (id && id.length > 0) return dir + '-' + id;
+    if (title && title.length > 0) return title.replace(/\s/g, "-").toLowerCase();
+    return dir + '-' + (Math.random() + 1).toString(36).substring(7);
   }
   /** Get data to create a collection from scanned set of data */
   setScannedCollection() {
@@ -106,7 +134,7 @@ export class CloudGetService {
         if (!this.collection[i] && n[i] && i != 'series' && i != 'notices') this.collection[i] = n[i];
       }
     });
-    console.log(this.collection);
+    // console.log(this.collection);
     this.load = false;
   }
   /** Create an alias */

@@ -4,7 +4,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
-  
+
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,17 +33,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
-
-// import {
-//     MatBadgeModule,
-//     MatChipsModule,
-//     MatDatepickerModule,
-//     MatDividerModule,
-//     MatNativeDateModule,
-//     MatSortModule,
-//     MatStepperModule,
-//     MatTableModule,
-// } from '@angular/material';
 
 @NgModule({
     exports: [

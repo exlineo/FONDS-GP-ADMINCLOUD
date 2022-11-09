@@ -28,6 +28,7 @@ import { ProfilComponent } from './partage/profil/profil.component';
 import { CloudGetService } from './systeme/services/cloud-get.service';
 import { CloudEditService } from './systeme/services/cloud-edit.service';
 import { InterfaceComponent } from './partage/interface/interface.component';
+import { ScanComponent } from './scan/scan.component';
 
 @NgModule({
 	imports: [
@@ -55,7 +56,8 @@ import { InterfaceComponent } from './partage/interface/interface.component';
 		FiltrePipe,
 		FiltreNoticesPipe,
 		ParametresComponent,
-		ProfilComponent
+		ProfilComponent,
+  ScanComponent
 	],
 	entryComponents: [OptionPopInComponent]
 })
