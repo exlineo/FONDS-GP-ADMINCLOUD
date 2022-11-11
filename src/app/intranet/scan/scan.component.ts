@@ -10,8 +10,9 @@ import { CloudGetService } from '../systeme/services/cloud-get.service';
 export class ScanComponent implements OnInit {
 
   dir:string; // Dossier en cours de scan
+  idcollection:number = -1;
 
-  constructor(public cloud:CloudGetService, public token:TokenService) { }
+  constructor(public get:CloudGetService, public token:TokenService) { }
 
   ngOnInit(): void {
     // this.cloud.getFolders();
@@ -19,6 +20,15 @@ export class ScanComponent implements OnInit {
   // Get folders on cloud
   scanFold(dir:string){
     this.dir = dir;
-    this.cloud.scanFolder(dir);
+    this.get.scanFolder(dir);
+  }
+  setIdCollection(e:any){
+    if(e.target.value != -1){
+      this.get.collection.idcollections = e.target.value;
+    }
+  }
+  /** Créer une nouvelle collection ou en mettre une à jour */
+  setCollection(){
+    console.log(this.get.collection);
   }
 }

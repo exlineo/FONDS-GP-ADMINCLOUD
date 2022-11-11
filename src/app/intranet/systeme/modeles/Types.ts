@@ -4,17 +4,16 @@ export interface CollectionCloudI {
     idcollections?: any;
     title: string;
     alias: string;
-    set:string;
+    setname:string;
     description: string;
-    type: string;
+    mediatype: string;
     creator: string;
     funds?:string;
-    language?: string;
-    date?:string | number;
-    who:string;
-    group?: Array<string>;
+    lang?: string;
+    timecode?:string | number;
+    publisher?:string;
     notices:Array<string>;
-    series:Array<NemaSerieModel>;
+    series:Array<string>;
     selected?:boolean;
 }
 export interface NoticeCloudI {
@@ -25,4 +24,16 @@ export interface NoticeCloudI {
   nemateria?:any;
   media?:any;
   selected?:boolean;
+}
+export class CollectionCloud implements CollectionCloudI{
+  idcollections = '';
+    title = '';
+    alias = '';
+    setname = '';
+    description = '';
+    mediatype = 'images';
+    creator = '';
+    lang = 'fr_FR';
+    notices = [];
+    series = [];
 }

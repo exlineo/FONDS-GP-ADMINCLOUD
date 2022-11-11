@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CloudConfigI } from '../modeles/ModelesI';
-import { CollectionCloudI, NoticeCloudI } from '../modeles/Types';
+import { CollectionCloud, CollectionCloudI, NoticeCloudI } from '../modeles/Types';
+import { CloudEditService } from './cloud-edit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,25 +11,24 @@ import { CollectionCloudI, NoticeCloudI } from '../modeles/Types';
 export class CloudGetService {
 
   config: CloudConfigI;
-  edit: CloudConfigI;
   schemas: any;
   // Collections
   collections: Array<CollectionCloudI> = [];
-  collection: CollectionCloudI = <CollectionCloudI>{};
+  collection: CollectionCloudI = new CollectionCloud();
   // Notices
   notices: Array<NoticeCloudI> = [];
   notice: NoticeCloudI = <NoticeCloudI>{};
   // Scanned folders
-  scannedFolders: Array<string> = [];
-  scannedData: Array<any>;
+  scannedFolders: Array<string> = []; // List of folder in S3 bucket
+  scannedData: Array<any>; // List of data inside the documents in the S3 bucket
 
   load: boolean = false; // Afficher un spinner lorsque les données sont en train d'être scannées
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public set: CloudEditService) {
     this.getCloudConfig();
   }
   init() {
-    this.collection = <CollectionCloudI>{};
+    this.collection = new CollectionCloud();;
     // Notices
     this.notices = [];
     this.notice = <NoticeCloudI>{};
@@ -42,8 +42,8 @@ export class CloudGetService {
       conf.forEach(c => {
         if (c.idconfigurations == 'getters') this.config = c;
         if (c.idconfigurations == 'schemas') this.schemas = c;
-        if (c.idconfigurations == 'setters') this.edit = c;
-      })
+        if (c.idconfigurations == 'setters') this.set.setters = c;
+      });
       console.log(this.config, this.schemas);
       this.getCollections();
     })
@@ -72,9 +72,9 @@ export class CloudGetService {
   scanFolder(dir: string) {
     this.http.post(this.config.xmp, dir).subscribe({
       next: (resp: any) => {
+        this.collection = new CollectionCloud();
         this.setScannedData(dir, resp);
-        this.setScannedCollection();
-        // console.log('Next', resp);
+        console.log('Next', resp);
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
@@ -92,7 +92,7 @@ export class CloudGetService {
     let notice: NoticeCloudI = <NoticeCloudI>{};
     if (Object.keys(n).length > 0) {
       // console.log(dir, n);
-      notice.idnotices = this.setIdNotices(dir, n.oai_nema ?? n.oai_nema.id, n.oai_dc ?? n.oai_dc.title);
+      notice.idnotices = this.setIdNotices(dir, n);
       notice.date = n.oai_dc.date;
       notice.dublincore = n.oai_dc;
       notice.prefix = ['oai_dc'];
@@ -101,48 +101,46 @@ export class CloudGetService {
         notice.prefix.push('oai_nema');
       }
       if (n.media) notice.media = n.media;
+      // Créer une collection à partir des notices scannées
+      this.setScannedCollection(notice);
     }
+    // console.log(notice);
     return notice;
   }
-  setIdNotices(dir: string, id: string = null, title: string = null) {
-    if (id && id.length > 0) return dir + '-' + id;
-    if (title && title.length > 0) return title.replace(/\s/g, "-").toLowerCase();
-    return dir + '-' + (Math.random() + 1).toString(36).substring(7);
+  /** Create ID for notices from the object's data */
+  setIdNotices(dir: string, n: any) {
+    // n.oai_nema ?? n.oai_nema.id, n.oai_dc ?? n.oai_dc.title
+    if (n.oai_nema && n.oai_nema.id) return dir + '_' + n.oai_nema.id;
+    if (n.oai_dc && n.oai_dc.title) return dir + '_' + n.oai_dc.title.replace(/\s/g, "-").toLowerCase();
+    return dir + '_' + (Math.random() + 1).toString(36).substring(7);
   }
   /** Get data to create a collection from scanned set of data */
-  setScannedCollection() {
-    this.collection.notices = this.scannedData;
-    this.collection.type = 'images';
-    this.scannedData.forEach(n => {
-      // Create series
-      if (n.series) {
-        if (this.collection.series && !this.collection.series.includes(n.series)) this.collection.series = [this.collection.series, ...n.series];
-      };
-      // Add Data to
-      if (!this.collection.title && n.collection_name) this.collection.title = n.collection_name;
-      if (!this.collection.alias && n.set_name) this.collection.alias = this.setAlias(n.set_name);
-      if (!this.collection.set && n.set_name) this.collection.set = n.set_name;
-      if (!this.collection.creator && n.collection_manager) this.collection.creator = n.collection_manager;
-      if (!this.collection.date) this.collection.date = Date.now();
-      if (!this.collection.description && n.collection_infos) this.collection.description = n.collection_infos;
-      if (!this.collection.funds && n.collection_funds) this.collection.funds = n.collection_funds;
-      if (!this.collection.language && n.language) this.collection.language = n.language;
-      if (!this.collection.who && (n.publisher || n.who_scans)) this.collection.who = n.publisher ? n.publisher : n.who_scans;
-      if (n.type && (n.type.indexOf('video') != -1 || n.type.indexOf('audio') != -1)) this.collection.type = 'multimedia';
-
-      for (let i in this.collection) {
-        if (!this.collection[i] && n[i] && i != 'series' && i != 'notices') this.collection[i] = n[i];
-      }
-    });
-    // console.log(this.collection);
-    this.load = false;
-  }
-  /** Create an alias */
-  setAlias(str) {
-    return str.toLowerCase().replace(' ', '-')
-  }
+  setScannedCollection(n: NoticeCloudI) {
+    // Create series
+    if (n.nemateria.series && Array.isArray(n.nemateria.series)) n.nemateria.series.forEach(s => { if (!this.collection.series.includes(s)) { this.collection.series.push(s) } });
+    // Add notices ids to collection list of notices
+    this.collection.notices.push(n.idnotices);
+    // Add Data to
+    if (this.collection.title.length == 0 && n.nemateria.collection_name) this.collection.title = n.nemateria.collection_name;
+    if (this.collection.alias.length == 0 && n.nemateria.set_name) this.collection.alias = n.nemateria.set_name.toLowerCase().replace(' ', '-');
+    if (this.collection.setname.length == 0 && n.nemateria.set_name) this.collection.setname = n.nemateria.set_name;
+    if (this.collection.creator.length == 0 && n.nemateria.collection_manager) this.collection.creator = n.nemateria.collection_manager;
+    if (!this.collection.timecode) this.collection.timecode = Date.now();
+    if (this.collection.description.length == 0 && n.nemateria.collection_infos) this.collection.description = n.nemateria.collection_infos;
+    if (!this.collection.funds && n.nemateria.collection_funds) this.collection.funds = n.nemateria.collection_funds;
+    if (n.nemateria.lang) this.collection.lang = n.nemateria.lang;
+    if (!this.collection.publisher && (n.nemateria.publisher || n.nemateria.who_scans)) this.collection.publisher = n.nemateria.publisher ? n.nemateria.publisher : n.nemateria.who_scans;
+    if (n.dublincore.format && (n.dublincore.format.indexOf('video') != -1 || n.dublincore.format.indexOf('audio') != -1)) this.collection.mediatype = 'multimedia';
+  };
+  // console.log(this.collection);
   /** Créer ou mettre à jour une collection */
-  creeCollection() {
-
+  sendCloudCollection() {
+    if (this.collection.idcollections) {
+      this.set.postCollection(this.collection);
+    } else {
+      this.collection.idcollections = this.collection.setname.replace(" ", "") + '_' + (Math.random() + 1).toString(36).substring(7);
+      this.set.addCollection(this.collection);
+    }
+    console.log(this.collection);
   }
 }

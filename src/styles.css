@@ -1,11 +1,12 @@
 :root{
   /* Variables */
-  --clair:white;
+  --clair:lightgrey;
   --fonce:black;
+  --b:rgb(255,255,255);
   --s:rgba(163, 198, 194, 1);
-  --p:rgba(101, 105, 115, 1);
-  --t:rgba(255, 214, 0, 1);
-  --q:rgba(19, 199, 175, 1);
+  --g:rgba(101, 105, 115, 1);
+  --v:rgba(255, 214, 0, 1);
+  --b:rgba(19, 199, 175, 1);
   --v:rgba(65, 171, 107, 1);
   --r:rgba(240, 96, 96, 1);
   --o:rgba(235, 151, 78, 1);
@@ -16,7 +17,6 @@
       BASE
 ////////////////
 */
-
 html,
 body {
     width: 100%;
@@ -25,27 +25,22 @@ body {
     padding: 0;
     overflow: hidden;
 }
-
 * {
     font-size: 15px;
     font-family: 'Noto Serif SC', serif;
     box-sizing: border-box;
 }
-
 h1,
 h2,
 h3,
 h4 {
     width: 100%;
-    /* padding: 4px 8px; */
 }
-
 h1 {
     font-size: 26px;
     margin-top: 0;
     margin-bottom: 10px;
 }
-
 h2 {
     font-size: 21px;
     margin-bottom: 5px;
@@ -62,7 +57,7 @@ h4 {
 p {}
 
 a {
-    color: orangered;
+    color: var(--r);
     text-decoration: none;
 }
 
@@ -232,12 +227,12 @@ section.demi {
 }
 
 section.demi:nth-child(1) {
-    background-color: lightgray;
+    background-color: var(--clair);
     overflow-y: auto;
 }
 
 section.demi:nth-child(2) {
-    background-color: grey;
+    background-color: var(--g);
     overflow-y: auto;
 }
 
@@ -306,40 +301,52 @@ aside:nth-child(1)>* {
 
 form {
     display: flex;
+    flex-flow: column nowrap;
 }
-
+form > div{
+  width:100%;
+  display:flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+}
 input,
 input.mat-input-element,
 textarea,
 select,
 button {
     padding: 8px 14px;
-    border: 1px solid #CCC;
+    border: 1px solid var(--clair);
     margin: 8px;
     transition: border .3s ease;
     max-width:100%;
 }
 
-button {
+button, input[type=submit] {
     border: none;
-    background-color: orange;
+    background-color: var(--o);
     transition: all .3s ease;
     cursor: pointer;
-    color: #FFF;
+    color: white;
     text-shadow: 0px 0px 1px rgba(0, 0, 0, .6);
-    max-width: 200px;
+    width: fit-content;
 }
 
-button.valid {
-    background-color: green;
+button.valid, input[type=submit] {
+    background-color: var(--v);
 }
-
+input[type=reset]{
+  background-color: var(--j);
+}
+input[type=reset]:hover{
+  background-color: var(--o);
+  color:var(--b);
+}
 button.invalid {
-    background-color: red;
+    background-color: var(--r);
 }
-
-button:hover {
-    background-color: yellowgreen;
+button:hover, input[type=submit]:hover {
+    background-color: var(--o);
+    border:0;
 }
 
 button:disabled {
@@ -368,11 +375,11 @@ textarea {
 }
 
 input.ng-valid, textarea.ng-valid {
-    border-bottom: 2px solid green;
+    border-bottom: 2px solid var(--v);
 }
 
 input.ng-invalid, textarea.ng-invalid {
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid var(--r);
 }
 
 .mat-icon.icone {
@@ -384,11 +391,11 @@ input.ng-invalid, textarea.ng-invalid {
 }
 
 .mat-icon.ferme:hover {
-    color: red;
+    color: var(--r);
 }
 
 .mat-icon.select:hover {
-    color: green;
+    color: var(--v);
 }
 mat-form-field{
     margin-bottom:10px;
@@ -414,7 +421,7 @@ mat-form-field{
     overflow: hidden;
     width: 33.33%;
     align-items: stretch;
-    color: #FFF;
+    color: var(--clair);
     min-height: 250px;
     cursor: pointer;
     box-sizing: border-box;
@@ -469,7 +476,7 @@ mat-form-field{
     opacity: 1;
 }
 .notice div>mat-icon {
-    color: #FFF;
+    color: var(--clair);
 }
 .notice>div:nth-child(1) div:nth-child(1) mat-icon:hover {
     color: rgba(255, 255, 255, .7);
@@ -553,7 +560,7 @@ mat-icon.grand {
 }
 
 .vert {
-    background-color: #41ab6b;
+    background-color: var(--v);
 }
 #loader{
   position:absolute;
@@ -568,267 +575,6 @@ mat-icon.grand {
 .apparait{
   display: flex;
 }
-/* //// Parent //// */
-
-
-/* ligne qui se wrap*/
-
-.flow-row {
-    flex-flow: row wrap;
-}
-/* colonne qui se wrap*/
-
-.flow-col {
-    flex-flow: column wrap;
-}
-/* alignement horizontal */
-
-.justify-center {
-    justify-content: center;
-}
-
-.justify-start {
-    justify-content: flex-start;
-}
-
-.justify-end {
-    justify-content: flex-end;
-}
-
-.justify-around {
-    justify-content: space-around;
-}
-
-.justify-between {
-    justify-content: space-between;
-}
-/* alignement vertical */
-
-.items-center {
-    align-items: center;
-}
-
-.items-start {
-    align-items: flex-start;
-}
-
-.items-end {
-    align-items: flex-end;
-}
-
-.items-stretch {
-    align-items: stretch;
-}
-
-.items-baseline {
-    align-items: baseline;
-}
-
-
-/* alignement ligne d'items */
-
-.content-center {
-    align-content: center;
-}
-
-.content-start {
-    align-content: flex-start;
-}
-
-.content-end {
-    align-content: flex-end;
-}
-
-.content-around {
-    align-content: space-around;
-}
-
-.content-between {
-    align-content: space-between;
-}
-
-.content-stretch {
-    align-content: stretch;
-}
-
-
-/* //// Child //// */
-
-.child-start {
-    align-self: flex-start;
-}
-
-.child-end {
-    align-self: flex-end;
-}
-
-.child-center {
-    align-self: center;
-}
-
-.child-stretch {
-    align-self: stretch;
-}
-
-.child-baseline {
-    align-self: baseline;
-}
-
-
-/*
-////////////////
-     GRILLE
-////////////////
-*/
-
-.flexcol-1 {
-    height: auto;
-    flex: 0 0 8.33%;
-}
-
-.flexcol-2 {
-    height: auto;
-    flex: 0 0 16.66%;
-}
-
-.flexcol-3 {
-    height: auto;
-    flex: 0 0 25%;
-}
-
-.flexcol-4 {
-    height: auto;
-    flex: 0 0 33.33%;
-}
-
-.flexcol-5 {
-    height: auto;
-    flex: 0 0 41.66%;
-}
-
-.flexcol-6 {
-    height: auto;
-    flex: 0 0 50%;
-}
-
-.flexcol-7 {
-    height: auto;
-    flex: 0 0 58.33%;
-}
-
-.flexcol-8 {
-    height: auto;
-    flex: 0 0 66.66%;
-}
-
-.flexcol-9 {
-    height: auto;
-    flex: 0 0 75%;
-}
-
-.flexcol-10 {
-    height: auto;
-    flex: 0 0 83.33%;
-}
-
-.flexcol-11 {
-    height: auto;
-    flex: 0 0 91.66%;
-}
-
-.flexcol-12 {
-    height: auto;
-    flex: 0 0 100%;
-}
-
-.leftset-1 {
-    margin-left: 8.33%;
-}
-
-.leftset-2 {
-    margin-left: 16.66%;
-}
-
-.leftset-3 {
-    margin-left: 25%;
-}
-
-.leftset-4 {
-    margin-left: 33.33%;
-}
-
-.leftset-5 {
-    margin-left: 41.66%;
-}
-
-.leftset-6 {
-    margin-left: 50%;
-}
-
-.leftset-7 {
-    margin-left: 58.33%;
-}
-
-.leftset-8 {
-    margin-left: 66.66%;
-}
-
-.leftset-9 {
-    margin-left: 75%;
-}
-
-.leftset-10 {
-    margin-left: 83.33%;
-}
-
-.leftset-11 {
-    margin-left: 91.66%;
-}
-
-.rightset-1 {
-    margin-right: 8.33%;
-}
-
-.rightset-2 {
-    margin-right: 16.66%;
-}
-
-.rightset-3 {
-    margin-right: 25%;
-}
-
-.rightset-4 {
-    margin-right: 33.33%;
-}
-
-.rightset-5 {
-    margin-right: 41.66%;
-}
-
-.rightset-6 {
-    margin-right: 50%;
-}
-
-.rightset-7 {
-    margin-right: 58.33%;
-}
-
-.rightset-8 {
-    margin-right: 66.66%;
-}
-
-.rightset-9 {
-    margin-right: 75%;
-}
-
-.rightset-10 {
-    margin-right: 83.33%;
-}
-
-.rightset-11 {
-    margin-right: 91.66%;
-}
-
 
 /* AFFICHAGE DE LA NOTICE SELECTIONNEE */
 
