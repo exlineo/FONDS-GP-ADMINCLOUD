@@ -1,16 +1,16 @@
-<mat-nav-list>
-    <a href="#" mat-list-item (click)="openLink($event)">
-        <span mat-line>Selection</span>
-        <span mat-line>Ajouter ce média à la selection pour créer une collection</span>
-    </a>
+<nav>
+  <a href (click)="openLink($event)">
+    <span>Selection</span>
+    <span>Ajouter ce média à la selection pour créer une collection</span>
+  </a>
 
-    <a href="#" mat-list-item [routerLink]="['/intranet/medias/afficher', data.idMediaSelected]" (click)="openLink($event)">
-        <span mat-line>Média</span>
-        <span mat-line>Voir la fiche du Média</span>
-    </a>
+  <a href [routerLink]="['/intranet/medias/afficher', data.idMediaSelected]" (click)="openLink($event)">
+    <span>Média</span>
+    <span>Voir la fiche du Média</span>
+  </a>
 
-    <a href="#" mat-list-item routerLink="/intranet/medias/modifier" (click)="openLink($event)">
-        <span mat-line>Média</span>
-        <span mat-line>Modifier les informations de ce Média</span>
-    </a>
-</mat-nav-list>
+  <a href routerLink="/intranet/medias/modifier" (click)="openLink($event)">
+    <span>Média</span>
+    <span>Modifier les informations de ce Média</span>
+  </a>
+</nav>

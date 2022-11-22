@@ -19,20 +19,20 @@
         </p>
         <article>
             <form #f="ngForm">
-                <mat-form-field>
-                    <input name="id" matInput placeholder="Votre identifiant" [(ngModel)]="con.compte" minlength=6>
+                <fieldset>
+                    <input name="id" placeholder="Votre identifiant" [(ngModel)]="con.compte" minlength=6>
                     <mat-error *ngIf="true">
                         Un identifiant est <strong>obligatoire</strong>
                     </mat-error>
-                </mat-form-field>
-                <mat-form-field>
+                </fieldset>
+                <fieldset>
                     <input name="passe" matInput placeholder="Votre mot de passe" [(ngModel)]="con.mdp" type="password">
                     <mat-error *ngIf="true">
                         Un mot de passe valide est <strong>obligatoire</strong>
                     </mat-error>
-                </mat-form-field>
+                </fieldset>
             </form>
-            <button mat-raised-button (click)="authentifier()">Go</button>
+            <button (click)="authentifier()">Go</button>
         </article>
         <hr>
         <a href (click)="openDialog($event)">Pas encore inscrit? Il suffit de remplir ce formulaire</a>

@@ -65,6 +65,17 @@ export class CloudEditService {
       complete: () => console.info('complete')
     });
   }
+  /** Ajouter une liste de notices (généralement 25 max d'un coup) */
+  async addListeNotices(add: Array<NoticeCloudI>) {
+    return await this.http.put(this.setters.notices, add).subscribe({
+      next: (resp: any) => {
+        // this.setScannedData(dir, resp);
+        console.log('Next', resp);
+      },
+      error: (e) => console.error(e),
+      complete: () => console.info('complete')
+    });
+  }
   /** Update a notice */
   postNotice(up: NoticeCloudI) {
     this.http.post(this.setters.notices, up).subscribe({

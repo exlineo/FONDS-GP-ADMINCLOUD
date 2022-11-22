@@ -1,36 +1,3 @@
-<mat-card class="inscription-card">
-	<mat-card-header>
-		<mat-card-title>
-			Inscription
-		</mat-card-title>
-		<mat-card-subtitle>
-			Merci de renseigner les champs du formulaire pour solliciter la création d'un utilisateur
-		</mat-card-subtitle>
-	</mat-card-header>
-	<mat-card-content>
-		<form class="formulaire" [formGroup]="userForm">
-			<mat-form-field>
-				<input matInput formControlName="nom" placeholder="Nom *">
-				<mat-error *ngIf="true">
-					Cette information est <strong>obligatoire</strong>
-				</mat-error>
-			</mat-form-field>
-			<mat-form-field>
-				<input matInput placeholder="Votre email" formControlName="email">
-				<mat-error *ngIf="true">
-					Votre e-mail n'est pas <strong>valider</strong>, merci de le vérifier
-				</mat-error>
-			</mat-form-field>
-			<mat-form-field>
-				<input matInput placeholder="Votre mot de pass" formControlName="mdp" type="password">
-				<mat-error *ngIf="true">
-					Merci de saisir un mot de passe d'au <strong>minimum huit lettres</strong>
-				</mat-error>
-			</mat-form-field>
-		</form>
-	</mat-card-content>
-	<mat-card-actions>
-		<button mat-raised-button color='primary' (click)="save()">Sauvegarder</button>
-		<button mat-raised-button color='warn' (click)="reset()">Restaurer</button>
-	</mat-card-actions>
-</mat-card>
+<section>
+
+</section>

@@ -15,14 +15,11 @@
   </aside>
   <section>
     <header>
-      <!-- <div *ngIf="token.statut >= 2">
-        <mat-icon matTooltip="Supprimer le SET" (click)="delete = true">delete</mat-icon>
-        <mat-icon matTooltip="Modifier la collection" (click)="detailsCollec = true">edit</mat-icon>
-      </div> -->
       <h2>Informations sur le SET choisi {{ '('+dir+')' }}</h2>
       <p>Ces données sont extraites des médias et classées en préfixes correspondant à des espaces de noms sur les métadonnées saisies.</p>
       <p>Les préfixes organisent les données en espaces
         de noms pour leur exploitation et leur moissonnage.</p>
+        <mat-spinner *ngIf="get.load"></mat-spinner>
     </header>
     <article *ngIf="get.scannedData">
       <h3>Notices scannées</h3>
@@ -47,10 +44,10 @@
     <section *ngIf="get.scannedData" class="selection" #f>
       <h2>Créer ou mettre à jour une collection à partir de ces données</h2>
       <article>
-        <p>Sélectionnez une collection pour utiliser les donées scannées pour la mettre à jour</p>
+        <p>Vous pouvez choisir l'option 'Créer une nouvelle collection' ou sélectionner une collection existante pour la mettre à jour.</p>
         <select [(ngModel)]="idcollection" (change)="setIdCollection($event)">
           <option value=-1>Créer une nouvelle collection</option>
-          <option *ngFor="let c of get.collections; let i=index" [value]="c.idcollections">Mettre à jour la collection : {{ c.title }}</option>
+          <option *ngFor="let c of get.collections; let i=index" [value]="i">Mettre à jour la collection : {{ c.title }}</option>
         </select>
         <form (submit)="get.sendCloudCollection()">
           <label>Titre *</label>
@@ -67,7 +64,7 @@
             <option value="multimedia">Multimédia</option>
           </select>
           <label>Créateur</label>
-          <input name="creator" required [(ngModel)]="get.collecxtion.creator" placeholder="Pas d'espaces ni de caractères spéciaux">
+          <input name="creator" required [(ngModel)]="get.collection.creator" placeholder="Pas d'espaces ni de caractères spéciaux">
           <label>Fonds</label>
           <input name="funds" [(ngModel)]="get.collection.funds" placeholder="Pas d'espaces ni de caractères spéciaux">
           <label>Langue</label>
