@@ -63,13 +63,13 @@ export class CollectionComponent implements OnInit {
 			};
 		};
 		console.log(tmp);
-		tmp.series = [];
+		tmp.series = new Set();
 		// Récupérer les séries dans le SET
 		set.documents.forEach(s => {
 			// console.log(s);
       if(s.nemateria.serie){
         const se = s.nemateria.serie;
-        if(!tmp.series.includes(se)) tmp.series.push(se);
+        tmp.series.add(se);
       }
 			// if (s.nemateria.serie && !tmp.series.includes(s.nemateria.serie.serie)) tmp.series.push(s.nemateria.serie.serie);
 		});

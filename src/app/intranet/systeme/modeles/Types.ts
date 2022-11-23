@@ -6,22 +6,22 @@ export interface CollectionCloudI {
     alias: string;
     setname:string;
     description: string;
-    mediatype: string;
+    typecollection: string;
     creator: string;
     funds?:string;
-    lang?: string;
+    language?:any; // Set<string> puis Array<string>
     timecode?:string | number;
     publisher?:string;
-    notices:Array<string>;
-    series:Array<string>;
+    notices:any; // Set<string> puis Array<string>
+    series:any; // Set<string> puis Array<string>
     selected?:boolean;
 }
 export interface NoticeCloudI {
   idnotices?:any;
   date?:any;
   prefix?:Array<string>;
-  dublincore:any;
-  nemateria?:any;
+  dc:any;
+  nema?:any;
   media?:any;
   selected?:boolean;
 }
@@ -31,9 +31,9 @@ export class CollectionCloud implements CollectionCloudI{
     alias = '';
     setname = '';
     description = '';
-    mediatype = 'images';
+    typecollection = 'images';
     creator = '';
-    lang = 'fr_FR';
-    notices = [];
-    series = [];
+    language = new Set() as Set<string>;
+    notices = new Set() as Set<string>;
+    series = new Set() as Set<string>;
 }

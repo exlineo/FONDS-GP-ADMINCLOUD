@@ -83,10 +83,10 @@ export class UtilsService {
 	 * @param n Notice dont il faut gérer l'affichage d'arrière plan
 	 */
 	setNoticeBg(adr:string, n:NoticeCloudI){
-		const type = n.dublincore.format;
+		const type = n.dc.format;
 		let bg = '';
 		if(type && (type.indexOf('video') != -1 || type.indexOf('audio') != -1)){
-			n.dublincore.coverage ? bg = n.dublincore.coverage : bg = 'assets/img/pictos/picto_media.png';
+			n.dc.coverage ? bg = n.dc.coverage : bg = 'assets/img/pictos/picto_media.png';
 		}else if(type && type.indexOf('application') != -1){
 			bg = 'assets/img/pictos/picto_docs.png';
 		}else{

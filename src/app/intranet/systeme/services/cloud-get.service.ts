@@ -24,7 +24,7 @@ export class CloudGetService {
   scannedCollection:CollectionCloudI; // Enregistrer les données de collection après un scan
 
   load: boolean = false; // Afficher un spinner lorsque les données sont en train d'être scannées
-  decoupe:number = 0;
+  fakeId:string = '';
 
   constructor(private http: HttpClient, public set: CloudEditService) {
     this.getCloudConfig();
@@ -46,7 +46,6 @@ export class CloudGetService {
         if (c.idconfigurations == 'schemas') this.schemas = c;
         if (c.idconfigurations == 'setters') this.set.setters = c;
       });
-      console.log(this.config, this.schemas);
       this.getCollections();
     })
   }
@@ -54,14 +53,12 @@ export class CloudGetService {
   getCollections() {
     this.http.get<Array<CollectionCloudI>>(this.config.collections).subscribe(collecs => {
       this.collections = collecs;
-      console.log(collecs);
     });
   };
   /** Get list of notices from a collection */
-  getNoticesByCollec(ids: Array<any>) {
+  getNoticesByCollec(ids: Set<any>) {
     this.http.post(this.config.notices, ids).subscribe((resp: any) => {
       this.notices = resp.Responses.notices;
-      // console.log(resp.Responses, resp.Responses.notices);
     });
   }
   /** Get list of folders in S3 */
@@ -77,7 +74,6 @@ export class CloudGetService {
       next: (resp: any) => {
         this.scannedCollection = new CollectionCloud();
         this.setScannedData(dir, resp);
-        console.log('Next', resp);
       },
       error: (e) => console.error(e),
       complete: () => this.load = false
@@ -87,73 +83,86 @@ export class CloudGetService {
   /** setSetNotices */
   setScannedData(dir: string, ar: Array<any>) {
     this.scannedData = [];
-    // console.log(ar);
-    ar.forEach(n => this.scannedData.push(this.setNotice(dir, n)));
+    this.fakeId = (Math.random() + 1).toString(36).substring(7)+ '_' + dir.replace(/\s/g, "-").toLowerCase() + '_';
+    ar.forEach(n => { if(n.oai_dc) this.scannedData.push(this.setNotice(dir, n)) });
   }
   /** Generate notice from scanned data */
   setNotice(dir: string, n: any) {
     let notice: NoticeCloudI = <NoticeCloudI>{};
     if (Object.keys(n).length > 0) {
-      // console.log(dir, n);
-      notice.idnotices = this.setIdNotices(dir, n);
-      notice.date = n.oai_dc.date;
-      notice.dublincore = n.oai_dc;
+      notice.dc = n.oai_dc;
       notice.prefix = ['oai_dc'];
       if (n.oai_nema) {
-        notice.nemateria = n.oai_nema;
+        notice.nema = n.oai_nema;
         notice.prefix.push('oai_nema');
       }
-      if (n.media) notice.media = n.media;
+      if (n.oai_media) notice.media = n.oai_media;
+
+      notice.idnotices = this.setIdNotices(dir, notice);
       // Créer une collection à partir des notices scannées
       this.setScannedCollection(notice);
     }
-    // console.log(notice);
     return notice;
   }
   /** Create ID for notices from the object's data */
   setIdNotices(dir: string, n: any) {
+    // let rand = (Math.random() + 1).toString(36).substring(7)+ '_' + dir + '_';
+    let rand =  this.fakeId;
     // n.oai_nema ?? n.oai_nema.id, n.oai_dc ?? n.oai_dc.title
-    if (n.oai_nema && n.oai_nema.id) return dir + '_' + n.oai_nema.id;
-    if (n.oai_dc && n.oai_dc.title) return dir + '_' + n.oai_dc.title.replace(/\s/g, "-").toLowerCase();
-    return dir + '_' + (Math.random() + 1).toString(36).substring(7);
+    if (n.nema && n.nema.id) {
+      rand += n.nema.id.toLowerCase();
+    }
+    // if (n.oai_dc && n.oai_dc.title) {
+    //   rand += n.oai_dc.title.replace(/\s/g, "-").toLowerCase();
+    // };
+    return rand;
   }
   /** Get data to create a collection from scanned set of data */
   setScannedCollection(n: NoticeCloudI) {
     // Create series
-    if (n.nemateria.series && Array.isArray(n.nemateria.series)) n.nemateria.series.forEach(s => { if (!this.collection.series.includes(s)) { this.collection.series.push(s) } });
+    if (n.nema.series) {
+      let series = [];
+      if(n.nema.series.indexOf(",") != -1) {
+        series = n.nema.series.split(",");
+      }else if(n.nema.series.indexOf(",") != -1) {
+        series = n.nema.series.split(";");
+      } else{
+        series.push(n.nema.series);
+      };
+
+      series.forEach(s => this.scannedCollection.series.add(s.replace(/\s/g, '')));
+    };
     // Add notices ids to collection list of notices
-    this.scannedCollection.notices.push(n.idnotices);
-    // Add Data to
-    if (this.scannedCollection.title.length == 0 && n.nemateria.collection_name) this.scannedCollection.title = n.nemateria.collection_name;
-    if (this.scannedCollection.alias.length == 0 && n.nemateria.set_name) this.scannedCollection.alias = n.nemateria.set_name.toLowerCase().replace(' ', '-');
-    if (this.scannedCollection.setname.length == 0 && n.nemateria.set_name) this.scannedCollection.setname = n.nemateria.set_name;
-    if (this.scannedCollection.creator.length == 0 && n.nemateria.collection_manager) this.scannedCollection.creator = n.nemateria.collection_manager;
+    this.scannedCollection.notices.add(n.idnotices);
+    // Add Data to collection
+    if (this.scannedCollection.title.length == 0 && n.nema.collection_name) this.scannedCollection.title = n.nema.collection_name;
+    if (this.scannedCollection.alias.length == 0 && n.nema.set_name) this.scannedCollection.alias = n.nema.set_name.toLowerCase().replace(' ', '-');
+    if (this.scannedCollection.setname.length == 0 && n.nema.set_name) this.scannedCollection.setname = n.nema.set_name;
+    if (this.scannedCollection.creator.length == 0 && n.nema.collection_manager) this.scannedCollection.creator = n.nema.collection_manager;
     if (!this.scannedCollection.timecode) this.scannedCollection.timecode = Date.now();
-    if (this.scannedCollection.description.length == 0 && n.nemateria.collection_infos) this.scannedCollection.description = n.nemateria.collection_infos;
-    if (!this.scannedCollection.funds && n.nemateria.collection_funds) this.scannedCollection.funds = n.nemateria.collection_funds;
-    if (n.nemateria.lang) this.scannedCollection.lang = n.nemateria.lang;
-    if (!this.scannedCollection.publisher && (n.nemateria.publisher || n.nemateria.who_scans)) this.scannedCollection.publisher = n.nemateria.publisher ? n.nemateria.publisher : n.nemateria.who_scans;
-    if (n.dublincore.format && (n.dublincore.format.indexOf('video') != -1 || n.dublincore.format.indexOf('audio') != -1)) this.scannedCollection.mediatype = 'multimedia';
-    // Attribuer les valeurs scannées à la collection en cours de traitement
-    this.collection = {...this.scannedCollection};
+    if (this.scannedCollection.description.length == 0 && n.nema.collection_infos) this.scannedCollection.description = n.nema.collection_infos;
+    if (!this.scannedCollection.funds && n.nema.collection_funds) this.scannedCollection.funds = n.nema.collection_funds;
+    if (!n.dc.language) this.scannedCollection.language.add(n.dc.language);
+    if (!this.scannedCollection.publisher && (n.nema.publisher || n.nema.who_scans)) this.scannedCollection.publisher = n.nema.publisher ? n.nema.publisher : n.nema.who_scans;
+    if (n.dc.format && (n.dc.format.indexOf('video') != -1 || n.dc.format.indexOf('audio') != -1)) this.scannedCollection.typecollection = 'multimedia';
   };
   /** Créer ou mettre à jour une collection */
-  sendCloudCollection() {
+  sendCloudNotices() {
     // Si toutes les notices ont été enregistrées, on enregistre la collection
-    if(this.decoupe >= this.notices.length){
-      this.set.addCollection(this.collection);
-    }else{
-      if(this.decoupe + 25 < this.notices.length) {
-      this.decoupe += 25;
-    }
-    }
-
-    // if (this.collection.idcollections) {
-    //   this.set.postCollection(this.collection);
-    // } else {
-    //   this.collection.idcollections = this.collection.setname.replace(" ", "") + '_' + (Math.random() + 1).toString(36).substring(7);
-    //   this.set.addCollection(this.collection);
-    // };
-    console.log(this.collection);
+      this.set.addListeNotices(this.scannedData).subscribe({
+        next: (resp: any) => {
+          this.sendCloudCollection();
+        },
+        error: (e) => console.error(e),
+        complete: () => console.log('Envoie des notices terminé')
+      });
+  }
+  /** Envoyer la collection dans la Cloud en modifant quelques paramètres */
+  sendCloudCollection(){
+    this.scannedCollection.series = [...this.scannedCollection.series];
+    this.scannedCollection.notices = [...this.scannedCollection.notices];
+    this.scannedCollection.language = [...this.scannedCollection.language];
+    this.scannedCollection.idcollections = this.fakeId;
+    this.set.addCollection(this.scannedCollection);
   }
 }

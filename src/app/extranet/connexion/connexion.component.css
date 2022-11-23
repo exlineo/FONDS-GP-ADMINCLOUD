@@ -25,7 +25,10 @@ aside>section {
 aside>section button {
     background: #FFD600;
 }
-
+article{
+  width: 100%;
+  box-sizing: border-box;
+}
 .mat-raised-button {
     color: #304753 !important;
 }
@@ -34,12 +37,6 @@ aside>section form {
     display: flex;
     flex-direction: column;
 }
-
-aside>section form>* {
-    width: 100%;
-}
-
-
 /** Logo **/
 
 header.logo {}

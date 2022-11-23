@@ -25,7 +25,7 @@ export class FiltreNoticesPipe implements PipeTransform {
 		}else if(filtre.type){
 			return values.filter(
 				v => {
-					if(v.dublincore.format.indexOf(filtre.type) !== -1){
+					if(v.dc.format.indexOf(filtre.type) !== -1){
 						return v;
 					};
 			});
@@ -33,7 +33,7 @@ export class FiltreNoticesPipe implements PipeTransform {
 			return values.filter(
 				v => {
 					let debut = Date.parse(filtre.dateDebut);
-					if(v.dublincore.date >= debut){
+					if(v.dc.date >= debut){
 						return v;
 					};
 			});
@@ -41,7 +41,7 @@ export class FiltreNoticesPipe implements PipeTransform {
 			return values.filter(
 				v => {
 					let fin = Date.parse(filtre.dateFin);
-					if(v.dublincore.date <= fin){
+					if(v.dc.date <= fin){
 						return v;
 					};
 			});

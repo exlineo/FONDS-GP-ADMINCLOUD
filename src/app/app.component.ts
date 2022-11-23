@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ParamsService } from './extranet/systeme/services/params.service';
+import { CloudGetService } from './intranet/systeme/services/cloud-get.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { ParamsService } from './extranet/systeme/services/params.service';
 export class AppComponent {
   title = 'Nemateria';
 
-  constructor(private paramsServ:ParamsService){
+  constructor(private paramsServ:ParamsService, public get:CloudGetService){
     this.paramsServ.setEnv();
   }
 

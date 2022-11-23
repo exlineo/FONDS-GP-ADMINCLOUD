@@ -19,7 +19,6 @@
       <p>Ces données sont extraites des médias et classées en préfixes correspondant à des espaces de noms sur les métadonnées saisies.</p>
       <p>Les préfixes organisent les données en espaces
         de noms pour leur exploitation et leur moissonnage.</p>
-        <mat-spinner *ngIf="get.load"></mat-spinner>
     </header>
     <article *ngIf="get.scannedData">
       <h3>Notices scannées</h3>
@@ -30,11 +29,14 @@
           <mat-panel-title>{{ i + 1}}</mat-panel-title>
           <mat-panel-description>{{ doc.idnotices }}</mat-panel-description>
         </mat-expansion-panel-header>
-        <ul *ngIf="doc.dublincore">
-          <li *ngFor="let dc of doc.dublincore | keyvalue">{{ dc.key }} : {{ dc.value }}</li>
+        <ul *ngIf="doc.dc">
+          <li *ngFor="let dc of doc.dc | keyvalue">{{ dc.key }} : {{ dc.value }}</li>
         </ul>
-        <ul *ngIf="doc.nemateria">
-          <li *ngFor="let nema of doc.nemateria | keyvalue">{{ nema.key }} : {{ nema.value }}</li>
+        <ul *ngIf="doc.nema">
+          <li *ngFor="let nema of doc.nema | keyvalue">{{ nema.key }} : {{ nema.value }}</li>
+        </ul>
+        <ul *ngIf="doc.media">
+          <li *ngFor="let med of doc.media | keyvalue">{{ med.key }} : {{ med.value }}</li>
         </ul>
       </mat-expansion-panel>
       <!-- </div> -->
@@ -47,38 +49,41 @@
         <p>Vous pouvez choisir l'option 'Créer une nouvelle collection' ou sélectionner une collection existante pour la mettre à jour.</p>
         <select [(ngModel)]="idcollection" (change)="setIdCollection($event)">
           <option value=-1>Créer une nouvelle collection</option>
-          <option *ngFor="let c of get.collections; let i=index" [value]="i">Mettre à jour la collection : {{ c.title }}</option>
+          <option *ngFor="let c of get.scannedCollections; let i=index" [value]="i">Mettre à jour la collection : {{ c.title }}</option>
         </select>
-        <form (submit)="get.sendCloudCollection()">
+        <form (submit)="get.sendCloudNotices()">
           <label>Titre *</label>
-          <input name="title" required [(ngModel)]="get.collection.title" placeholder="Titre de la collection">
+          <input name="title" required [(ngModel)]="get.scannedCollection.title" placeholder="Titre de la collection">
           <label>Alias *</label>
-          <input name="alias" required [(ngModel)]="get.collection.alias" placeholder="Pas d'espaces ni de caractères spéciaux">
+          <input name="alias" required [(ngModel)]="get.scannedCollection.alias" placeholder="Pas d'espaces ni de caractères spéciaux">
           <label>Set *</label>
-          <input name="setname" required [(ngModel)]="get.collection.setname" placeholder="Pas d'espaces ni de caractères spéciaux">
+          <input name="setname" required [(ngModel)]="get.scannedCollection.setname" placeholder="Pas d'espaces ni de caractères spéciaux">
           <label>Description</label>
-          <input name="description" [(ngModel)]="get.collection.description" placeholder="Pas d'espaces ni de caractères spéciaux">
+          <input name="description" [(ngModel)]="get.scannedCollection.description" placeholder="Pas d'espaces ni de caractères spéciaux">
           <label>Type *</label>
-          <select name="mediatype" [(ngModel)]="get.collection.type">
+          <select name="mediatype" [(ngModel)]="get.scannedCollection.type">
             <option value="images">Images</option>
             <option value="multimedia">Multimédia</option>
           </select>
           <label>Créateur</label>
-          <input name="creator" required [(ngModel)]="get.collection.creator" placeholder="Pas d'espaces ni de caractères spéciaux">
+          <input name="creator" required [(ngModel)]="get.scannedCollection.creator" placeholder="Pas d'espaces ni de caractères spéciaux">
           <label>Fonds</label>
-          <input name="funds" [(ngModel)]="get.collection.funds" placeholder="Pas d'espaces ni de caractères spéciaux">
-          <label>Langue</label>
-          <select name="lang" [(ngModel)]="get.collection.langue">
+          <input name="funds" [(ngModel)]="get.scannedCollection.funds" placeholder="Pas d'espaces ni de caractères spéciaux">
+          <label>Langue {{ get.scannedCollection.lang }}</label>
+          <!-- <select name="lang" [(ngModel)]="get.scannedCollection.lang">
             <option value="fr_FR">Français</option>
             <option value="en_UK">Anglais</option>
             <option value="de_DE">Allemand</option>
             <option value="oc_OC">Occitan</option>
-          </select>
+          </select> -->
           <label>Séries</label>
-          <input name="seres" [(ngModel)]="get.collection.series" placeholder="Séparées par des virgules">
+          <ul>
+            <li *ngFor="let s of get.scannedCollection.series"> {{  s }} </li>
+          </ul>
+          <!-- <input name="seres" [(ngModel)]="get.scannedCollection.series" placeholder="Séparées par des virgules"> -->
           <div>
-            <input type="submit" value="Créer la collection" [disabled]="f.valid" *ngIf="!get.collection.idcollections">
-            <input type="submit" value="Mettre à jour la collection" [disabled]="f.valid" *ngIf="get.collection.idcollections">
+            <input type="submit" value="Créer la collection" [disabled]="f.valid" *ngIf="!get.scannedCollection.idcollections">
+            <input type="submit" value="Mettre à jour la collection" [disabled]="f.valid" *ngIf="get.scannedCollection.idcollections">
             <input type="reset" value="Annuler">
           </div>
         </form>

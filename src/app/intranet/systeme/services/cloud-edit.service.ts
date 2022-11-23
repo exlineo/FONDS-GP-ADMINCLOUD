@@ -32,11 +32,10 @@ export class CloudEditService {
   addCollection(add: CollectionCloudI) {
     this.http.put(this.setters.collections, add).subscribe({
       next: (resp: any) => {
-        // this.setScannedData(dir, resp);
         console.log('Next', resp);
       },
       error: (e) => console.error(e),
-      complete: () => console.info('complete')
+      complete: () => console.info('Collection ajoutée après ses notices')
     });
   }
   /** Deleting a collection */
@@ -66,15 +65,8 @@ export class CloudEditService {
     });
   }
   /** Ajouter une liste de notices (généralement 25 max d'un coup) */
-  async addListeNotices(add: Array<NoticeCloudI>) {
-    return await this.http.put(this.setters.notices, add).subscribe({
-      next: (resp: any) => {
-        // this.setScannedData(dir, resp);
-        console.log('Next', resp);
-      },
-      error: (e) => console.error(e),
-      complete: () => console.info('complete')
-    });
+  addListeNotices(add: Array<NoticeCloudI>) {
+    return this.http.put(this.setters.notices, add);
   }
   /** Update a notice */
   postNotice(up: NoticeCloudI) {

@@ -1,0 +1,14 @@
+div{
+  display:flex;
+  position:absolute;
+  background-color:rgba(0,0,0,.5);
+  z-index:99;
+  width:100vw;
+  height:100vh;
+  top:0;
+  left:0;
+}
+div > mat-spinner{
+  margin:auto;
+  width:150px;
+}

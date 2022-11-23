@@ -235,12 +235,6 @@ section.demi:nth-child(2) {
     background-color: var(--g);
     overflow-y: auto;
 }
-mat-spinner{
-  position: absolute;
-  left:50%;
-  top:50%;
-  z-index: auto;
-}
 /* video {
     position: fixed;
     right: 0;
@@ -313,6 +307,13 @@ form > div{
   flex-flow: row nowrap;
   justify-content: flex-end;
 }
+fieldset{
+  border:none;
+  box-sizing: border-box;
+  width:100%;
+  margin:0;
+  padding:0;
+}
 input,
 input.mat-input-element,
 textarea,
@@ -322,7 +323,7 @@ button {
     border: 1px solid var(--clair);
     margin: 8px;
     transition: border .3s ease;
-    max-width:100%;
+    /* max-width:100%; */
 }
 
 button, input[type=submit] {
