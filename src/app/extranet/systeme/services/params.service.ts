@@ -20,13 +20,13 @@ export class ParamsService {
   setEnv(){
     this.http.get('assets/serveur/params.json').subscribe(
       p => {
-        environment.SERV = p['SERV'];
-        environment.DIR = p['DIR'];
+        // environment.SERV = p['SERV'];
+        // environment.DIR = p['DIR'];
       },
       e => {
         console.log("Erreur dans le chargement du fichier", e);
       }
     )
-    
+
   }
 }

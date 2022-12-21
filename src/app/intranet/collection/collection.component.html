@@ -5,6 +5,7 @@
             <mat-icon (click)="fermer.emit(false)">close</mat-icon>
         </h3>
         <h2>{{ get.collection.title }}</h2>
+        <p>Attention, les modifications que vous allez opérer ici ne seront valables que dans la base de données. Les informations dans les médias ne seront pas modifiées. Si c'est ce que vous souhaitez, téléversez les documents mis à jour sur le serveur et <a href routerLink="/intranet/scan">passez par la page de scan</a> en choisissant la collection que vous souhaitez mettre à jour.</p>
     </header>
 
     <form>
@@ -53,24 +54,24 @@
                 </p>
             </article>
         </section>
-        <section *ngIf="get.notices">
+        <section *ngIf="get.notices && idCollection">
             <h3>Notices</h3>
             <!-- <button (click)="genereNotices()">Insérer ces documents comme notices de la collection</button> -->
             <ul>
                 <li *ngFor="let n of get.notices">
-                    {{ n.metadonnees['dublincore'].title }}
+                    {{ n.dc.title }}
                     <mat-icon matTooltip="Enlever cette notice">delete</mat-icon>
                 </li>
             </ul>
         </section>
-        <section *ngIf="!cree">
+        <!-- <section *ngIf="!cree">
             <h3>Notices</h3>
             <ul>
                 <li *ngFor="let n of get.notices">
-                    {{ n.metadonnees['dublincore'].title }}
+                    {{ n.dc.title }}
                     <mat-icon matTooltip="Enlever cette notice">delete</mat-icon>
                 </li>
             </ul>
-        </section>
+        </section> -->
     </form>
 </section>

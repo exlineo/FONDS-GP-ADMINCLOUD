@@ -38,9 +38,6 @@ aside>section form {
     flex-direction: column;
 }
 /** Logo **/
-
-header.logo {}
-
 header.logo:hover {
     text-shadow: 0 0px 5px rgba(0, 0, 0, 1);
 }
@@ -134,13 +131,6 @@ header.logo:hover {
 .logo img {
     width: 80%;
 }
-
-.mat-form-field-label {
-    top: 0;
-    left: 30px;
-}
-
-mat-form-field input{
-  margin:0;
-  width:80%;
+input{
+  max-width: 250px;
 }

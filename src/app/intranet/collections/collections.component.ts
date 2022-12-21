@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from 'src/app/extranet/systeme/services/token.service';
+import { UtilsService } from '../systeme/library/utils.service';
 import { CollectionCloudI } from '../systeme/modeles/Types';
 import { CloudGetService } from '../systeme/services/cloud-get.service';
 
@@ -11,16 +12,17 @@ import { CloudGetService } from '../systeme/services/cloud-get.service';
 export class CollectionsComponent implements OnInit {
 
 	collectionListe: Array<CollectionCloudI> = []; // Liste de toutes les collections
-	idCollection:number | string;
+	idCollection:number | string; // Id de la collection en cours
 	idNotice:number | string;
 
-	detailsCollec: boolean = false;
+	detailsCollec: boolean = false; // Eéditer la collection
 	afficheEnlever: boolean = false;
 	delete:boolean = false;
+  pagine = {d:0, e:20}; // Pagination
 
 	filtreSerie:string=''; // Filtrer les notices d'une collection en fonction de sa série
 
-	constructor(public tokenServ:TokenService, public cloud:CloudGetService) { }
+	constructor(public tokenServ:TokenService, public cloud:CloudGetService, public utils:UtilsService) { }
 
 	ngOnInit() {}
 	/**
@@ -28,7 +30,7 @@ export class CollectionsComponent implements OnInit {
 	 * @param index Index de la collection dans le tableau des collections
 	 * @param idCollection Id de la collection à afficher
 	 */
-	collectionOnClick(id): void {
+	colClick(id): void {
     console.log("Collection cliquée", id);
 		this.idCollection = id;
     this.cloud.collection = this.cloud.collections.filter(c => c.idcollections = id)[0];
@@ -53,4 +55,24 @@ export class CollectionsComponent implements OnInit {
 		this.idNotice = null;
 		this.idCollection = null;
 	}
+  /** Gérer les paginations */
+  suite(sens:boolean){
+    console.log(this.pagine, this.cloud.notices.length);
+    if(sens){
+      // on avance
+      if(this.pagine.d + this.pagine.e < this.cloud.notices.length-1){
+        this.pagine.d += this.pagine.e;
+      }else{
+        this.pagine.d = this.pagine.d + this.pagine.e - this.cloud.notices.length-1;
+      }
+    }else{
+      // On recule
+      if(this.pagine.d - this.pagine.e < 0){
+        this.pagine.d = this.cloud.notices.length-1 + this.pagine.d - this.pagine.e;
+      }else{
+        this.pagine.d -= this.pagine.e;
+      }
+    }
+    console.log(this.pagine, this.cloud.notices.length);
+  }
 }

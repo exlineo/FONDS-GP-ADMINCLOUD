@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CloudConfigI } from '../modeles/ModelesI';
@@ -63,11 +63,21 @@ export class CloudGetService {
   }
   /** Get list of folders in S3 */
   getFolders() {
-    this.http.get(this.config.xmp).subscribe((resp: any) => {
-      this.scannedFolders = resp;
-    });
+    this.load = true;
+    this.http.get(this.config.xmp).subscribe(
+      {
+        next: (resp: any) => {
+          this.scannedFolders = resp;
+        },
+        error: (e) => {
+          console.error(e);
+          this.load = false;
+        },
+        complete: () => this.load = false
+      }
+    );
   }
-  /** Scan a folder and get data */
+  /** Scan a folder and get data from XMP lambda */
   scanFolder(dir: string) {
     this.load = true;
     this.http.post(this.config.xmp, dir).subscribe({
@@ -75,7 +85,10 @@ export class CloudGetService {
         this.scannedCollection = new CollectionCloud();
         this.setScannedData(dir, resp);
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this.load = false;
+      },
       complete: () => this.load = false
     }
     );
@@ -84,7 +97,7 @@ export class CloudGetService {
   setScannedData(dir: string, ar: Array<any>) {
     this.scannedData = [];
     this.fakeId = (Math.random() + 1).toString(36).substring(7)+ '_' + dir.replace(/\s/g, "-").toLowerCase() + '_';
-    ar.forEach(n => { if(n.oai_dc) this.scannedData.push(this.setNotice(dir, n)) });
+    ar.forEach(n => { if(n.oai_media.size > 0) this.scannedData.push(this.setNotice(dir, n)) });
   }
   /** Generate notice from scanned data */
   setNotice(dir: string, n: any) {
@@ -110,7 +123,8 @@ export class CloudGetService {
     let rand =  this.fakeId;
     // n.oai_nema ?? n.oai_nema.id, n.oai_dc ?? n.oai_dc.title
     if (n.nema && n.nema.id) {
-      rand += n.nema.id.toLowerCase();
+      // rand += n.nema.id.toLowerCase();
+      rand += n.media.file.toLowerCase();
     }
     // if (n.oai_dc && n.oai_dc.title) {
     //   rand += n.oai_dc.title.replace(/\s/g, "-").toLowerCase();
@@ -148,13 +162,20 @@ export class CloudGetService {
   };
   /** Créer ou mettre à jour une collection */
   sendCloudNotices() {
+    this.load = true;
     // Si toutes les notices ont été enregistrées, on enregistre la collection
       this.set.addListeNotices(this.scannedData).subscribe({
         next: (resp: any) => {
-          this.sendCloudCollection();
         },
-        error: (e) => console.error(e),
-        complete: () => console.log('Envoie des notices terminé')
+        error: (e) => {
+          console.error("Erreur sur la création des notices : ", e);
+          this.load = false;
+        },
+        complete: () => {
+          // this.load = false;
+          console.log('Envoie des notices terminé');
+          this.sendCloudCollection();
+        }
       });
   }
   /** Envoyer la collection dans la Cloud en modifant quelques paramètres */
@@ -163,6 +184,37 @@ export class CloudGetService {
     this.scannedCollection.notices = [...this.scannedCollection.notices];
     this.scannedCollection.language = [...this.scannedCollection.language];
     this.scannedCollection.idcollections = this.fakeId;
-    this.set.addCollection(this.scannedCollection);
+    this.set.addCollection(this.scannedCollection).subscribe({
+      next: (resp: any) => {
+        console.log('Next', resp);
+      },
+      error: (e) => {
+        this.load = false;
+        console.error("Notices ok mais la collection bloque", e);
+      },
+      complete: () => {
+        this.load = false;
+        console.info('Collection ajoutée après ses notices');
+      }
+    });
+  }
+  /** Supprimer les notices d'une collection puis la collection */
+  delCoudNotices(){
+    this.load = true;
+    this.set.deleteListeNotices(this.collection.notices).subscribe(
+      {
+        next: (resp: any) => {
+          console.log('Next', resp);
+        },
+        error: (e) => {
+          this.load = false;
+          console.error(e);
+        },
+        complete: () => {
+          this.load = false;
+          console.info('complete');
+        }
+      }
+    )
   }
 }

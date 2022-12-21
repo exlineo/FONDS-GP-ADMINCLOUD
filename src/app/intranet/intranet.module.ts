@@ -22,7 +22,6 @@ import { FiltrePipe } from './systeme/pipes/filtre.pipe';
 import { UtilsService } from './systeme/library/utils.service';
 import { FiltreNoticesPipe } from './systeme/pipes/filtre-notices.pipe';
 import { ParametresComponent } from './partage/parametres/parametres.component';
-import { FiltresService } from './systeme/services/filtres.service';
 import { NotificationService } from '../extranet/systeme/services/notification.service';
 import { ProfilComponent } from './partage/profil/profil.component';
 import { CloudGetService } from './systeme/services/cloud-get.service';
@@ -40,7 +39,6 @@ import { ScanComponent } from './scan/scan.component';
 	],
 	providers: [
 		UtilsService,
-		FiltresService,
 		NotificationService,
     CloudGetService,
     CloudEditService

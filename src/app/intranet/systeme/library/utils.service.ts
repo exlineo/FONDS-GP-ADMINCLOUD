@@ -83,15 +83,15 @@ export class UtilsService {
 	 * @param n Notice dont il faut gérer l'affichage d'arrière plan
 	 */
 	setNoticeBg(adr:string, n:NoticeCloudI){
-		const type = n.dc.format;
+		const type = n.dc ? n.dc.format : 'image';
 		let bg = '';
 		if(type && (type.indexOf('video') != -1 || type.indexOf('audio') != -1)){
 			n.dc.coverage ? bg = n.dc.coverage : bg = 'assets/img/pictos/picto_media.png';
 		}else if(type && type.indexOf('application') != -1){
 			bg = 'assets/img/pictos/picto_docs.png';
 		}else{
-			bg = adr+n.media.url;
-		}
+			bg = `${adr}${n.nema.set_name}/${n.media.file}`;
+		};
 		return `url("${bg}")`;
 	}
 	/**

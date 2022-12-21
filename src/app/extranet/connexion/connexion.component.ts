@@ -21,19 +21,20 @@ export class ConnexionComponent implements OnInit {
 	con:UserModel=<UserModel>{};
 
 	constructor(
-		private router: Router, 
-		public authService: AuthService, 
+		private router: Router,
+		public authService: AuthService,
 		private notService: NotificationService,
 		public dialog: MatDialog
 	) { }
 
 	ngOnInit() {}
-	
+
 	/**
 	 * @method authentifier() - Envois une requête de connexion via authService
 	 */
 	authentifier(): void {
-		if(this.con.compte && this.con.mdp) this.authService.authUser(this.con);
+		// if(this.con.compte && this.con.mdp) this.authService.authUser(this.con);
+    if(this.con.compte && this.con.mdp) this.authService.authLocalUser(this.con);
 	}
 
 	/**

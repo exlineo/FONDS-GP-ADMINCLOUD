@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError, pipe } from 'rxjs';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { catchError } from "rxjs/operators";
 import { TokenService } from './token.service';
 import { NotificationService } from './notification.service';
@@ -26,7 +26,7 @@ export class AdminIntercepteur implements HttpInterceptor {
         .pipe(
           catchError((erreur) => {
             console.log("Une erreur s'est produite", erreur);
-            return throwError(erreur)
+            return erreur
           })) as any;
     }else{
       console.log("Vos droits ne permettent pas de faire cette opération");
