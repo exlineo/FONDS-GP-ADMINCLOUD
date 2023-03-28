@@ -138,13 +138,13 @@ export class CloudGetService {
       let series = [];
       if(n.nema.series.indexOf(",") != -1) {
         series = n.nema.series.split(",");
-      }else if(n.nema.series.indexOf(",") != -1) {
+      }else if(n.nema.series.indexOf(";") != -1) {
         series = n.nema.series.split(";");
       } else{
         series.push(n.nema.series);
       };
-
-      series.forEach(s => this.scannedCollection.series.add(s.replace(/\s/g, '')));
+      series.forEach(s => this.scannedCollection.series.add(s.trim()));
+      // series.forEach(s => this.scannedCollection.series.add(s.replace(/\s/g, '')));
     };
     // Add notices ids to collection list of notices
     this.scannedCollection.notices.add(n.idnotices);
