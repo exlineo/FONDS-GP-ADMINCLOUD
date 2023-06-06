@@ -8,6 +8,7 @@ import { CollectionCloudI, NoticeCloudI } from '../modeles/Types';
 export class CloudEditService {
 
   setters: any = {};
+  api:string;
 
   constructor(private http: HttpClient) { }
   cloudCollection() {
@@ -19,7 +20,7 @@ export class CloudEditService {
   }
   /** Update a collection */
   postCollection(up: CollectionCloudI) {
-    this.http.post(this.setters.collections, up).subscribe({
+    this.http.post(this.api + '/collections/edti', up).subscribe({
       next: (resp: any) => {
         // this.setScannedData(dir, resp);
         console.log('Next', resp);
@@ -31,7 +32,7 @@ export class CloudEditService {
   /** Add a collection */
   addCollection(add: CollectionCloudI) {
     // console.log(add);
-    return this.http.put(this.setters.collections, add);
+    return this.http.put(this.api + '/collections/edit', add);
   }
   /** Deleting a collection */
   deleteCollection(del:string) {
@@ -39,7 +40,7 @@ export class CloudEditService {
       // headers: new HttpHeaders({'Content-Type': 'application/json'}),
       body: {id: del}
     };
-    this.http.delete(this.setters.collections, options).subscribe({
+    this.http.delete(this.api + '/collections/edit', options).subscribe({
       next: (resp: any) => {
         // this.setScannedData(dir, resp);
         console.log('Next', resp);
@@ -50,7 +51,7 @@ export class CloudEditService {
   }
   /** Add a collection */
   addNotice(add: NoticeCloudI) {
-    this.http.put(this.setters.notices, add).subscribe({
+    this.http.put(this.api + '/notices/edit', add).subscribe({
       next: (resp: any) => {
         // this.setScannedData(dir, resp);
         console.log('Next', resp);
@@ -61,11 +62,11 @@ export class CloudEditService {
   }
   /** Ajouter une liste de notices (généralement 25 max d'un coup) */
   addListeNotices(add: Array<NoticeCloudI>) {
-    return this.http.put(this.setters.notices, add);
+    return this.http.put(this.api + '/notices/edit', add);
   }
   /** Update a notice */
   postNotice(up: NoticeCloudI) {
-    this.http.post(this.setters.notices, up).subscribe({
+    this.http.post(this.api + '/notices/edit', up).subscribe({
       next: (resp: any) => {
         // this.setScannedData(dir, resp);
         console.log('Next', resp);
@@ -81,7 +82,7 @@ export class CloudEditService {
       // headers: new HttpHeaders({'Content-Type': 'application/json'}),
       body: {id: del}
     };
-    this.http.delete(this.setters.notices, options).subscribe({
+    this.http.delete(this.api + '/notices/edit', options).subscribe({
       next: (resp: any) => {
         // this.setScannedData(dir, resp);
         console.log('Next', resp);
@@ -96,6 +97,6 @@ export class CloudEditService {
       // headers: new HttpHeaders({'Content-Type': 'application/json'}),
       body: dels
     };
-    return this.http.delete(this.setters.notices, options);
+    return this.http.delete(this.api + '/notices/edit', options);
   }
 }

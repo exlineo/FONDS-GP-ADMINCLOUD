@@ -11,6 +11,7 @@ import { CloudEditService } from './cloud-edit.service';
 export class CloudGetService {
 
   config: CloudConfigI;
+  api:string;
   schemas: any;
   // Collections
   collections: Array<CollectionCloudI> = [];
@@ -40,31 +41,32 @@ export class CloudGetService {
   }
   /** Récupérer les getters et setters sur le Cloud */
   getCloudConfig() {
-    this.http.get(environment.CLOUD_CONFIG).subscribe((conf: Array<any>) => {
-      conf.forEach(c => {
-        if (c.idconfigurations == 'getters') this.config = c;
-        if (c.idconfigurations == 'schemas') this.schemas = c;
-        if (c.idconfigurations == 'setters') this.set.setters = c;
+    this.http.get('assets/serveur/params.json').subscribe( (conf:any) => {
+      this.api = conf.API;
+      this.set.api = this.api;
+      this.http.get(this.api + '/config').subscribe( (params:any) => {
+        console.log("Get config", params);
+        this.schemas = params;
       });
       this.getCollections();
     })
   }
   /** Récupérer la liste des collections */
   getCollections() {
-    this.http.get<Array<CollectionCloudI>>(this.config.collections).subscribe(collecs => {
+    this.http.get<Array<CollectionCloudI>>(this.api + '/collections').subscribe(collecs => {
       this.collections = collecs;
     });
   };
   /** Get list of notices from a collection */
   getNoticesByCollec(ids: Set<any>) {
-    this.http.post(this.config.notices, ids).subscribe((resp: any) => {
+    this.http.post(this.api+ '/notices', ids).subscribe((resp: any) => {
       this.notices = resp.Responses.notices;
     });
   }
   /** Get list of folders in S3 */
   getFolders() {
     this.load = true;
-    this.http.get(this.config.xmp).subscribe(
+    this.http.get(this.api+ '/xmp').subscribe(
       {
         next: (resp: any) => {
           this.scannedFolders = resp;
@@ -80,7 +82,7 @@ export class CloudGetService {
   /** Scan a folder and get data from XMP lambda */
   scanFolder(dir: string) {
     this.load = true;
-    this.http.post(this.config.xmp, dir).subscribe({
+    this.http.post(this.api+ '/xmp', dir).subscribe({
       next: (resp: any) => {
         this.scannedCollection = new CollectionCloud();
         this.setScannedData(dir, resp);
