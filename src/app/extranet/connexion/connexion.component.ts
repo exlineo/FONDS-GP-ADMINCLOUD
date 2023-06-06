@@ -6,7 +6,7 @@ import { FormGroup, FormControl, FormGroupDirective, NgForm, Validators } from '
 // Service
 import { AuthService } from "src/app/extranet/systeme/services/auth.service";
 import { NotificationService } from "src/app/extranet/systeme/services/notification.service";
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { InscriptionComponent } from "src/app/extranet/inscription/inscription.component";
 import { UserModel } from '../systeme/modeles/user.modele';

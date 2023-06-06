@@ -5,7 +5,7 @@ import { FormGroup, FormControl, FormGroupDirective, NgForm, Validators } from '
 // Service
 import { AuthService } from "src/app/extranet/systeme/services/auth.service";
 import { NotificationService } from "src/app/extranet/systeme/services/notification.service";
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 @Component({
 	selector: 'app-inscription',
