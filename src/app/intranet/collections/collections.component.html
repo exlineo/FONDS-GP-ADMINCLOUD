@@ -49,7 +49,7 @@
                             <source [src]="n.media.url" [type]="n.dc['format']">
                         </video>
                         <audio *ngIf="n.dc['format'] && n.dc['format'].indexOf('audio')!=-1">
-                            <source [src]="cloud.config.s3 + n.media.url" [type]="n.dc['format']">
+                            <source [src]="utils.setNoticeUrl(cloud.config.s3, n)" [type]="n.dc['format']">
                             </audio>
                         <div (mouseenter)="utils.play($event)" (mouseleave)="utils.pause($event)">
                             <div>

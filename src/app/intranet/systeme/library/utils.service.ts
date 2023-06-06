@@ -93,7 +93,11 @@ export class UtilsService {
 			bg = `${adr}${n.nema.set_name}/${n.media.file}`;
 		};
 		return `url("${bg}")`;
+    // return bg;
 	}
+  setNoticeUrl(adr:string, n:NoticeCloudI){
+    return `${adr}${n.nema.set_name}/${n.media.file}`;
+  }
 	/**
 	 * Jouer une vidéo ou un audio
 	 * @param ev Evéneùent déclenché

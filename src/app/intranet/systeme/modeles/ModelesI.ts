@@ -4,7 +4,8 @@ export interface CloudConfigI {
     notices?:string;
     oaipmh?:string;
     xmp?:string;
-    s3?:string;
+    s3?:{idconfigurations:string, url:string};
+    schemas?:any;
 }
 export interface FiltreI {
   _id?: string | number;

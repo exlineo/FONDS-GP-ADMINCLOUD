@@ -1,4 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { CloudGetService } from '../services/cloud-get.service';
+import { NoticeCloudI } from '../modeles/Types';
 
 @Pipe({
 	name: 'filtre'
@@ -28,5 +30,18 @@ export class FiltrePipe implements PipeTransform {
 				}
 			});
 		}
+	}
+}
+/* Get media URL */
+@Pipe({
+	name: 'mediaUrl'
+})
+export class MediaUrlPipe implements PipeTransform {
+  // constructor(private get:CloudGetService){}
+	public transform(notice:NoticeCloudI, s3:string): string {
+		if (!notice) return 'assets/img/pictos/picto_media.png';
+		if (!s3) return 'assets/img/pictos/picto_media.png';
+
+		return s3 + notice.nema.set_name + '/' + notice.idnotices;
 	}
 }

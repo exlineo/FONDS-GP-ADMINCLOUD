@@ -10,7 +10,7 @@ import { CloudEditService } from './cloud-edit.service';
 })
 export class CloudGetService {
 
-  config: CloudConfigI;
+  config: {s3:string, schemas:any} = {s3:'', schemas:{}};
   api:string;
   schemas: any;
   // Collections
@@ -45,8 +45,11 @@ export class CloudGetService {
       this.api = conf.API;
       this.set.api = this.api;
       this.http.get(this.api + '/config').subscribe( (params:any) => {
-        console.log("Get config", params);
-        this.schemas = params;
+        params.forEach( p => {
+          console.log(p, p.idconfigurations);
+          p.idconfigurations == "s3" ? this.config.s3 = p.url : this.config.schemas = p;
+        });
+        console.log(this.config);
       });
       this.getCollections();
     })
@@ -60,7 +63,7 @@ export class CloudGetService {
   /** Get list of notices from a collection */
   getNoticesByCollec(ids: Set<any>) {
     this.http.post(this.api+ '/notices', ids).subscribe((resp: any) => {
-      this.notices = resp.Responses.notices;
+      this.notices = resp;
     });
   }
   /** Get list of folders in S3 */

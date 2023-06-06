@@ -18,7 +18,7 @@ import { CollectionComponent } from './collection/collection.component';
 import { NoticesComponent } from './notices/notices.component';
 import { CollectionsComponent } from './collections/collections.component';
 
-import { FiltrePipe } from './systeme/pipes/filtre.pipe';
+import { FiltrePipe, MediaUrlPipe } from './systeme/pipes/filtre.pipe';
 import { UtilsService } from './systeme/library/utils.service';
 import { FiltreNoticesPipe } from './systeme/pipes/filtre-notices.pipe';
 import { ParametresComponent } from './partage/parametres/parametres.component';
@@ -53,10 +53,10 @@ import { ScanComponent } from './scan/scan.component';
 		CollectionsComponent,
 		FiltrePipe,
 		FiltreNoticesPipe,
+    MediaUrlPipe,
 		ParametresComponent,
 		ProfilComponent,
   ScanComponent
-	],
-	entryComponents: [OptionPopInComponent]
+	]
 })
 export class IntranetModule { }

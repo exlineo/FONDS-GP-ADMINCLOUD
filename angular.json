@@ -137,7 +137,6 @@
       }
     }
   },
-  "defaultProject": "fonds-gp-admincloud",
   "cli": {
     "analytics": false
   }
