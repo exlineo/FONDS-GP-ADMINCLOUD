@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { CloudConfigI } from '../modeles/ModelesI';
+// import { environment } from 'src/environments/environment';
+// import { CloudConfigI } from '../modeles/ModelesI';
 import { CollectionCloud, CollectionCloudI, NoticeCloudI } from '../modeles/Types';
 import { CloudEditService } from './cloud-edit.service';
 
@@ -39,7 +39,7 @@ export class CloudGetService {
     this.scannedFolders = [];
     this.scannedData = [];
   }
-  /** Récupérer les getters et setters sur le Cloud */
+  /** Get config parameters to call api and ressources from Cloud */
   getCloudConfig() {
     this.http.get('assets/serveur/params.json').subscribe( (conf:any) => {
       this.api = conf.API;
@@ -54,7 +54,7 @@ export class CloudGetService {
       this.getCollections();
     })
   }
-  /** Récupérer la liste des collections */
+  /** Get the list of available collections */
   getCollections() {
     this.http.get<Array<CollectionCloudI>>(this.api + '/collections').subscribe(collecs => {
       this.collections = collecs;
@@ -117,7 +117,7 @@ export class CloudGetService {
       if (n.oai_media) notice.media = n.oai_media;
 
       notice.idnotices = this.setIdNotices(dir, notice);
-      // Créer une collection à partir des notices scannées
+      // Generate notices from the scanned data
       this.setScannedCollection(notice);
     }
     return notice;
@@ -165,10 +165,10 @@ export class CloudGetService {
     if (!this.scannedCollection.publisher && (n.nema.publisher || n.nema.who_scans)) this.scannedCollection.publisher = n.nema.publisher ? n.nema.publisher : n.nema.who_scans;
     if (n.dc.format && (n.dc.format.indexOf('video') != -1 || n.dc.format.indexOf('audio') != -1)) this.scannedCollection.typecollection = 'multimedia';
   };
-  /** Créer ou mettre à jour une collection */
+  /** Create or update notices */
   sendCloudNotices() {
     this.load = true;
-    // Si toutes les notices ont été enregistrées, on enregistre la collection
+    // If all notices are saved, the collection is saved
       this.set.addListeNotices(this.scannedData).subscribe({
         next: (resp: any) => {
         },
@@ -183,7 +183,7 @@ export class CloudGetService {
         }
       });
   }
-  /** Envoyer la collection dans la Cloud en modifant quelques paramètres */
+  /** Edit and manage the scanned collection and send it to database */
   sendCloudCollection(){
     this.scannedCollection.series = [...this.scannedCollection.series];
     this.scannedCollection.notices = [...this.scannedCollection.notices];
@@ -203,7 +203,7 @@ export class CloudGetService {
       }
     });
   }
-  /** Supprimer les notices d'une collection puis la collection */
+  /** Delete collection's notices then the collection itself */
   delCoudNotices(){
     this.load = true;
     this.set.deleteListeNotices(this.collection.notices).subscribe(

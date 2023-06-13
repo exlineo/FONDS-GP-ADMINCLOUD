@@ -1,41 +1,34 @@
 <aside>
     <section>
         <header class="logo">
-            <!-- <div class="square">
-                <div></div>
-            </div>
-            <div>
-                <h1>Nemateria</h1>
-                <h5>Valorisation de collections numérisées</h5>
-            </div> -->
-            <a href routerLink='/' title="Valorisation de collections numérisées"><img src="./assets/img/Logo_Nemateria_v.png" alt="Valorisation de collections numérisées"></a>
-            <h5>Valorisation de collections numérisées</h5>
+            <a href routerLink='/' [title]="l.t['NEmA_SLOGAN']"><img src="./assets/img/Logo_Nemateria_v.png" [alt]="l.t['NEMA_SLOGAN']"></a>
+            <h5>{{ l.t['NEMA_SLOGAN'] }}</h5>
         </header>
         <h2>
-            Connexion
+            {{ l.t['CONNEXION'] }}
         </h2>
         <p>
-            Connectez-vous pour accéder à l'administration de Nemateria
+          {{ l.t['CONNEXION_DESCR'] }}
         </p>
         <article>
             <form #f="ngForm">
                 <fieldset>
-                    <input name="id" placeholder="Votre identifiant" [(ngModel)]="con.compte" minlength=6>
+                    <input name="id" [placeholder]="l.t['ID']" [(ngModel)]="con.compte" minlength=6>
                     <mat-error *ngIf="true">
-                        Un identifiant est <strong>obligatoire</strong>
+                      {{ l.t['ID_VALIDE'] }}
                     </mat-error>
                 </fieldset>
                 <fieldset>
-                    <input name="passe" matInput placeholder="Votre mot de passe" [(ngModel)]="con.mdp" type="password">
+                    <input name="passe" matInput [placeholder]="l.t['PASSE']" [(ngModel)]="con.mdp" type="password">
                     <mat-error *ngIf="true">
-                        Un mot de passe valide est <strong>obligatoire</strong>
+                      {{ l.t['PASSE_VALIDE'] }}
                     </mat-error>
                 </fieldset>
             </form>
-            <button (click)="authentifier()">Go</button>
+            <button (click)="authentifier()">{{ l.t['GO'] }}</button>
         </article>
         <hr>
-        <a href (click)="openDialog($event)">Pas encore inscrit? Il suffit de remplir ce formulaire</a>
+        <a href (click)="openDialog($event)">{{ l.t['INSCRIPTION_DESCR'] }}</a>
         <hr>
     </section>
 </aside>

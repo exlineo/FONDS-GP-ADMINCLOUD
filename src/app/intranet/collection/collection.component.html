@@ -1,46 +1,51 @@
 <section class="unique">
 
     <header>
-        <h3>Informations sur la collection
+        <h3>{{ l.t['COLLECTION_EDIT_TITRE']}}
             <mat-icon (click)="fermer.emit(false)">close</mat-icon>
         </h3>
         <h2>{{ get.collection.title }}</h2>
-        <p>Attention, les modifications que vous allez opérer ici ne seront valables que dans la base de données. Les informations dans les médias ne seront pas modifiées. Si c'est ce que vous souhaitez, téléversez les documents mis à jour sur le serveur et <a href routerLink="/intranet/scan">passez par la page de scan</a> en choisissant la collection que vous souhaitez mettre à jour.</p>
+        <p [innerHTML]="l.t['COLLECTION_ALERTE']"></p>
     </header>
 
     <form>
         <section>
             <form #f="ngForm">
                 <article>
-                    <label for="titre">Titre</label>
+                    <label for="titre">{{ l.t['TITRE'] }}</label>
                     <input name="titre" [(ngModel)]="get.collection.title" required>
 
-                    <label for="alias">Alias</label>
+                    <label for="alias">{{ l.t['ALIAS'] }}</label>
                     <input name="alias" [(ngModel)]="get.collection.alias" required pattern="[a-z0-9-]+">
+                    <div>
+                      <input type="checkbox" [(ngModel)]="get.collection.online"><label> {{ l.t['TITRE'] }}
+                        (<span *ngIf="get.collection.online">{{ l.t['PUBLIE'] }}</span><span *ngIf="!get.collection.online">{{ l.t['DEPUBLIE'] }}</span>)
+                      </label>
+                    </div>
 
-                    <label for="description">Description</label>
+                    <label for="description">{{ l.t['DESCR'] }}</label>
                     <textarea mat-input name="description" [(ngModel)]="get.collection.description" required>
                     </textarea>
 
-                    <label for="mediatype">Type</label>
+                    <label for="mediatype">{{ l.t['TYPE'] }}</label>
                     <select name="mediatype" [(ngModel)]="get.collection.typecollection" required>
-                        <option value="images">Images</option>
-                        <option value="multimedia">Multimédia</option>
+                        <option value="images">{{ l.t['IMAGES'] }}</option>
+                        <option value="multimedia">{{ l.t['MULTI'] }}</option>
                     </select>
 
-                    <label for="createur">Créateur</label>
+                    <label for="createur">{{ l.t['CREATEUR'] }}</label>
                     <input name="createur" [(ngModel)]="get.collection.creator" required>
 
-                    <label for="fonds">Fonds</label>
+                    <label for="fonds">{{ l.t['FONDS'] }}</label>
                     <input name="fonds" [(ngModel)]="get.collection.funds">
 
-                    <label for="lang">Langue</label>
+                    <label for="lang">{{ l.t['LANGUE'] }}</label>
                     <input name="lang" [(ngModel)]="get.collection.language">
 
                 </article>
             </form>
             <article>
-                <h3>Séries</h3>
+                <h3>{{ l.t['SERIES'] }}</h3>
                 <mat-icon>add</mat-icon>
                 <ul>
                     <li *ngFor="let s of get.collection.series">
@@ -49,18 +54,18 @@
                 </ul>
                 <hr>
                 <p>
-                    <button class="invalid" (click)="fermer.emit(false)">Annuler</button>
-                    <button class="valid" (click)="ecrire()" [disabled]="f.invalid || tokenServ.statut < 2">Enregistrer la collection</button>
+                    <button class="invalid" (click)="fermer.emit(false)">{{ l.t['ANNULE'] }}</button>
+                    <button class="valid" (click)="ecrire()" [disabled]="f.invalid || tokenServ.statut < 2">{{ l.t['COLLECTION_SAVE'] }}</button>
                 </p>
             </article>
         </section>
         <section *ngIf="get.notices && idCollection">
-            <h3>Notices</h3>
+            <h3>{{ l.t['NOTICES'] }}</h3>
             <!-- <button (click)="genereNotices()">Insérer ces documents comme notices de la collection</button> -->
             <ul>
                 <li *ngFor="let n of get.notices">
                     {{ n.dc.title }}
-                    <mat-icon matTooltip="Enlever cette notice">delete</mat-icon>
+                    <mat-icon [matTooltip]="l.t['NOTICE_DEL']">delete</mat-icon>
                 </li>
             </ul>
         </section>

@@ -3,6 +3,7 @@ import { TokenService } from 'src/app/extranet/systeme/services/token.service';
 import { UtilsService } from '../systeme/library/utils.service';
 import { CollectionCloudI } from '../systeme/modeles/Types';
 import { CloudGetService } from '../systeme/services/cloud-get.service';
+import { NotificationService } from '../../extranet/systeme/services/notification.service';
 
 @Component({
 	selector: 'app-collections',
@@ -11,30 +12,39 @@ import { CloudGetService } from '../systeme/services/cloud-get.service';
 })
 export class CollectionsComponent implements OnInit {
 
-	collectionListe: Array<CollectionCloudI> = []; // Liste de toutes les collections
-	idCollection:number | string; // Id de la collection en cours
-	idNotice:number | string;
+	collectionListe: Array<CollectionCloudI> = []; // List of all collections
+	idCollection:number | string; // Selected collection
+	idNotice:number | string; // Selected notice
 
-	detailsCollec: boolean = false; // Eéditer la collection
+	detailsCollec: boolean = false; // Udate a collection data
 	afficheEnlever: boolean = false;
-	delete:boolean = false;
+	delete:boolean = false; // Agree to delete
   pagine = {d:0, e:20}; // Pagination
 
-	filtreSerie:string=''; // Filtrer les notices d'une collection en fonction de sa série
+	filtreSerie:string=''; // Filter notices by serie name
 
-	constructor(public tokenServ:TokenService, public cloud:CloudGetService, public utils:UtilsService) { }
+	/**
+   *
+   * @param tokenServ Security token service
+   * @param cloud Calling data from Cloud
+   * @param utils Some shared code
+   * @param l Access to notifications and language service
+   */
+  constructor(
+    public tokenServ:TokenService,
+    public cloud:CloudGetService,
+    public utils:UtilsService,
+    public l:NotificationService) { }
 
 	ngOnInit() {}
 	/**
-	 * Afficher le détail d'une collection
-	 * @param index Index de la collection dans le tableau des collections
-	 * @param idCollection Id de la collection à afficher
+	 * Display selected collection
+	 * @param id Id of the collection to show
 	 */
 	colClick(id): void {
     console.log("Collection cliquée", id);
 		this.idCollection = id;
-    this.cloud.collection = this.cloud.collections.filter(c => c.idcollections = id)[0];
-    console.log(this.cloud.collection);
+    this.cloud.collection = this.cloud.collections.find(c => c.idcollections = id);
     this.cloud.getNoticesByCollec(this.cloud.collection.notices);
 	}
 	/**

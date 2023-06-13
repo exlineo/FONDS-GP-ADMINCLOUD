@@ -2,14 +2,13 @@
     <!-- <aside class="left-panel" [@openCloseLeftPanel]="leftPanelIsOpen ? 'open' : 'closed' "> -->
     <aside class="left-panel">
         <header>
-            <h1>Collections disponibles</h1>
+            <h1>{{ l.t['COLLECTION'] }}</h1>
             <!-- <mat-icon matTooltip="Ajouter une collection" (click)="detailsCollec = true; idCollection = null">playlist_add</mat-icon> -->
             <mat-icon matTooltip="Ajouter une collection" routerLink="/intranet/scan">playlist_add</mat-icon>
         </header>
         <ul>
             <li *ngFor="let collection of cloud.collections; let i=index" (click)="colClick(collection.idcollections) ">
                 {{collection.title}} ({{ collection.funds }})
-                <!-- <mat-icon matTooltip="Afficher les séries" *ngIf="collection.series" (click)="toggleSeries('series_'+collection._id)">keyboard_arrow_down</mat-icon> -->
             </li>
         </ul>
     </aside>
@@ -22,9 +21,14 @@
             <h2>Informations sur la collection choisie</h2>
         </header>
         <article *ngIf="idCollection">
+          <h3>{{ cloud.collection.title }} (<span *ngIf="cloud.collection.online">Publié</span><span *ngIf="!cloud.collection.online">Non publié</span>)</h3>
+          <!-- <div><input type="checkbox" [(ngModel)]="cloud.collection.online">
+            Statut de publication
+            (<span *ngIf="cloud.collection.online">Publié</span><span *ngIf="!cloud.collection.online">Non publié</span>)
+          </div> -->
             <ul>
                 <div *ngFor="let n of cloud.collection | keyvalue">
-                    <li *ngIf="n.key != 'notices'">
+                    <li *ngIf="n.key!='notices' && n.key!='series' && n.key!='online'">
                         <strong>{{ n.key }}</strong> : {{ n.value }}
                     </li>
                 </div>
@@ -32,8 +36,8 @@
         </article>
         <article *ngIf="cloud.collection.series && idCollection">
             <!-- <mat-icon matTooltip="Ajouter une série à la collection">playlist_add</mat-icon> -->
-            <h3>Séries de la collection</h3>
-            <ul>
+            <h3>{{ l.t['COLLECTION_SERIES'] }}</h3>
+            <ul class="series">
                 <li *ngFor="let serie of cloud.collection.series; let i=index">
                     {{ serie }}
                 </li>
@@ -76,21 +80,19 @@
 <!-- Valider une suppression de notice ou de collection -->
 <section *ngIf="afficheEnlever" class="pop-up">
     <article>
-        <h3>Supprimer une notice</h3>
-        <p>En cliquant sur valider la suppression vous enleverez la notice de cette collection.</p>
-        <p>Elle restera néanmoins disponible dans les autres collections ou pourra être intégrée dans une autre sélection.
-        </p>
-        <button>Valider la suppression</button>
-        <button (click)="masque()">Annuler</button>
+        <h3>{{ l.t['NOTICE_DEL'] }}</h3>
+        <div [innerHTML]="l.t['NOTICE_DEL_DESCR']"></div>
+        <button>{{ l.t['NOTICE_DEL_VALIDE'] }}</button>
+        <button (click)="masque()">{{ l.t['ANNULE'] }}</button>
     </article>
 </section>
 
 <section class="pop-up" *ngIf="delete && tokenServ.statut >=2">
     <article>
-        <h2>Etes-vous sûr.e ?</h2>
+        <h2>{{ l.t['SUR'] }}</h2>
         <p>
-            <mat-icon matTooltip="Annuler la destruction" (click)="delete = false" class="grand">cancel</mat-icon>
-            <mat-icon matTooltip="Valider la destruction" (click)="colServ.supprCollec(colServ.collection._id);delete = false" class="grand">check_circle</mat-icon>
+            <mat-icon [matTooltip]="l.t['ANNULE_DEL']" (click)="delete = false" class="grand">cancel</mat-icon>
+            <mat-icon [matTooltip]="l.t['VALIDE_DEL']" (click)="colServ.supprCollec(colServ.collection._id);delete = false" class="grand">check_circle</mat-icon>
         </p>
     </article>
 </section>

@@ -1,38 +1,25 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CollectionCloudI, NoticeCloudI } from '../modeles/Types';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CloudEditService {
 
-  setters: any = {};
-  api:string;
+  api:string; // API to call for read / write
 
   constructor(private http: HttpClient) { }
-  cloudCollection() {
-    console.log();
-  }
-  /** Send notices to databases */
-  setBatchNotices() {
 
-  }
   /** Update a collection */
-  postCollection(up: CollectionCloudI) {
-    this.http.post(this.api + '/collections/edti', up).subscribe({
-      next: (resp: any) => {
-        // this.setScannedData(dir, resp);
-        console.log('Next', resp);
-      },
-      error: (e) => console.error(e),
-      complete: () => console.info('complete')
-    });
+  addCollection(add: CollectionCloudI):Observable<any> {
+    return this.http.post(this.api + '/collections/edit', add);
   }
   /** Add a collection */
-  addCollection(add: CollectionCloudI) {
+  updateCollection(up: CollectionCloudI):Observable<any> {
     // console.log(add);
-    return this.http.put(this.api + '/collections/edit', add);
+    return this.http.put(this.api + '/collections/edit', up);
   }
   /** Deleting a collection */
   deleteCollection(del:string) {

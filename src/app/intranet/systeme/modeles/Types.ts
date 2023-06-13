@@ -15,6 +15,7 @@ export interface CollectionCloudI {
     notices:any; // Set<string> puis Array<string>
     series:any; // Set<string> puis Array<string>
     selected?:boolean;
+    online:boolean;
 }
 export interface NoticeCloudI {
   idnotices?:any;
@@ -36,4 +37,5 @@ export class CollectionCloud implements CollectionCloudI{
     language = new Set() as Set<string>;
     notices = new Set() as Set<string>;
     series = new Set() as Set<string>;
+    online:false;
 }

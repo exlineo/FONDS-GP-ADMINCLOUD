@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { TokenService } from 'src/app/extranet/systeme/services/token.service';
 import { CollectionCloudI } from '../systeme/modeles/Types';
 import { CloudGetService } from '../systeme/services/cloud-get.service';
+import { NotificationService } from '../../extranet/systeme/services/notification.service';
 
 @Component({
 	selector: 'app-collection',
@@ -23,11 +24,12 @@ export class CollectionComponent implements OnInit {
 	maj: boolean = false; // Mettre à jouer les données
 	cree: boolean = false;
 
-	constructor(public get:CloudGetService, public tokenServ:TokenService) { }
+	constructor(
+    public get:CloudGetService,
+    public tokenServ:TokenService,
+    public l:NotificationService) { }
 
-	ngOnInit() {
-
-	}
+	ngOnInit() {}
 	/**
 	 * Clic sur une collection
 	 */
@@ -44,11 +46,26 @@ export class CollectionComponent implements OnInit {
 	 * Méthode utilisée pour la mise à jour ou l'écriture d'une nouvelle collection
 	 */
 	ecrire() {
-		// if (this.get.collection.id) {
-		// 	this.get.majCollection();
+    console.log(this.get.collection);
+		// if (this.get.collection.idcollections) {
+		// 	this.get.set.updateCollection(this.get.collection.idcollections).subscribe({
+    //     next: (resp: any) => {
+    //       // this.setScannedData(dir, resp);
+    //       console.log('Next', resp);
+    //     },
+    //     error: (e) => console.error(e),
+    //     complete: () => console.info('complete')
+    //   });
 		// } else {
 		// 	// this.colServ.ajouteCollection();
-		// 	this.get.ajouteNoticeAvantCollection()
+		// 	this.get.set.addCollection(this.get.collection.idcollections).subscribe({
+    //     next: (resp: any) => {
+    //       // this.setScannedData(dir, resp);
+    //       console.log('Next', resp);
+    //     },
+    //     error: (e) => console.error(e),
+    //     complete: () => console.info('complete')
+    //   });;
 		// }
 	}
 	/**

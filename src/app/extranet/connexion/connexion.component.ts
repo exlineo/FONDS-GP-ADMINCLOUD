@@ -1,7 +1,7 @@
 // Angular Library
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+// import { Router } from '@angular/router';
+// import { FormGroup, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 
 // Service
 import { AuthService } from "src/app/extranet/systeme/services/auth.service";
@@ -21,13 +21,15 @@ export class ConnexionComponent implements OnInit {
 	con:UserModel=<UserModel>{};
 
 	constructor(
-		private router: Router,
+		// private router: Router,
 		public authService: AuthService,
-		private notService: NotificationService,
+		public l: NotificationService,
 		public dialog: MatDialog
 	) { }
 
-	ngOnInit() {}
+	ngOnInit() {
+    this.l.getLangue(this.l.langage);
+  }
 
 	/**
 	 * @method authentifier() - Envois une requête de connexion via authService

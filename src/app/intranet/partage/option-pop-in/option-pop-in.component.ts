@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
-import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { NotificationService } from "src/app/intranet/systeme/services/notification.service";
+import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { NotificationService } from '../../../extranet/systeme/services/notification.service';
 import { MediaService } from "src/app/intranet/systeme/services/media.service";
 import { MediaModel } from "src/app/intranet/systeme/modeles/media.modele";
 
@@ -22,7 +22,7 @@ export class OptionPopInComponent {
 		this.bottomSheetRef.dismiss();
 		event.preventDefault();
 
-		//this.notificationService.openSnackBar('Le media n°' + this.data.idMediaSelected +' à été séléctionner', 'event'); 
+		//this.notificationService.openSnackBar('Le media n°' + this.data.idMediaSelected +' à été séléctionner', 'event');
 	}
 
 	/**

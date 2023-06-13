@@ -9,12 +9,13 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
     exports: [
         MatTableModule,
         MatExpansionModule,
-
+        MatCheckboxModule,
         MatChipsModule,
         MatDialogModule,
         MatIconModule,

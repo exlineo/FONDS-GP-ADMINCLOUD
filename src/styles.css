@@ -5,8 +5,8 @@
   --b: rgb(255, 255, 255);
   --s: rgba(163, 198, 194, 1);
   --g: rgba(101, 105, 115, 1);
-  --v: rgba(255, 214, 0, 1);
-  --b: rgba(19, 199, 175, 1);
+  --j: rgba(255, 214, 0, 1);
+  --bl: rgba(19, 199, 175, 1);
   --v: rgba(65, 171, 107, 1);
   --r: rgba(240, 96, 96, 1);
   --o: rgba(235, 151, 78, 1);
@@ -28,7 +28,7 @@ body {
 
 * {
   font-size: 15px;
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Raleway', sans-serif !important;
   box-sizing: border-box;
 }
 
@@ -43,15 +43,18 @@ h1 {
   font-size: 26px;
   margin-top: 0;
   margin-bottom: 10px;
+  line-height: auto;
 }
 
 h2 {
-  font-size: 21px;
-  margin-bottom: 5px;
+  font-size: 21px !important;
+  margin-bottom: 5px !important;
+  line-height: normal !important;
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 18px !important;
+  font-weight: 700 !important;
 }
 
 h4 {
@@ -82,7 +85,9 @@ footer {
   display: flex;
 }
 
-
+li{
+  list-style-type: circle;
+}
 /*
 ////////////////
     interface
@@ -442,7 +447,7 @@ mat-form-field {
   overflow: hidden;
   width: 33.33%;
   align-items: stretch;
-  color: var(--clair);
+  color: var(--b);
   min-height: 250px;
   cursor: pointer;
   box-sizing: border-box;
@@ -537,7 +542,22 @@ mat-form-field {
   flex-flow: row nowrap;
   justify-self: end;
 }
-
+/* SERIES INSIDE COLLECTIONS */
+.series {
+  display:flex;
+  flex-flow: row wrap;
+  margin-left:0;
+}
+.series > li {
+  list-style: none;
+  background-color: var(--j);
+  color: var(--fonce);
+  border-radius: 5%;
+  width: max-content;
+  transition: all .3s ease;
+  padding: 4px 8px;
+  margin: 5px;
+}
 @media (max-width: 1240px) {
   .notice {
     width: 50%;
@@ -621,7 +641,9 @@ mat-spinner {
   max-height: 100px;
   max-width: 100px;
 }
-
+.cdk-describedby-message-container > div{
+  background-color: rgba(0,0,0,.7);
+}
 .apparait {
   display: flex;
 }
