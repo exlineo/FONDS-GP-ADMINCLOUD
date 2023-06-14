@@ -47,26 +47,26 @@ export class CollectionComponent implements OnInit {
 	 */
 	ecrire() {
     console.log(this.get.collection);
-		// if (this.get.collection.idcollections) {
-		// 	this.get.set.updateCollection(this.get.collection.idcollections).subscribe({
-    //     next: (resp: any) => {
-    //       // this.setScannedData(dir, resp);
-    //       console.log('Next', resp);
-    //     },
-    //     error: (e) => console.error(e),
-    //     complete: () => console.info('complete')
-    //   });
-		// } else {
-		// 	// this.colServ.ajouteCollection();
-		// 	this.get.set.addCollection(this.get.collection.idcollections).subscribe({
-    //     next: (resp: any) => {
-    //       // this.setScannedData(dir, resp);
-    //       console.log('Next', resp);
-    //     },
-    //     error: (e) => console.error(e),
-    //     complete: () => console.info('complete')
-    //   });;
-		// }
+		if (this.get.collection.idcollections) {
+			this.get.set.updateCollection(this.get.collection).subscribe({
+        next: (resp: any) => {
+          // this.setScannedData(dir, resp);
+          console.log('Next', resp);
+        },
+        error: (e) => console.error(e),
+        complete: () => console.info('complete')
+      });
+		} else {
+			// this.colServ.ajouteCollection();
+			this.get.set.addCollection(this.get.collection).subscribe({
+        next: (resp: any) => {
+          // this.setScannedData(dir, resp);
+          console.log('Next', resp);
+        },
+        error: (e) => console.error(e),
+        complete: () => console.info('complete')
+      });;
+		}
 	}
 	/**
 	 * Mapper des données reçues pour faire une collection

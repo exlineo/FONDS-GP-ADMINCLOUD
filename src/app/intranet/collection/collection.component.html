@@ -12,16 +12,18 @@
         <section>
             <form #f="ngForm">
                 <article>
+                  <div>
+                    <input type="checkbox" [(ngModel)]="get.collection.draft" [checked]="get.collection.draft"><label> {{ l.t['PUBLIE_STATUT'] }}
+                      (<span *ngIf="get.collection.draft">{{ l.t['DEPUBLIE'] }}</span><span *ngIf="!get.collection.draft">{{ l.t['PUBLIE'] }}</span>)
+                    </label>
+                  </div>
+
                     <label for="titre">{{ l.t['TITRE'] }}</label>
                     <input name="titre" [(ngModel)]="get.collection.title" required>
 
                     <label for="alias">{{ l.t['ALIAS'] }}</label>
                     <input name="alias" [(ngModel)]="get.collection.alias" required pattern="[a-z0-9-]+">
-                    <div>
-                      <input type="checkbox" [(ngModel)]="get.collection.online"><label> {{ l.t['TITRE'] }}
-                        (<span *ngIf="get.collection.online">{{ l.t['PUBLIE'] }}</span><span *ngIf="!get.collection.online">{{ l.t['DEPUBLIE'] }}</span>)
-                      </label>
-                    </div>
+
 
                     <label for="description">{{ l.t['DESCR'] }}</label>
                     <textarea mat-input name="description" [(ngModel)]="get.collection.description" required>
@@ -40,7 +42,7 @@
                     <input name="fonds" [(ngModel)]="get.collection.funds">
 
                     <label for="lang">{{ l.t['LANGUE'] }}</label>
-                    <input name="lang" [(ngModel)]="get.collection.language">
+                    <input name="lang" [(ngModel)]="get.collection.languages">
 
                 </article>
             </form>

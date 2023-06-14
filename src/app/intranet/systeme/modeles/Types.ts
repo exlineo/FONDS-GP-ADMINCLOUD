@@ -9,13 +9,13 @@ export interface CollectionCloudI {
     typecollection: string;
     creator: string;
     funds?:string;
-    language?:any; // Set<string> puis Array<string>
+    languages?:any; // Set<string> puis Array<string>
     timecode?:string | number;
     publisher?:string;
     notices:any; // Set<string> puis Array<string>
     series:any; // Set<string> puis Array<string>
     selected?:boolean;
-    online:boolean;
+    draft:boolean;
 }
 export interface NoticeCloudI {
   idnotices?:any;
@@ -37,5 +37,5 @@ export class CollectionCloud implements CollectionCloudI{
     language = new Set() as Set<string>;
     notices = new Set() as Set<string>;
     series = new Set() as Set<string>;
-    online:false;
+    draft:true;
 }

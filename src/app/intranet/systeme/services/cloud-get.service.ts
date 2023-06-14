@@ -161,7 +161,7 @@ export class CloudGetService {
     if (!this.scannedCollection.timecode) this.scannedCollection.timecode = Date.now();
     if (this.scannedCollection.description.length == 0 && n.nema.collection_infos) this.scannedCollection.description = n.nema.collection_infos;
     if (!this.scannedCollection.funds && n.nema.collection_funds) this.scannedCollection.funds = n.nema.collection_funds;
-    if (!n.dc.language) this.scannedCollection.language.add(n.dc.language);
+    if (!n.dc.language) this.scannedCollection.languages.add(n.dc.language);
     if (!this.scannedCollection.publisher && (n.nema.publisher || n.nema.who_scans)) this.scannedCollection.publisher = n.nema.publisher ? n.nema.publisher : n.nema.who_scans;
     if (n.dc.format && (n.dc.format.indexOf('video') != -1 || n.dc.format.indexOf('audio') != -1)) this.scannedCollection.typecollection = 'multimedia';
   };
@@ -187,7 +187,7 @@ export class CloudGetService {
   sendCloudCollection(){
     this.scannedCollection.series = [...this.scannedCollection.series];
     this.scannedCollection.notices = [...this.scannedCollection.notices];
-    this.scannedCollection.language = [...this.scannedCollection.language];
+    this.scannedCollection.languages = [...this.scannedCollection.languages];
     this.scannedCollection.idcollections = this.fakeId;
     this.set.addCollection(this.scannedCollection).subscribe({
       next: (resp: any) => {

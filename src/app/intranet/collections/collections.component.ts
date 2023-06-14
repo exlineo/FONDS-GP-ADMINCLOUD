@@ -62,8 +62,8 @@ export class CollectionsComponent implements OnInit {
 	masque(){
 		this.detailsCollec = false;
 		this.afficheEnlever = false;
-		this.idNotice = null;
-		this.idCollection = null;
+		// this.idNotice = null;
+		// this.idCollection = null;
 	}
   /** Gérer les paginations */
   suite(sens:boolean){
