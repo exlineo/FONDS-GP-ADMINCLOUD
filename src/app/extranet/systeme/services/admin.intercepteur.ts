@@ -3,7 +3,6 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs';
 import { catchError } from "rxjs/operators";
 import { TokenService } from './token.service';
-import { NotificationService } from './notification.service';
 
 @Injectable()
 export class AdminIntercepteur implements HttpInterceptor {
@@ -12,7 +11,7 @@ export class AdminIntercepteur implements HttpInterceptor {
    * Interepteur qui ajouter un token d'identification à chaque requête HTTP sortante
    * L'intercepteur clone un requête, transforme la requête clonée et l'envoie
    */
-  constructor(public tokenServ: TokenService, private notif: NotificationService) { }
+  constructor(public tokenServ: TokenService) { }
   /**
    * Récupérer les requêtes, les cloner et ajouter l'authentification si elle existe
    * @param req La requête interceptée
@@ -30,7 +29,6 @@ export class AdminIntercepteur implements HttpInterceptor {
           })) as any;
     }else{
       console.log("Vos droits ne permettent pas de faire cette opération");
-      this.notif.openSnackBar("Vos droits ne permettent pas de faire cette opération, veuillez contacter votre administrateur.", "Alerte");
       return new Observable();
     }
   }

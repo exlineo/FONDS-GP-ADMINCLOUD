@@ -1,0 +1,49 @@
+<section class="screen double">
+  <!-- <aside class="left-panel" [@openCloseLeftPanel]="leftPanelIsOpen ? 'open' : 'closed' "> -->
+  <aside class="left-panel">
+      <header>
+          <h1>{{ l.t['COLLECTION'] }}</h1>
+          <!-- <mat-icon matTooltip="Ajouter une collection" (click)="detailsCollec = true; prefix = null">playlist_add</mat-icon> -->
+          <mat-icon [matTooltip]="l.t['PREFIX_ADD']" routerLink="/intranet/scan">playlist_add</mat-icon>
+      </header>
+      <ul>
+          <li *ngFor="let prefix of get.prefixs; let i=index" (click)="prefClick(i) ">
+              {{ prefix.title }}
+          </li>
+      </ul>
+  </aside>
+  <section>
+      <header>
+          <div *ngIf="prefix">
+              <mat-icon [matTooltip]="l.t['PREFIX_DEL']" (click)="delete = true">delete</mat-icon>
+              <mat-icon [matTooltip]="l.t['PREFIX_EDIT']" (click)="detailsCollec = true">edit</mat-icon>
+          </div>
+          <h2>{{ l.t['PREFIXS'] }}</h2>
+      </header>
+      <article *ngIf="prefix">
+        <h3>{{ prefix.title }}</h3>
+          <ul>
+            <li>Id : {{ prefix.id }}</li>
+            <li>Id : {{ prefix.prefix }}</li>
+            <li>{{ l.t['SCHEMA'] }} :
+              <ul *ngFor="let s of prefix.schema">
+                <li>
+                  {{ s }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+      </article>
+  </section>
+</section>
+
+<!-- VALIDATE THE PREFIX DELETATION -->
+<section class="pop-up" *ngIf="delete && tokenServ.statut >=2">
+  <article>
+      <h2>{{ l.t['SUR'] }}</h2>
+      <p>
+          <mat-icon [matTooltip]="l.t['ANNULE_DEL']" (click)="delete = false" class="grand">cancel</mat-icon>
+          <mat-icon [matTooltip]="l.t['VALIDE_DEL']" (click)="colServ.supprCollec(colServ.collection._id);delete = false" class="grand">check_circle</mat-icon>
+      </p>
+  </article>
+</section>

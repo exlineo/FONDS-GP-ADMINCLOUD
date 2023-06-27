@@ -11,21 +11,18 @@ export class ParamsService {
   DIR:string;
 
   constructor(private http:HttpClient) {
-    this.SERV = 'http://vps550598.ovh.net:8080/';
-    this.DIR = 'collections/';
   }
   /**
    * Modifier les valeurs d'environnement par défaut
    */
   setEnv(){
-    this.http.get('assets/serveur/params.json').subscribe(
-      p => {
-        // environment.SERV = p['SERV'];
-        // environment.DIR = p['DIR'];
-      },
-      e => {
+    this.http.get('assets/serveur/params.json').subscribe({
+      next:p => {},
+      error:e => {
         console.log("Erreur dans le chargement du fichier", e);
-      }
+      },
+      complete:() => console.log('Paramètres chargés')
+    }
     )
 
   }

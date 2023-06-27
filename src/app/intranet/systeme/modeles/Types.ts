@@ -1,5 +1,5 @@
 import { NemaSerieModel } from "./documents-model";
-
+/** Describe Collections */
 export interface CollectionCloudI {
     idcollections?: any;
     title: string;
@@ -17,6 +17,7 @@ export interface CollectionCloudI {
     selected?:boolean;
     draft:boolean;
 }
+/** Describe notices */
 export interface NoticeCloudI {
   idnotices?:any;
   date?:any;
@@ -26,6 +27,14 @@ export interface NoticeCloudI {
   media?:any;
   selected?:boolean;
 }
+/** Describe schemas from prefixs */
+export class PrefixCloudI {
+  id:string;
+  prefix:string;
+  schema:Array<string>;
+  title:string;
+}
+/** Instatiante new Collection */
 export class CollectionCloud implements CollectionCloudI{
   idcollections = '';
     title = '';

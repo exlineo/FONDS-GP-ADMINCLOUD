@@ -45,3 +45,14 @@ export class MediaUrlPipe implements PipeTransform {
 		return s3 + notice.nema.set_name + '/' + notice.idnotices;
 	}
 }
+/* Return object if not string */
+@Pipe({
+	name: 'isString'
+})
+export class IsStringPipe implements PipeTransform {
+  // constructor(private get:CloudGetService){}
+	public transform(val:any) {
+    if(!val) return;
+    console.log(val.filter( s => typeof s !== 'string'));
+	}
+}

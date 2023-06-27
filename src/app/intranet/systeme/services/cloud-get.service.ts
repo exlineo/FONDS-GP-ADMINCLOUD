@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-// import { environment } from 'src/environments/environment';
-// import { CloudConfigI } from '../modeles/ModelesI';
-import { CollectionCloud, CollectionCloudI, NoticeCloudI } from '../modeles/Types';
+import { CollectionCloud, CollectionCloudI, NoticeCloudI, PrefixCloudI } from '../modeles/Types';
 import { CloudEditService } from './cloud-edit.service';
+import { CloudConfigI } from '../modeles/ModelesI';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class CloudGetService {
 
   config: {s3:string, schemas:any} = {s3:'', schemas:{}};
   api:string;
-  schemas: any;
+  prefixs: Array<PrefixCloudI> = []; // List of prefixes loaded fron configuration
   // Collections
   collections: Array<CollectionCloudI> = [];
   collection: CollectionCloudI = new CollectionCloud();
@@ -49,6 +48,11 @@ export class CloudGetService {
           console.log(p, p.idconfigurations);
           p.idconfigurations == "s3" ? this.config.s3 = p.url : this.config.schemas = p;
         });
+        // Get list of prefixes from the configuration
+        for(let s in this.config.schemas){
+          console.log(this.config.schemas[s], typeof this.config.schemas[s]);
+          if(typeof this.config.schemas[s] !== 'string') this.prefixs.push(this.config.schemas[s])};
+        console.log(this.prefixs);
         console.log(this.config);
       });
       this.getCollections();
@@ -56,15 +60,23 @@ export class CloudGetService {
   }
   /** Get the list of available collections */
   getCollections() {
-    this.http.get<Array<CollectionCloudI>>(this.api + '/collections').subscribe(collecs => {
-      this.collections = collecs;
-    });
+    this.http.get<Array<CollectionCloudI>>(this.api + '/collections').subscribe(
+      {
+        next:collecs => { this.collections = collecs;},
+        error: er => console.log(er),
+        complete:() => console.log("Collections chargées")
+      }
+      );
   };
   /** Get list of notices from a collection */
   getNoticesByCollec(ids: Set<any>) {
-    this.http.post(this.api+ '/notices', ids).subscribe((resp: any) => {
-      this.notices = resp;
-    });
+    this.http.post(this.api+ '/notices', ids).subscribe(
+      {
+        next:(resp: any) => { this.notices = resp;},
+        error: er => console.log(er),
+        complete:() => console.log("Notices de la collection chargées")
+      }
+      );
   }
   /** Get list of folders in S3 */
   getFolders() {

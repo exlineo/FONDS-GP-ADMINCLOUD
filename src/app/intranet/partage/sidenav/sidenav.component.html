@@ -11,28 +11,34 @@
     <ul>
         <hr>
         <!-- <li>
-            <a routerLinkActive="active" routerLink="/intranet" matTooltip="Retourner à l'accueil">
+            <a routerLinkActive="active" routerLink="/intranet" [matTooltip]="l.t['MENU_ACCUEIL_DESCR']">
                 <mat-icon>dashboard</mat-icon>
             </a>
         </li> -->
         <li>
-            <a routerLinkActive="active" routerLink="/intranet/collections" matTooltip="Accéder aux collections">
+            <a routerLinkActive="active" routerLink="/intranet/collections" [matTooltip]="l.t['MENU_COLLECTIONS_DESCR']">
                 <mat-icon>collections</mat-icon>
             </a>
         </li>
         <!-- <li>
-            <a routerLinkActive="active" routerLink="/intranet/notices" matTooltip="Accéder aux notices">
+            <a routerLinkActive="active" routerLink="/intranet/notices" [matTooltip]="l.t['MENU_NOTICES_DESCR']">
                 <mat-icon>burst_mode</mat-icon>
             </a>
         </li> -->
         <hr>
         <li>
-            <a routerLinkActive="active" routerLink="/intranet/scan" matTooltip="Scanner les dossiers pour constituer des collections">
+            <a routerLinkActive="active" routerLink="/intranet/scan" [matTooltip]="l.t['MENU_SCAN_DESCR']">
                 <mat-icon>scanner</mat-icon>
             </a>
         </li>
+        <hr>
+        <li>
+          <a routerLinkActive="active" routerLink="/intranet/prefixs" [matTooltip]="l.t['MENU_PREFIXES_DESCR']">
+              <mat-icon>perm_data_setting</mat-icon>
+          </a>
+      </li>
         <!-- <li>
-            <a routerLinkActive="active" routerLink="/intranet/sets" matTooltip="Liste des SETS et fonds">
+            <a routerLinkActive="active" routerLink="/intranet/prefixes" [matTooltip]="l.t['MENU_PREFIXES_DESCR']">
                 <mat-icon>all_inbox</mat-icon>
             </a>
         </li>

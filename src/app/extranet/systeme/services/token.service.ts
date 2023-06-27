@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class TokenService {
 
   token:string;
-  statut:string | number = 0;
-  
+  statut:number = 0;
+
   constructor() { }
 }

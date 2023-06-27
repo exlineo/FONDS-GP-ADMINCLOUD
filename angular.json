@@ -56,6 +56,14 @@
                   "maximumWarning": "6kb"
                 }
               ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           }
         },
@@ -67,8 +75,12 @@
           "configurations": {
             "production": {
               "browserTarget": "fonds-gp-admincloud:build:production"
+            },
+            "development": {
+              "browserTarget": "fonds-gp-admincloud:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

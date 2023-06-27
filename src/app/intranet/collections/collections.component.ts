@@ -26,13 +26,13 @@ export class CollectionsComponent implements OnInit {
 	/**
    *
    * @param tokenServ Security token service
-   * @param cloud Calling data from Cloud
+   * @param get Calling data from Cloud
    * @param utils Some shared code
    * @param l Access to notifications and language service
    */
   constructor(
     public tokenServ:TokenService,
-    public cloud:CloudGetService,
+    public get:CloudGetService,
     public utils:UtilsService,
     public l:NotificationService) { }
 
@@ -44,8 +44,8 @@ export class CollectionsComponent implements OnInit {
 	colClick(id): void {
     console.log("Collection cliquée", id);
 		this.idCollection = id;
-    this.cloud.collection = this.cloud.collections.find(c => c.idcollections = id);
-    this.cloud.getNoticesByCollec(this.cloud.collection.notices);
+    this.get.collection = this.get.collections.find(c => c.idcollections = id);
+    this.get.getNoticesByCollec(this.get.collection.notices);
 	}
 	/**
 	 *
@@ -67,22 +67,22 @@ export class CollectionsComponent implements OnInit {
 	}
   /** Gérer les paginations */
   suite(sens:boolean){
-    console.log(this.pagine, this.cloud.notices.length);
+    console.log(this.pagine, this.get.notices.length);
     if(sens){
       // on avance
-      if(this.pagine.d + this.pagine.e < this.cloud.notices.length-1){
+      if(this.pagine.d + this.pagine.e < this.get.notices.length-1){
         this.pagine.d += this.pagine.e;
       }else{
-        this.pagine.d = this.pagine.d + this.pagine.e - this.cloud.notices.length-1;
+        this.pagine.d = this.pagine.d + this.pagine.e - this.get.notices.length-1;
       }
     }else{
       // On recule
       if(this.pagine.d - this.pagine.e < 0){
-        this.pagine.d = this.cloud.notices.length-1 + this.pagine.d - this.pagine.e;
+        this.pagine.d = this.get.notices.length-1 + this.pagine.d - this.pagine.e;
       }else{
         this.pagine.d -= this.pagine.e;
       }
     }
-    console.log(this.pagine, this.cloud.notices.length);
+    console.log(this.pagine, this.get.notices.length);
   }
 }

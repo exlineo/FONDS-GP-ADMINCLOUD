@@ -1,11 +1,6 @@
-section.screen section {
-    padding: 10px 15px;
-}
-
 section.screen section header>div {
     float: right;
 }
-
 
 section.screen>section {
     flex-grow: 3;

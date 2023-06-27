@@ -12,6 +12,7 @@ import { ParametresComponent } from './partage/parametres/parametres.component';
 import { ProfilComponent } from './partage/profil/profil.component';
 import { ScanComponent } from './scan/scan.component';
 import { CollectionComponent } from './collection/collection.component';
+import { PrefixsComponent } from './prefixs/prefixs.component';
 
 const routes: Routes = [
 	{
@@ -22,9 +23,10 @@ const routes: Routes = [
 			{ path: 'collections', component: CollectionsComponent },
 			{ path: 'collection:id', component: CollectionComponent },
       { path: 'scan', component:ScanComponent},
-			{ path: 'parametres', component:ParametresComponent},
+			{ path: 'prefixs', component:PrefixsComponent },
+			{ path: 'parameters', component:ParametresComponent},
 			{ path: 'profil', component:ProfilComponent},
-			{ path: 'aide', loadChildren: () => import('./aide/aide.module').then(m => m.AideModule)},
+			{ path: 'help', loadChildren: () => import('./aide/aide.module').then(m => m.AideModule)},
 		]
 	},
 ];

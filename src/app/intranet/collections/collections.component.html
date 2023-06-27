@@ -4,10 +4,10 @@
         <header>
             <h1>{{ l.t['COLLECTION'] }}</h1>
             <!-- <mat-icon matTooltip="Ajouter une collection" (click)="detailsCollec = true; idCollection = null">playlist_add</mat-icon> -->
-            <mat-icon matTooltip="Ajouter une collection" routerLink="/intranet/scan">playlist_add</mat-icon>
+            <mat-icon [matTooltip]="l.t['COLLECTION_ADD']" routerLink="/intranet/scan">playlist_add</mat-icon>
         </header>
         <ul>
-            <li *ngFor="let collection of cloud.collections; let i=index" (click)="colClick(collection.idcollections) ">
+            <li *ngFor="let collection of get.collections; let i=index" (click)="colClick(collection.idcollections) ">
                 {{collection.title}} ({{ collection.funds }})
             </li>
         </ul>
@@ -15,30 +15,30 @@
     <section>
         <header>
             <div *ngIf="idCollection">
-                <mat-icon matTooltip="Supprimer le SET" (click)="delete = true">delete</mat-icon>
-                <mat-icon matTooltip="Modifier la collection" (click)="detailsCollec = true">edit</mat-icon>
+                <mat-icon [matTooltip]="l.t['SET_DEL']" (click)="delete = true">delete</mat-icon>
+                <mat-icon [matTooltip]="l.t['COLLECTION_EDIT']" (click)="detailsCollec = true">edit</mat-icon>
             </div>
-            <h2>Informations sur la collection choisie</h2>
+            <h2>{{ l.t['COLLECTION_DESCR'] }}</h2>
         </header>
         <article *ngIf="idCollection">
-          <h3>{{ cloud.collection.title }} (<span *ngIf="cloud.collection.online">Publié</span><span *ngIf="!cloud.collection.online">Non publié</span>)</h3>
-          <!-- <div><input type="checkbox" [(ngModel)]="cloud.collection.online">
+          <h3>{{ get.collection.title }} (<span *ngIf="get.collection.online">{{ l.t['PUBLIE'] }}</span><span *ngIf="!get.collection.online">{{ l.t['DEPUBLIE'] }}</span>)</h3>
+          <!-- <div><input type="checkbox" [(ngModel)]="get.collection.online">
             Statut de publication
-            (<span *ngIf="cloud.collection.online">Publié</span><span *ngIf="!cloud.collection.online">Non publié</span>)
+            (<span *ngIf="get.collection.online">Publié</span><span *ngIf="!get.collection.online">Non publié</span>)
           </div> -->
             <ul>
-                <div *ngFor="let n of cloud.collection | keyvalue">
+                <div *ngFor="let n of get.collection | keyvalue">
                     <li *ngIf="n.key!='notices' && n.key!='series' && n.key!='online'">
                         <strong>{{ n.key }}</strong> : {{ n.value }}
                     </li>
                 </div>
             </ul>
         </article>
-        <article *ngIf="cloud.collection.series && idCollection">
+        <article *ngIf="get.collection.series && idCollection">
             <!-- <mat-icon matTooltip="Ajouter une série à la collection">playlist_add</mat-icon> -->
             <h3>{{ l.t['COLLECTION_SERIES'] }}</h3>
             <ul class="series">
-                <li *ngFor="let serie of cloud.collection.series; let i=index">
+                <li *ngFor="let serie of get.collection.series; let i=index">
                     {{ serie }}
                 </li>
             </ul>
@@ -47,19 +47,19 @@
     <aside>
         <section class="selection">
             <ul class="notice-liste" *ngIf="idCollection">
-                <li *ngFor="let n of cloud.notices | slice:pagine.d:pagine.d+pagine.e; let i=index" class="notice">
-                    <div [style.backgroundImage]="utils.setNoticeBg(cloud.config.s3, n)">
+                <li *ngFor="let n of get.notices | slice:pagine.d:pagine.d+pagine.e; let i=index" class="notice">
+                    <div [style.backgroundImage]="utils.setNoticeBg(get.config.s3, n)">
                         <video *ngIf="n.dc['format'] && n.dc['format'].indexOf('video')!=-1" [poster]="n.dc['coverage']">
                             <source [src]="n.media.url" [type]="n.dc['format']">
                         </video>
                         <audio *ngIf="n.dc['format'] && n.dc['format'].indexOf('audio')!=-1">
-                            <source [src]="utils.setNoticeUrl(cloud.config.s3, n)" [type]="n.dc['format']">
+                            <source [src]="utils.setNoticeUrl(get.config.s3, n)" [type]="n.dc['format']">
                             </audio>
                         <div (mouseenter)="utils.play($event)" (mouseleave)="utils.pause($event)">
                             <div>
-                                <mat-icon (click)="idNotice = n.idnotices" matTooltip="Voir la fiche de la notice">
+                                <mat-icon (click)="idNotice = n.idnotices" [matTooltip]="l.t['NOTICE_SHOW']">
                                     visibility</mat-icon>
-                                <mat-icon (click)="noticeOnEnlever(n._id)" matTooltip="Enlever cette notice de la collection">remove_circle</mat-icon>
+                                <mat-icon (click)="noticeOnEnlever(n._id)" [matTooltip]="l.t['NOTICE_DEL']">remove_circle</mat-icon>
                             </div>
                         </div>
                     </div>

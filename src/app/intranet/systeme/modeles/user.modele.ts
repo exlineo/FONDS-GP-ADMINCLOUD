@@ -1,4 +1,4 @@
-export interface UserModel {
+export interface UserModelI {
     _id: number;
     type: string;
     nom: string;
@@ -7,4 +7,4 @@ export interface UserModel {
     pass: string;
     created?: number;
     updated?: number;
-} 
+}

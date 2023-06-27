@@ -59,8 +59,7 @@ export class AuthIntercepteur implements HttpInterceptor {
         catchError((erreur) => {
           console.log("Une erreur s'est produite");
           console.log(erreur); // Récupérer les erreurs et les affichers
-          // return Observable.throw(erreur); // Renvoyer l'erreur
-          return throwError(erreur)
+          return erreur
         })) as any;
   }
 

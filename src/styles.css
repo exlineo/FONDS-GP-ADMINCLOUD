@@ -140,6 +140,10 @@ section.screen>aside {
   display: block;
 }
 
+section.screen section {
+  padding: 10px 15px;
+}
+
 section.double>section {
   width: 70vw;
 }

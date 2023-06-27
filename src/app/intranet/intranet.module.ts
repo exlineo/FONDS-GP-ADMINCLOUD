@@ -28,35 +28,37 @@ import { CloudGetService } from './systeme/services/cloud-get.service';
 import { CloudEditService } from './systeme/services/cloud-edit.service';
 import { InterfaceComponent } from './partage/interface/interface.component';
 import { ScanComponent } from './scan/scan.component';
+import { PrefixsComponent } from './prefixs/prefixs.component';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		IntranetRoutingModule,
-		MaterialModule,
-		FormsModule,
-		ReactiveFormsModule
-	],
-	providers: [
-		UtilsService,
-		NotificationService,
+  imports: [
+    CommonModule,
+    IntranetRoutingModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [
+    UtilsService,
+    NotificationService,
     CloudGetService,
     CloudEditService
-	],
-	declarations: [
-		SidenavComponent,
+  ],
+  declarations: [
+    SidenavComponent,
     InterfaceComponent,
-		OptionPopInComponent,
-		NoticeComponent,
-		CollectionComponent,
-		NoticesComponent,
-		CollectionsComponent,
-		FiltrePipe,
-		FiltreNoticesPipe,
+    OptionPopInComponent,
+    NoticeComponent,
+    CollectionComponent,
+    NoticesComponent,
+    CollectionsComponent,
+    FiltrePipe,
+    FiltreNoticesPipe,
     MediaUrlPipe,
-		ParametresComponent,
-		ProfilComponent,
-  ScanComponent
-	]
+    ParametresComponent,
+    ProfilComponent,
+    ScanComponent,
+    PrefixsComponent
+  ]
 })
 export class IntranetModule { }

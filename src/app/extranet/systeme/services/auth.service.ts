@@ -29,24 +29,24 @@ export class AuthService {
    * @method authUser() - Authentifie un user en fct. d'un email et d'un mdp
    */
   authUser(u: UserModel): void {
-    this.http.get(environment.SERV + 'comptes/' + u.compte + '/' + u.mdp).subscribe(
-      retour => {
-        if (retour['status'] == '401' || !retour['compte']) {
-          this.tokenServ.token = null;
-          console.log("Echec de la connexion");
-        } else {
-          this.tokenServ.token = retour['token'];
-          this.userAuth = retour['compte'];
-          if (this.userAuth.statut) this.tokenServ.statut = this.userAuth.statut;
-          console.log(this.tokenServ.statut);
-          this.connexion(null);
-          this.router.navigateByUrl('/intranet');
-          this.notService.openSnackBar('Bienvenue ' + u.email, 'connexion');
-        }
-      },
-      erreur => {
-        console.log(erreur);
-        this.notService.openSnackBar('Erreur dans les paramètres de connexion', 'Connexion');
+    this.http.get('assets/serveur/' + u.compte + '/' + u.mdp + '.json').subscribe(
+      {
+        next:retour => {
+          if (retour['status'] == '401' || !retour['compte']) {
+            this.tokenServ.token = null;
+            console.log("Echec de la connexion");
+          } else {
+            this.tokenServ.token = retour['token'];
+            this.userAuth = retour['compte'];
+            if (this.userAuth.statut) this.tokenServ.statut = this.userAuth.statut;
+            console.log(this.tokenServ.statut);
+            this.connexion(null);
+            this.router.navigateByUrl('/intranet');
+            this.notService.openSnackBar('Bienvenue ' + u.email, 'connexion');
+          }
+        },
+        error:(er) => console.log(er),
+        complete:() => console.log('Identification réussie')
       }
     )
   }
