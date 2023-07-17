@@ -143,7 +143,11 @@ section.screen>aside {
 section.screen section {
   padding: 10px 15px;
 }
-
+section.screen section header>div {
+  /* float: right; */
+  display:flex;
+  align-items: flex-end;
+}
 section.double>section {
   width: 70vw;
 }

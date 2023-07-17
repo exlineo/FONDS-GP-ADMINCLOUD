@@ -28,11 +28,17 @@ export interface NoticeCloudI {
   selected?:boolean;
 }
 /** Describe schemas from prefixs */
-export class PrefixCloudI {
+export interface PrefixCloudI {
   id:string;
   prefix:string;
   schema:Array<string>;
   title:string;
+}
+export class PRefixCloud implements PrefixCloudI {
+  id:'';
+  prefix:'';
+  schema:[];
+  title:'';
 }
 /** Instatiante new Collection */
 export class CollectionCloud implements CollectionCloudI{

@@ -1,7 +1,3 @@
-section.screen section header>div {
-    float: right;
-}
-
 section.screen>section {
     flex-grow: 3;
     min-width: 30%;

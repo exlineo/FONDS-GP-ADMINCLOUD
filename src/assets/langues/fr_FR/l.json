@@ -25,7 +25,7 @@
   "PREFIX_DEL":"Supprimer le préfixe",
   "PREFIX_EDIT_TITRE":"Edition des préfixes",
   "PREFIX_DESCR":"Données et schéma du préfixe",
-  "PREFIX_INFOS":"Créer des schémas attachés à des préfixes pour donner plus de fluidité à vos données. Les préfixes sont généralement reliés à des normes. Ils regroupent un ensemble de métadonnées.",
+  "PREFIX_INFOS":"Créer des schémas attachés à des préfixes pour donner plus de fluidité à vos données. Les préfixes sont généralement reliés à des normes. Ils regroupent un ensemble de métadonnées qui seront recherchées dans les médias que vous scannerez. Il est conseillé de ne les modifier qu'en dernier recours et en sachant véritablement ce que vous faites. Faites appel à un spécialiste si vous avez un doute.",
   "SUR":"Êtes-vous sûr ?",
   "ANNULE":"Annuler",
   "VALIDE":"Valider",
