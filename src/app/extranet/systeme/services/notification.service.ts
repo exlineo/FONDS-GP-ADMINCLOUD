@@ -22,7 +22,7 @@ export class NotificationService {
 			}
 		];
     console.log("initialisation du service de notifications");
-    this.getLangue(this.langage);
+    // this.getLangue(this.langage);
 	}
 
 	openSnackBar(message: string, action: string) {

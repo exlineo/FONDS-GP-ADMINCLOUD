@@ -44,8 +44,7 @@ import { AdminIntercepteur } from './extranet/systeme/services/admin.intercepteu
 		TokenService,
 		NotificationService,
 		{ provide: HTTP_INTERCEPTORS, useClass: AdminIntercepteur, multi: true },
-		// { provide: HTTP_INTERCEPTORS, useClass: AuthIntercepteur, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass:SecuriteIntercepteur, multi:true}],
+		{ provide: HTTP_INTERCEPTORS, useClass: SecuriteIntercepteur, multi: true}],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

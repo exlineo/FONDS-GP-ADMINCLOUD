@@ -47,7 +47,7 @@ export class CollectionComponent implements OnInit {
 	 */
 	ecrire() {
     console.log(this.get.collection);
-		if (this.get.collection.idcollections) {
+		if (this.get.collection.idcollection) {
 			this.get.set.updateCollection(this.get.collection).subscribe({
         next: (resp: any) => {
           // this.setScannedData(dir, resp);

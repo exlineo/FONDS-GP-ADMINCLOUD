@@ -1,7 +1,7 @@
 import { NemaSerieModel } from "./documents-model";
 /** Describe Collections */
 export interface CollectionCloudI {
-    idcollections?: any;
+    idcollection?: any;
     title: string;
     alias: string;
     setname:string;
@@ -19,7 +19,7 @@ export interface CollectionCloudI {
 }
 /** Describe notices */
 export interface NoticeCloudI {
-  idnotices?:any;
+  idnotice?:any;
   date?:any;
   prefix?:Array<string>;
   dc:any;
@@ -36,14 +36,14 @@ export class PrefixCloudI {
 }
 /** Instatiante new Collection */
 export class CollectionCloud implements CollectionCloudI{
-  idcollections = '';
+  idcollection = '';
     title = '';
     alias = '';
     setname = '';
     description = '';
     typecollection = 'images';
     creator = '';
-    language = new Set() as Set<string>;
+    languages = new Set() as Set<string>;
     notices = new Set() as Set<string>;
     series = new Set() as Set<string>;
     draft:true;

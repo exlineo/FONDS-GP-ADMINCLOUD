@@ -44,7 +44,7 @@ export class CollectionsComponent implements OnInit {
 	colClick(id): void {
     console.log("Collection cliquée", id);
 		this.idCollection = id;
-    this.get.collection = this.get.collections.find(c => c.idcollections = id);
+    this.get.collection = this.get.collections.find(c => c.idcollection = id);
     this.get.getNoticesByCollec(this.get.collection.notices);
 	}
 	/**

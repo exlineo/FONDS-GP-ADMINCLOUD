@@ -27,7 +27,7 @@
       <mat-expansion-panel *ngFor="let doc of get.scannedData; let i=index">
         <mat-expansion-panel-header>
           <mat-panel-title>{{ i + 1}}</mat-panel-title>
-          <mat-panel-description>{{ doc.idnotices }}</mat-panel-description>
+          <mat-panel-description>{{ doc.idnotice }}</mat-panel-description>
         </mat-expansion-panel-header>
         <ul *ngIf="doc.dc">
           <li *ngFor="let dc of doc.dc | keyvalue">{{ dc.key }} : {{ dc.value }}</li>
@@ -82,8 +82,8 @@
           </ul>
           <!-- <input name="seres" [(ngModel)]="get.scannedCollection.series" placeholder="Séparées par des virgules"> -->
           <div>
-            <input type="submit" value="Créer la collection" [disabled]="f.valid" *ngIf="!get.scannedCollection.idcollections">
-            <input type="submit" value="Mettre à jour la collection" [disabled]="f.valid" *ngIf="get.scannedCollection.idcollections">
+            <input type="submit" value="Créer la collection" [disabled]="f.valid" *ngIf="!get.scannedCollection.idcollection">
+            <input type="submit" value="Mettre à jour la collection" [disabled]="f.valid" *ngIf="get.scannedCollection.idcollection">
             <input type="reset" value="Annuler">
           </div>
         </form>

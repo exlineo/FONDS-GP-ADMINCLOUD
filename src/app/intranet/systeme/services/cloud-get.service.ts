@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CollectionCloud, CollectionCloudI, NoticeCloudI, PrefixCloudI } from '../modeles/Types';
 import { CloudEditService } from './cloud-edit.service';
-import { CloudConfigI } from '../modeles/ModelesI';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +44,8 @@ export class CloudGetService {
       this.set.api = this.api;
       this.http.get(this.api + '/config').subscribe( (params:any) => {
         params.forEach( p => {
-          console.log(p, p.idconfigurations);
-          p.idconfigurations == "s3" ? this.config.s3 = p.url : this.config.schemas = p;
+          console.log(p, p.idconfig);
+          p.idconfig == "s3" ? this.config.s3 = p.url : this.config.schemas = p;
         });
         // Get list of prefixes from the configuration
         for(let s in this.config.schemas){
@@ -62,7 +61,8 @@ export class CloudGetService {
   getCollections() {
     this.http.get<Array<CollectionCloudI>>(this.api + '/collections').subscribe(
       {
-        next:collecs => { this.collections = collecs;},
+        next:collecs => {
+          this.collections = collecs;},
         error: er => console.log(er),
         complete:() => console.log("Collections chargées")
       }
@@ -81,6 +81,7 @@ export class CloudGetService {
   /** Get list of folders in S3 */
   getFolders() {
     this.load = true;
+    this.scannedFolders = [];
     this.http.get(this.api+ '/xmp').subscribe(
       {
         next: (resp: any) => {
@@ -97,8 +98,9 @@ export class CloudGetService {
   /** Scan a folder and get data from XMP lambda */
   scanFolder(dir: string) {
     this.load = true;
-    this.http.post(this.api+ '/xmp', dir).subscribe({
+    this.http.post(this.api+ '/xmp', {body:dir}).subscribe({
       next: (resp: any) => {
+        console.log(resp);
         this.scannedCollection = new CollectionCloud();
         this.setScannedData(dir, resp);
       },
@@ -128,7 +130,7 @@ export class CloudGetService {
       }
       if (n.oai_media) notice.media = n.oai_media;
 
-      notice.idnotices = this.setIdNotices(dir, notice);
+      notice.idnotice = this.setIdNotices(dir, notice);
       // Generate notices from the scanned data
       this.setScannedCollection(notice);
     }
@@ -137,12 +139,9 @@ export class CloudGetService {
   /** Create ID for notices from the object's data */
   setIdNotices(dir: string, n: any) {
     // let rand = (Math.random() + 1).toString(36).substring(7)+ '_' + dir + '_';
-    let rand =  this.fakeId;
+    let rand = this.fakeId;
     // n.oai_nema ?? n.oai_nema.id, n.oai_dc ?? n.oai_dc.title
-    if (n.nema && n.nema.id) {
-      // rand += n.nema.id.toLowerCase();
-      rand += n.media.file.toLowerCase();
-    }
+    rand += n.media.file.toLowerCase();
     // if (n.oai_dc && n.oai_dc.title) {
     //   rand += n.oai_dc.title.replace(/\s/g, "-").toLowerCase();
     // };
@@ -164,7 +163,7 @@ export class CloudGetService {
       // series.forEach(s => this.scannedCollection.series.add(s.replace(/\s/g, '')));
     };
     // Add notices ids to collection list of notices
-    this.scannedCollection.notices.add(n.idnotices);
+    this.scannedCollection.notices.add(n.idnotice);
     // Add Data to collection
     if (this.scannedCollection.title.length == 0 && n.nema.collection_name) this.scannedCollection.title = n.nema.collection_name;
     if (this.scannedCollection.alias.length == 0 && n.nema.set_name) this.scannedCollection.alias = n.nema.set_name.toLowerCase().replace(' ', '-');
@@ -183,6 +182,7 @@ export class CloudGetService {
     // If all notices are saved, the collection is saved
       this.set.addListeNotices(this.scannedData).subscribe({
         next: (resp: any) => {
+          console.log("Création d'une liste de notices", resp);
         },
         error: (e) => {
           console.error("Erreur sur la création des notices : ", e);
@@ -190,7 +190,7 @@ export class CloudGetService {
         },
         complete: () => {
           // this.load = false;
-          console.log('Envoie des notices terminé');
+          console.log('Envoi des notices terminé');
           this.sendCloudCollection();
         }
       });
@@ -200,7 +200,7 @@ export class CloudGetService {
     this.scannedCollection.series = [...this.scannedCollection.series];
     this.scannedCollection.notices = [...this.scannedCollection.notices];
     this.scannedCollection.languages = [...this.scannedCollection.languages];
-    this.scannedCollection.idcollections = this.fakeId;
+    this.scannedCollection.idcollection = this.fakeId;
     this.set.addCollection(this.scannedCollection).subscribe({
       next: (resp: any) => {
         console.log('Next', resp);
@@ -216,7 +216,7 @@ export class CloudGetService {
     });
   }
   /** Delete collection's notices then the collection itself */
-  delCoudNotices(){
+  delCloudNotices(){
     this.load = true;
     this.set.deleteListeNotices(this.collection.notices).subscribe(
       {

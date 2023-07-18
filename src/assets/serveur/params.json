@@ -1,6 +1,4 @@
 {
-    "SERV": "http://vps550598.ovh.net:8080/",
-    "ADR": "http://vps550598.ovh.net/",
     "DIR": "collections/",
-    "API":"https://2s1gegoi6l.execute-api.eu-west-3.amazonaws.com/prod"
+    "API":"https://lwif3n2ieb.execute-api.eu-west-3.amazonaws.com/prod"
 }

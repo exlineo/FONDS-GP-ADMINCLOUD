@@ -14,12 +14,12 @@ export class CloudEditService {
 
   /** Update a collection */
   addCollection(add: CollectionCloudI):Observable<any> {
-    return this.http.post(this.api + '/collections/edit', add);
+    return this.http.post(this.api + '/collections/create', add);
   }
   /** Add a collection */
   updateCollection(up: CollectionCloudI):Observable<any> {
     // console.log(add);
-    return this.http.put(this.api + '/collections/edit', up);
+    return this.http.put(this.api + '/collections/update', up);
   }
   /** Deleting a collection */
   deleteCollection(del:string) {
@@ -27,7 +27,7 @@ export class CloudEditService {
       // headers: new HttpHeaders({'Content-Type': 'application/json'}),
       body: {id: del}
     };
-    this.http.delete(this.api + '/collections/edit', options).subscribe({
+    this.http.delete(this.api + '/collections/delete', options).subscribe({
       next: (resp: any) => {
         // this.setScannedData(dir, resp);
         console.log('Next', resp);
@@ -38,7 +38,7 @@ export class CloudEditService {
   }
   /** Add a collection */
   addNotice(add: NoticeCloudI) {
-    this.http.put(this.api + '/notices/edit', add).subscribe({
+    this.http.put(this.api + '/notices/update', add).subscribe({
       next: (resp: any) => {
         // this.setScannedData(dir, resp);
         console.log('Next', resp);
@@ -49,17 +49,17 @@ export class CloudEditService {
   }
   /** Ajouter une liste de notices (généralement 25 max d'un coup) */
   addListeNotices(add: Array<NoticeCloudI>) {
-    return this.http.put(this.api + '/notices/edit', add);
+    return this.http.post(this.api + '/notices/create', add);
   }
   /** Update a notice */
   postNotice(up: NoticeCloudI) {
-    this.http.post(this.api + '/notices/edit', up).subscribe({
+    this.http.put(this.api + '/notices/update', up).subscribe({
       next: (resp: any) => {
         // this.setScannedData(dir, resp);
         console.log('Next', resp);
       },
       error: (e) => console.error(e),
-      complete: () => console.info('complete')
+      complete: () => console.info('Mise à jour des notices terminée')
     });
 
   }

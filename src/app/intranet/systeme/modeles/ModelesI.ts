@@ -1,6 +1,6 @@
 export interface CloudConfigI {
     collections?:string;
-    idconfigurations:string;
+    idconfig:string;
     notices?:string;
     oaipmh?:string;
     xmp?:string;

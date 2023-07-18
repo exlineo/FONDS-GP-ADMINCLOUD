@@ -11,7 +11,7 @@ export class AdminIntercepteur implements HttpInterceptor {
    * Interepteur qui ajouter un token d'identification à chaque requête HTTP sortante
    * L'intercepteur clone un requête, transforme la requête clonée et l'envoie
    */
-  constructor(public tokenServ: TokenService) { }
+  constructor(private tokenServ: TokenService) { }
   /**
    * Récupérer les requêtes, les cloner et ajouter l'authentification si elle existe
    * @param req La requête interceptée

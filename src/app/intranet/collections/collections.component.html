@@ -7,7 +7,7 @@
             <mat-icon [matTooltip]="l.t['COLLECTION_ADD']" routerLink="/intranet/scan">playlist_add</mat-icon>
         </header>
         <ul>
-            <li *ngFor="let collection of get.collections; let i=index" (click)="colClick(collection.idcollections) ">
+            <li *ngFor="let collection of get.collections; let i=index" (click)="colClick(collection.idcollection) ">
                 {{collection.title}} ({{ collection.funds }})
             </li>
         </ul>
@@ -57,7 +57,7 @@
                             </audio>
                         <div (mouseenter)="utils.play($event)" (mouseleave)="utils.pause($event)">
                             <div>
-                                <mat-icon (click)="idNotice = n.idnotices" [matTooltip]="l.t['NOTICE_SHOW']">
+                                <mat-icon (click)="idNotice = n.idnotice" [matTooltip]="l.t['NOTICE_SHOW']">
                                     visibility</mat-icon>
                                 <mat-icon (click)="noticeOnEnlever(n._id)" [matTooltip]="l.t['NOTICE_DEL']">remove_circle</mat-icon>
                             </div>

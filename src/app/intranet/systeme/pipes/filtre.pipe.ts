@@ -42,7 +42,7 @@ export class MediaUrlPipe implements PipeTransform {
 		if (!notice) return 'assets/img/pictos/picto_media.png';
 		if (!s3) return 'assets/img/pictos/picto_media.png';
 
-		return s3 + notice.nema.set_name + '/' + notice.idnotices;
+		return s3 + notice.nema.set_name + '/' + notice.idnotice;
 	}
 }
 /* Return object if not string */

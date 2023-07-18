@@ -24,7 +24,7 @@ export class ScanComponent implements OnInit {
   }
   setIdCollection(e:any){
     if(e.target.value != -1){
-      this.get.collection.idcollections = e.target.value;
+      this.get.collection.idcollection = e.target.value;
     }
   }
   /** Créer une nouvelle collection ou en mettre une à jour */

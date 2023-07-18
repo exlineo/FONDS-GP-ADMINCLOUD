@@ -51,7 +51,7 @@ export class NoticesComponent implements OnInit {
 	*/
 	noticeSelectionnee(idNotice): void {
 		this.idNotice = idNotice;
-		if(!this.noticeSelection.find(n => n.idnotices == idNotice)){
+		if(!this.noticeSelection.find(n => n.idnotice == idNotice)){
 			// this.noticeSelection.push(this.noticesServ.noticesAll.find(n => {
 			// 	if(n._id == idNotice){
 			// 		n.selected = true;
@@ -88,7 +88,7 @@ export class NoticesComponent implements OnInit {
 		for (let index = 0; index < this.noticeSelection.length; index++) {
 			let element = this.noticeSelection[index];
 			element.selected = false;
-			if (element.idnotices == idNotice) {
+			if (element.idnotice == idNotice) {
 				this.noticeSelection.splice(index, 1);
 			}
 		}
